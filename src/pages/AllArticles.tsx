@@ -4,9 +4,13 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { Loader2 } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
+import { translations } from "@/utils/translations";
 
 const AllArticles = () => {
   const { data: articles, isLoading } = useArticles(true); // Only published articles
+  const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage];
 
   if (isLoading) {
     return (
@@ -28,10 +32,10 @@ const AllArticles = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-4">
-            All Articles
+            {t.allArticles}
           </h1>
           <p className="text-lg text-gray-600 font-serif">
-            Explore our complete collection of insights on African urban development
+            {t.exploreComplete}
           </p>
         </div>
 
@@ -43,7 +47,7 @@ const AllArticles = () => {
 
         {(!articles || articles.length === 0) && (
           <div className="text-center py-16">
-            <p className="text-gray-500 text-lg">No articles found.</p>
+            <p className="text-gray-500 text-lg">{t.noArticles}</p>
           </div>
         )}
       </main>

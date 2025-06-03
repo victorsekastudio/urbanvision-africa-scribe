@@ -1,6 +1,7 @@
-
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/hooks/useLanguage";
+import { translations } from "@/utils/translations";
 
 interface PillarArticle {
   id: number;
@@ -33,6 +34,8 @@ const pillarToCategorySlug = {
 };
 
 export const PillarSection = ({ pillar }: PillarSectionProps) => {
+  const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage];
   const categorySlug = pillarToCategorySlug[pillar.title as keyof typeof pillarToCategorySlug] || "all";
   
   return (
@@ -49,7 +52,7 @@ export const PillarSection = ({ pillar }: PillarSectionProps) => {
             to={categorySlug === "all" ? "/articles" : `/category/${categorySlug}`}
             className="group flex items-center space-x-2 text-gray-900 font-medium tracking-wide hover:text-gray-700 transition-colors"
           >
-            <span>View All Articles</span>
+            <span>{t.viewAllArticles}</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>

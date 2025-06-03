@@ -2,16 +2,20 @@
 import { useArticles } from "@/hooks/useArticles";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { Loader2 } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
+import { translations } from "@/utils/translations";
 
 export const FeaturedReads = () => {
   const { data: articles, isLoading } = useArticles(true, true); // Only published and featured articles
+  const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage];
 
   if (isLoading) {
     return (
       <section className="py-16">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-light tracking-wide text-gray-900 mb-4">
-            Featured Reads
+            {t.featuredReads}
           </h2>
         </div>
         <div className="flex justify-center">
@@ -26,9 +30,9 @@ export const FeaturedReads = () => {
       <section className="py-16">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-light tracking-wide text-gray-900 mb-4">
-            Featured Reads
+            {t.featuredReads}
           </h2>
-          <p className="text-gray-600 font-light tracking-wide">No featured articles available yet.</p>
+          <p className="text-gray-600 font-light tracking-wide">{t.noFeaturedArticles}</p>
         </div>
       </section>
     );
@@ -40,10 +44,10 @@ export const FeaturedReads = () => {
     <section className="py-16">
       <div className="text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-light tracking-wide text-gray-900 mb-4">
-          Featured Reads
+          {t.featuredReads}
         </h2>
         <p className="text-lg text-gray-600 font-light tracking-wide max-w-3xl mx-auto">
-          Discover our most impactful insights on African urban development
+          {t.featuredReadsSubtitle}
         </p>
       </div>
       

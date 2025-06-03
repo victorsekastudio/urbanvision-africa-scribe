@@ -5,9 +5,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { Header } from "@/components/layout/Header";
 import { ArrowLeft, Calendar, User, Tag } from "lucide-react";
 import type { Article } from "@/types/database";
+import { useLanguage } from "@/hooks/useLanguage";
+import { translations } from "@/utils/translations";
 
 const Article = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage];
 
   const { data: article, isLoading } = useQuery({
     queryKey: ['article', slug],
@@ -61,15 +65,31 @@ const Article = () => {
         <Header />
         <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
-            <h1 className="text-2xl font-light text-gray-900 mb-4">Article not found</h1>
+            <h1 className="text-2xl font-light text-gray-900 mb-4">{t.articleNotFound}</h1>
             <Link to="/" className="text-blue-600 hover:text-blue-800">
-              Return to homepage
+              {t.returnToHomepage}
             </Link>
           </div>
         </main>
       </div>
     );
   }
+
+  const title = currentLanguage === 'FR' && article.title_fr 
+    ? article.title_fr 
+    : article.title;
+    
+  const excerpt = currentLanguage === 'FR' && article.excerpt_fr 
+    ? article.excerpt_fr 
+    : article.excerpt;
+    
+  const content = currentLanguage === 'FR' && article.content_fr 
+    ? article.content_fr 
+    : article.content;
+
+  const categoryName = currentLanguage === 'FR' && article.category?.name_fr 
+    ? article.category.name_fr 
+    : article.category?.name;
 
   return (
     <div className="min-h-screen bg-white">
@@ -80,7 +100,7 @@ const Article = () => {
           className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-8 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to homepage
+          {t.backToHomepage}
         </Link>
 
         <article className="space-y-8">
@@ -92,13 +112,13 @@ const Article = () => {
                   className="inline-flex items-center hover:text-gray-700 transition-colors"
                 >
                   <Tag className="w-4 h-4 mr-1" />
-                  {article.category.name}
+                  {categoryName}
                 </Link>
               )}
               {article.published_at && (
                 <span className="flex items-center">
                   <Calendar className="w-4 h-4 mr-1" />
-                  {new Date(article.published_at).toLocaleDateString('en-US', {
+                  {new Date(article.published_at).toLocaleDateString(currentLanguage === 'FR' ? 'fr-FR' : 'en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'
@@ -114,12 +134,12 @@ const Article = () => {
             </div>
 
             <h1 className="text-4xl md:text-5xl font-light leading-tight text-gray-900">
-              {article.title}
+              {title}
             </h1>
 
-            {article.excerpt && (
+            {excerpt && (
               <p className="text-xl text-gray-600 leading-relaxed font-serif">
-                {article.excerpt}
+                {excerpt}
               </p>
             )}
 
@@ -127,7 +147,7 @@ const Article = () => {
               <div className="relative">
                 <img 
                   src={article.featured_image_url}
-                  alt={article.title}
+                  alt={title}
                   className="w-full h-[400px] md:h-[500px] object-cover rounded-lg"
                 />
               </div>
@@ -135,8 +155,8 @@ const Article = () => {
           </header>
 
           <div className="prose prose-lg max-w-none">
-            {article.content ? (
-              <div dangerouslySetInnerHTML={{ __html: article.content }} />
+            {content ? (
+              <div dangerouslySetInnerHTML={{ __html: content }} />
             ) : (
               <p className="text-gray-600 italic">Full article content coming soon...</p>
             )}

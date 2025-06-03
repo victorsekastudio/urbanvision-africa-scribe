@@ -10,11 +10,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search as SearchIcon, Loader2 } from "lucide-react";
 import type { Article } from "@/types/database";
+import { useLanguage } from "@/hooks/useLanguage";
+import { translations } from "@/utils/translations";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || '');
   const query = searchParams.get('q') || '';
+  const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage];
 
   const { data: articles, isLoading } = useQuery({
     queryKey: ['search', query],
@@ -59,15 +63,16 @@ const Search = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
-            Search Articles
+            {t.searchArticles}
           </h1>
           
           <form onSubmit={handleSearch} className="flex gap-4 max-w-2xl">
             <Input
               type="text"
-              placeholder="Search for articles..."
+              placeholder={t.searchPlaceholder}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              required
               className="flex-1"
             />
             <Button type="submit" disabled={!searchTerm.trim()}>
@@ -79,7 +84,7 @@ const Search = () => {
         {query && (
           <div className="mb-8">
             <p className="text-gray-600">
-              Search results for: <span className="font-medium">"{query}"</span>
+              {t.searchResultsFor} <span className="font-medium">"{query}"</span>
             </p>
           </div>
         )}
@@ -98,11 +103,11 @@ const Search = () => {
           </div>
         ) : query && !isLoading ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No articles found matching your search.</p>
+            <p className="text-gray-500 text-lg">{t.noArticlesFound}</p>
           </div>
         ) : !query ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">Enter a search term to find articles.</p>
+            <p className="text-gray-500 text-lg">{t.enterSearchTerm}</p>
           </div>
         ) : null}
       </main>

@@ -10,7 +10,7 @@ export const FeaturedReads = () => {
     return (
       <section className="py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-light tracking-wide text-gray-900 mb-4">
             Featured Reads
           </h2>
         </div>
@@ -25,10 +25,10 @@ export const FeaturedReads = () => {
     return (
       <section className="py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-light tracking-wide text-gray-900 mb-4">
             Featured Reads
           </h2>
-          <p className="text-gray-600">No featured articles available yet.</p>
+          <p className="text-gray-600 font-light tracking-wide">No featured articles available yet.</p>
         </div>
       </section>
     );
@@ -39,10 +39,10 @@ export const FeaturedReads = () => {
   return (
     <section className="py-16">
       <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-4">
+        <h2 className="text-3xl md:text-4xl font-light tracking-wide text-gray-900 mb-4">
           Featured Reads
         </h2>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+        <p className="text-lg text-gray-600 font-light tracking-wide max-w-3xl mx-auto">
           Discover our most impactful insights on African urban development
         </p>
       </div>

@@ -33,7 +33,7 @@ export const ArticleCard = ({ article, size = 'default' }: ArticleCardProps) => 
             />
             {article.category && (
               <div className="absolute top-3 left-3">
-                <span className="bg-white/90 text-gray-800 text-xs font-medium px-2 py-1 rounded-full">
+                <span className="bg-white/90 text-gray-800 text-xs font-medium px-2 py-1 rounded-full tracking-wide">
                   {article.category.name}
                 </span>
               </div>
@@ -41,14 +41,14 @@ export const ArticleCard = ({ article, size = 'default' }: ArticleCardProps) => 
           </div>
           
           <div className="space-y-3">
-            <h3 className={`${titleSize} font-medium text-gray-900 leading-tight group-hover:text-gray-700 transition-colors`}>
+            <h3 className={`${titleSize} font-light tracking-wide text-gray-900 leading-tight group-hover:text-gray-700 transition-colors`}>
               {article.title}
             </h3>
-            <p className="text-gray-600 text-sm leading-relaxed font-serif">
+            <p className="text-gray-600 text-sm font-light tracking-wide leading-relaxed font-serif">
               {article.excerpt || "Read more about this article..."}
             </p>
             <div className="flex items-center justify-between">
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-gray-500 font-light tracking-wide">
                 {article.author && (
                   <>
                     <span>{article.author.name}</span>

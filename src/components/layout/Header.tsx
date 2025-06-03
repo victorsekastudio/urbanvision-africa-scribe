@@ -18,30 +18,31 @@ export const Header = () => {
             UrbanVision
           </Link>
           
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
-            <ExploreDropdown />
-            
-            <Link 
-              to="/about" 
-              className="text-gray-700 hover:text-gray-900 transition-colors duration-300 font-light"
-            >
-              About
-            </Link>
-            
-            <Link 
-              to="/contribute" 
-              className="text-gray-700 hover:text-gray-900 transition-colors duration-300 font-light"
-            >
-              Contribute
-            </Link>
-          </nav>
+          {/* Desktop Navigation and Actions */}
+          <div className="hidden lg:flex items-center space-x-8">
+            <nav className="flex items-center space-x-8">
+              <ExploreDropdown />
+              
+              <Link 
+                to="/about" 
+                className="text-gray-700 hover:text-gray-900 transition-colors duration-300 font-light"
+              >
+                About
+              </Link>
+              
+              <Link 
+                to="/contribute" 
+                className="text-gray-700 hover:text-gray-900 transition-colors duration-300 font-light"
+              >
+                Contribute
+              </Link>
+            </nav>
 
-          {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center space-x-4">
-            <SubscribeModal />
-            <LanguageToggle />
-            <SearchButton />
+            <div className="flex items-center space-x-4">
+              <SubscribeModal />
+              <LanguageToggle />
+              <SearchButton />
+            </div>
           </div>
 
           {/* Mobile Actions */}

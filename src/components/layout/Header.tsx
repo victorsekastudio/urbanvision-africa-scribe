@@ -2,6 +2,9 @@
 import { Link } from "react-router-dom";
 import { ExploreDropdown } from "./ExploreDropdown";
 import { SearchButton } from "./SearchButton";
+import { SubscribeModal } from "./SubscribeModal";
+import { LanguageToggle } from "./LanguageToggle";
+import { MobileMenu } from "./MobileMenu";
 
 export const Header = () => {
   return (
@@ -15,7 +18,8 @@ export const Header = () => {
             UrbanVision
           </Link>
           
-          <nav className="hidden md:flex items-center space-x-8">
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-8">
             <ExploreDropdown />
             
             <Link 
@@ -31,13 +35,19 @@ export const Header = () => {
             >
               Contribute
             </Link>
-            
-            <SearchButton />
           </nav>
 
-          {/* Mobile menu button - simplified for now */}
-          <div className="md:hidden">
+          {/* Desktop Actions */}
+          <div className="hidden lg:flex items-center space-x-4">
+            <SubscribeModal />
+            <LanguageToggle />
             <SearchButton />
+          </div>
+
+          {/* Mobile Actions */}
+          <div className="lg:hidden flex items-center space-x-2">
+            <SearchButton />
+            <MobileMenu />
           </div>
         </div>
       </div>

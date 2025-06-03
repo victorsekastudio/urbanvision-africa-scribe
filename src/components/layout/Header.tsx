@@ -30,9 +30,6 @@ export const Header = () => {
               Voices
             </Link>
             <SearchButton />
-            <Link to="/admin" className="text-blue-600 hover:text-blue-800 transition-colors font-medium">
-              Admin
-            </Link>
           </nav>
         </div>
       </div>

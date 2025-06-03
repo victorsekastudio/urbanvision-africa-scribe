@@ -10,6 +10,7 @@ import Admin from "./pages/Admin";
 import Article from "./pages/Article";
 import Category from "./pages/Category";
 import Search from "./pages/Search";
+import AllArticles from "./pages/AllArticles";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/articles" element={<AllArticles />} />
           <Route path="/article/:slug" element={<Article />} />
           <Route path="/category/:slug" element={<Category />} />
           <Route path="/search" element={<Search />} />

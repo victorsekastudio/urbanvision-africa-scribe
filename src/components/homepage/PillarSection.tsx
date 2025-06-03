@@ -1,5 +1,6 @@
 
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface PillarArticle {
   id: number;
@@ -31,10 +32,13 @@ export const PillarSection = ({ pillar }: PillarSectionProps) => {
           <p className="text-gray-600 leading-relaxed font-serif mb-6">
             {pillar.description}
           </p>
-          <button className="group flex items-center space-x-2 text-gray-900 font-medium hover:text-gray-700 transition-colors">
+          <Link 
+            to="/articles"
+            className="group flex items-center space-x-2 text-gray-900 font-medium hover:text-gray-700 transition-colors"
+          >
             <span>View All Articles</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
+          </Link>
         </div>
         
         <div className="lg:col-span-2">

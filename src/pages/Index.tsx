@@ -5,6 +5,7 @@ import { EditorialPillars } from "@/components/homepage/EditorialPillars";
 import { EditorNote } from "@/components/homepage/EditorNote";
 import { Newsletter } from "@/components/homepage/Newsletter";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 const Index = () => {
   return (
@@ -17,6 +18,7 @@ const Index = () => {
         <EditorNote />
         <Newsletter />
       </main>
+      <Footer />
     </div>
   );
 };

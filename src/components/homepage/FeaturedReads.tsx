@@ -1,13 +1,10 @@
 
-import { Link } from "react-router-dom";
-import { ArticleCard } from "@/components/shared/ArticleCard";
 import { useArticles } from "@/hooks/useArticles";
+import { ArticleCard } from "@/components/shared/ArticleCard";
+import { Loader2 } from "lucide-react";
 
 export const FeaturedReads = () => {
-  const { data: articles, isLoading } = useArticles(true);
-  
-  // Get non-featured published articles for this section
-  const featuredReads = articles?.filter(article => !article.featured).slice(0, 4);
+  const { data: articles, isLoading } = useArticles(true, true); // Only published and featured articles
 
   if (isLoading) {
     return (
@@ -16,24 +13,29 @@ export const FeaturedReads = () => {
           <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-4">
             Featured Reads
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Curated insights from across the continent exploring the future of African cities
-          </p>
         </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="animate-pulse">
-              <div className="h-48 bg-gray-200 rounded-lg mb-4"></div>
-              <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-              <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
-              <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-            </div>
-          ))}
+        <div className="flex justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-gray-600" />
         </div>
       </section>
     );
   }
+
+  if (!articles || articles.length === 0) {
+    return (
+      <section className="py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-4">
+            Featured Reads
+          </h2>
+          <p className="text-gray-600">No featured articles available yet.</p>
+        </div>
+      </section>
+    );
+  }
+
+  const featuredArticle = articles[0];
+  const otherFeatured = articles.slice(1, 3);
 
   return (
     <section className="py-16">
@@ -41,32 +43,23 @@ export const FeaturedReads = () => {
         <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-4">
           Featured Reads
         </h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Curated insights from across the continent exploring the future of African cities
+        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          Discover our most impactful insights on African urban development
         </p>
       </div>
       
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {featuredReads?.map((article) => (
-          <Link key={article.id} to={`/article/${article.slug}`}>
-            <ArticleCard 
-              article={{
-                id: parseInt(article.id.slice(-8), 16), // Convert UUID to number for compatibility
-                title: article.title,
-                excerpt: article.excerpt || '',
-                image: article.featured_image_url || `https://images.unsplash.com/photo-${Math.random() > 0.5 ? '1501854140801-50d01698950b' : '1426604966848-d7adac402bff'}?w=400&h=250&fit=crop&crop=entropy`,
-                author: article.author?.name || 'Unknown Author',
-                date: article.published_at ? new Date(article.published_at).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'short', 
-                  day: 'numeric' 
-                }) : 'Recently',
-                category: article.category?.name || 'Uncategorized',
-                slug: article.slug
-              }} 
-            />
-          </Link>
-        ))}
+      <div className="grid lg:grid-cols-2 gap-8 items-start">
+        {/* Main featured article */}
+        <div className="lg:col-span-1">
+          <ArticleCard article={featuredArticle} size="large" />
+        </div>
+        
+        {/* Secondary featured articles */}
+        <div className="lg:col-span-1 space-y-8">
+          {otherFeatured.map((article) => (
+            <ArticleCard key={article.id} article={article} />
+          ))}
+        </div>
       </div>
     </section>
   );

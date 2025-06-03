@@ -1,6 +1,7 @@
 
 import { useArticles } from "@/hooks/useArticles";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { Loader2 } from "lucide-react";
 
@@ -16,6 +17,7 @@ const AllArticles = () => {
             <Loader2 className="w-8 h-8 animate-spin text-gray-600" />
           </div>
         </main>
+        <Footer />
       </div>
     );
   }
@@ -45,6 +47,7 @@ const AllArticles = () => {
           </div>
         )}
       </main>
+      <Footer />
     </div>
   );
 };

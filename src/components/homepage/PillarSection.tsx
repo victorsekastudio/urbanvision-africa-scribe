@@ -21,7 +21,19 @@ interface PillarSectionProps {
   pillar: Pillar;
 }
 
+// Mapping of pillar titles to category slugs
+const pillarToCategorySlug = {
+  "Urban Trends and Growth": "urban-trends-growth",
+  "Infrastructure Gaps and Investment": "infrastructure-investment", 
+  "Climate Resilience and Sustainability": "climate-sustainability",
+  "Transport and Mobility": "transport-mobility",
+  "Smart City and Tech in Planning": "smart-city-tech",
+  "Voices from the Ground": "voices-ground"
+};
+
 export const PillarSection = ({ pillar }: PillarSectionProps) => {
+  const categorySlug = pillarToCategorySlug[pillar.title as keyof typeof pillarToCategorySlug] || "all";
+  
   return (
     <div className="border-t border-gray-100 pt-12">
       <div className="grid lg:grid-cols-3 gap-12">
@@ -33,7 +45,7 @@ export const PillarSection = ({ pillar }: PillarSectionProps) => {
             {pillar.description}
           </p>
           <Link 
-            to="/articles"
+            to={categorySlug === "all" ? "/articles" : `/category/${categorySlug}`}
             className="group flex items-center space-x-2 text-gray-900 font-medium hover:text-gray-700 transition-colors"
           >
             <span>View All Articles</span>

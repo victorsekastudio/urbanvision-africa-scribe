@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { ArrowLeft } from "lucide-react";
 import type { Article, Category as CategoryType } from "@/types/database";
@@ -79,6 +80,7 @@ const Category = () => {
             </div>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }
@@ -95,6 +97,7 @@ const Category = () => {
             </Link>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }
@@ -125,24 +128,7 @@ const Category = () => {
         {articles && articles.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {articles.map((article) => (
-              <Link key={article.id} to={`/article/${article.slug}`}>
-                <ArticleCard 
-                  article={{
-                    id: parseInt(article.id.slice(-8), 16),
-                    title: article.title,
-                    excerpt: article.excerpt || '',
-                    image: article.featured_image_url || `https://images.unsplash.com/photo-${Math.random() > 0.5 ? '1501854140801-50d01698950b' : '1426604966848-d7adac402bff'}?w=400&h=250&fit=crop&crop=entropy`,
-                    author: article.author?.name || 'Unknown Author',
-                    date: article.published_at ? new Date(article.published_at).toLocaleDateString('en-US', { 
-                      year: 'numeric', 
-                      month: 'short', 
-                      day: 'numeric' 
-                    }) : 'Recently',
-                    category: article.category?.name || 'Uncategorized',
-                    slug: article.slug
-                  }} 
-                />
-              </Link>
+              <ArticleCard key={article.id} article={article} />
             ))}
           </div>
         ) : (
@@ -151,6 +137,7 @@ const Category = () => {
           </div>
         )}
       </main>
+      <Footer />
     </div>
   );
 };

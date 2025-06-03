@@ -34,8 +34,7 @@ export const FeaturedReads = () => {
     );
   }
 
-  const featuredArticle = articles[0];
-  const otherFeatured = articles.slice(1, 3);
+  const displayArticles = articles.slice(0, 3); // Show up to 3 featured articles
 
   return (
     <section className="py-16">
@@ -48,18 +47,10 @@ export const FeaturedReads = () => {
         </p>
       </div>
       
-      <div className="grid lg:grid-cols-2 gap-8 items-start">
-        {/* Main featured article */}
-        <div className="lg:col-span-1">
-          <ArticleCard article={featuredArticle} size="large" />
-        </div>
-        
-        {/* Secondary featured articles */}
-        <div className="lg:col-span-1 space-y-8">
-          {otherFeatured.map((article) => (
-            <ArticleCard key={article.id} article={article} />
-          ))}
-        </div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {displayArticles.map((article) => (
+          <ArticleCard key={article.id} article={article} />
+        ))}
       </div>
     </section>
   );

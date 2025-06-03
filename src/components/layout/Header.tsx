@@ -28,6 +28,9 @@ export const Header = () => {
             <Link to="/voices" className="text-gray-700 hover:text-gray-900 transition-colors font-light">
               Voices
             </Link>
+            <Link to="/admin" className="text-blue-600 hover:text-blue-800 transition-colors font-medium">
+              Admin
+            </Link>
           </nav>
         </div>
       </div>

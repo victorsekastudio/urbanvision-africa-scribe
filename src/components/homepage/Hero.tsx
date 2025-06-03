@@ -1,7 +1,33 @@
 
 import { ArrowRight } from "lucide-react";
+import { useArticles } from "@/hooks/useArticles";
 
 export const Hero = () => {
+  const { data: articles, isLoading } = useArticles(true, true);
+  const featuredArticle = articles?.[0];
+
+  if (isLoading) {
+    return (
+      <section className="py-16 md:py-24">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
+          <div className="h-16 bg-gray-200 rounded w-3/4 mb-6"></div>
+          <div className="h-24 bg-gray-200 rounded w-full mb-6"></div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!featuredArticle) {
+    return (
+      <section className="py-16 md:py-24">
+        <div className="text-center">
+          <h2 className="text-2xl font-light text-gray-500">No featured articles available</h2>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16 md:py-24">
       <article className="grid md:grid-cols-2 gap-12 items-center">
@@ -11,18 +37,20 @@ export const Hero = () => {
               Featured Article
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-gray-900">
-              Lagos Smart City Initiative: A Blueprint for African Urban Innovation
+              {featuredArticle.title}
             </h1>
           </div>
           <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-serif">
-            How Nigeria's economic capital is leveraging technology and data-driven solutions 
-            to address urban challenges, from traffic management to waste collection, 
-            setting a precedent for cities across Sub-Saharan Africa.
+            {featuredArticle.excerpt}
           </p>
           <div className="flex items-center space-x-4 text-sm text-gray-500">
-            <span>By Amara Okafor</span>
+            <span>By {featuredArticle.author?.name}</span>
             <span>•</span>
-            <span>March 15, 2024</span>
+            <span>{featuredArticle.published_at ? new Date(featuredArticle.published_at).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            }) : 'Recently'}</span>
           </div>
           <button className="group flex items-center space-x-2 text-gray-900 font-medium hover:text-gray-700 transition-colors">
             <span>Read Article</span>
@@ -31,8 +59,8 @@ export const Hero = () => {
         </div>
         <div className="relative">
           <img 
-            src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&h=600&fit=crop&crop=entropy"
-            alt="Lagos cityscape showing modern urban development"
+            src={featuredArticle.featured_image_url || "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&h=600&fit=crop&crop=entropy"}
+            alt={featuredArticle.title}
             className="w-full h-[400px] md:h-[500px] object-cover rounded-lg shadow-lg"
           />
         </div>

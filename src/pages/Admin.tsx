@@ -1,23 +1,16 @@
+
 import { useState } from "react";
 import { useArticles, useCategories, useAuthors } from "@/hooks/useArticles";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Edit, Eye, Calendar, User, Tag, Trash2 } from "lucide-react";
-import { ArticleDialog } from "@/components/admin/ArticleDialog";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import type { Article } from "@/types/database";
+import { Plus, Edit, Eye, Calendar, User, Tag } from "lucide-react";
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState<'articles' | 'categories' | 'authors'>('articles');
-  const [articleDialogOpen, setArticleDialogOpen] = useState(false);
-  const [editingArticle, setEditingArticle] = useState<Article | undefined>();
-  
-  const { data: articles, isLoading: articlesLoading, refetch: refetchArticles } = useArticles();
+  const { data: articles, isLoading: articlesLoading } = useArticles();
   const { data: categories, isLoading: categoriesLoading } = useCategories();
   const { data: authors, isLoading: authorsLoading } = useAuthors();
-  const { toast } = useToast();
 
   const isLoading = articlesLoading || categoriesLoading || authorsLoading;
 
@@ -40,100 +33,6 @@ const Admin = () => {
 
   const publishedCount = articles?.filter(a => a.published).length || 0;
   const draftCount = articles?.filter(a => !a.published).length || 0;
-
-  const handleCreateArticle = () => {
-    setEditingArticle(undefined);
-    setArticleDialogOpen(true);
-  };
-
-  const handleEditArticle = (article: Article) => {
-    setEditingArticle(article);
-    setArticleDialogOpen(true);
-  };
-
-  const handleDeleteArticle = async (articleId: string) => {
-    if (!confirm('Are you sure you want to delete this article?')) return;
-
-    try {
-      const { error } = await supabase
-        .from('articles')
-        .delete()
-        .eq('id', articleId);
-
-      if (error) throw error;
-
-      toast({
-        title: "Success",
-        description: "Article deleted successfully",
-      });
-
-      refetchArticles();
-    } catch (error) {
-      console.error('Error deleting article:', error);
-      toast({
-        title: "Error",
-        description: "Failed to delete article",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleTogglePublished = async (article: Article) => {
-    try {
-      const { error } = await supabase
-        .from('articles')
-        .update({ 
-          published: !article.published,
-          published_at: !article.published ? new Date().toISOString() : null
-        })
-        .eq('id', article.id);
-
-      if (error) throw error;
-
-      toast({
-        title: "Success",
-        description: `Article ${!article.published ? 'published' : 'unpublished'} successfully`,
-      });
-
-      refetchArticles();
-    } catch (error) {
-      console.error('Error updating article:', error);
-      toast({
-        title: "Error",
-        description: "Failed to update article",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleToggleFeatured = async (article: Article) => {
-    try {
-      const { error } = await supabase
-        .from('articles')
-        .update({ featured: !article.featured })
-        .eq('id', article.id);
-
-      if (error) throw error;
-
-      toast({
-        title: "Success",
-        description: `Article ${!article.featured ? 'featured' : 'unfeatured'} successfully`,
-      });
-
-      refetchArticles();
-    } catch (error) {
-      console.error('Error updating article:', error);
-      toast({
-        title: "Error",
-        description: "Failed to update article",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleArticleSave = () => {
-    refetchArticles();
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -212,7 +111,7 @@ const Admin = () => {
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold">Articles</h2>
-                <Button onClick={handleCreateArticle}>
+                <Button>
                   <Plus className="w-4 h-4 mr-2" />
                   New Article
                 </Button>
@@ -224,20 +123,10 @@ const Admin = () => {
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="font-medium">{article.title}</h3>
-                        <Badge 
-                          variant={article.published ? "default" : "secondary"}
-                          className="cursor-pointer"
-                          onClick={() => handleTogglePublished(article)}
-                        >
+                        <Badge variant={article.published ? "default" : "secondary"}>
                           {article.published ? "Published" : "Draft"}
                         </Badge>
-                        <Badge 
-                          variant={article.featured ? "default" : "outline"}
-                          className="cursor-pointer"
-                          onClick={() => handleToggleFeatured(article)}
-                        >
-                          {article.featured ? "Featured" : "Not Featured"}
-                        </Badge>
+                        {article.featured && <Badge variant="outline">Featured</Badge>}
                       </div>
                       <p className="text-sm text-gray-600 mb-2">{article.excerpt}</p>
                       <div className="flex items-center gap-4 text-xs text-gray-500">
@@ -256,23 +145,11 @@ const Admin = () => {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => handleEditArticle(article)}
-                      >
+                      <Button variant="outline" size="sm">
                         <Edit className="w-4 h-4" />
                       </Button>
                       <Button variant="outline" size="sm">
                         <Eye className="w-4 h-4" />
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => handleDeleteArticle(article.id)}
-                        className="text-red-600 hover:text-red-700"
-                      >
-                        <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
                   </div>
@@ -356,13 +233,6 @@ const Admin = () => {
           )}
         </div>
       </div>
-
-      <ArticleDialog
-        open={articleDialogOpen}
-        onOpenChange={setArticleDialogOpen}
-        article={editingArticle}
-        onSave={handleArticleSave}
-      />
     </div>
   );
 };

@@ -1,16 +1,17 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import Admin from "./pages/Admin";
-import Article from "./pages/Article";
 import Category from "./pages/Category";
+import Article from "./pages/Article";
+import Admin from "./pages/Admin";
 import Search from "./pages/Search";
 import AllArticles from "./pages/AllArticles";
+import About from "./pages/About";
+import Contribute from "./pages/Contribute";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -18,16 +19,16 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
-      <Sonner />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/articles" element={<AllArticles />} />
-          <Route path="/article/:slug" element={<Article />} />
-          <Route path="/category/:slug" element={<Category />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/category/:category" element={<Category />} />
+          <Route path="/article/:id" element={<Article />} />
           <Route path="/admin" element={<Admin />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/search" element={<Search />} />
+          <Route path="/articles" element={<AllArticles />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contribute" element={<Contribute />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

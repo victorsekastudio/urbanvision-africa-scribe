@@ -2,8 +2,10 @@
 export interface Category {
   id: string;
   name: string;
+  name_fr?: string;
   slug: string;
   description?: string;
+  description_fr?: string;
   created_at: string;
   updated_at: string;
 }
@@ -13,6 +15,7 @@ export interface Author {
   name: string;
   email?: string;
   bio?: string;
+  bio_fr?: string;
   avatar_url?: string;
   created_at: string;
   updated_at: string;
@@ -21,9 +24,12 @@ export interface Author {
 export interface Article {
   id: string;
   title: string;
+  title_fr?: string;
   slug: string;
   excerpt?: string;
+  excerpt_fr?: string;
   content?: string;
+  content_fr?: string;
   featured_image_url?: string;
   author_id?: string;
   category_id?: string;

@@ -14,8 +14,10 @@ export type Database = {
           author_id: string | null
           category_id: string | null
           content: string | null
+          content_fr: string | null
           created_at: string
           excerpt: string | null
+          excerpt_fr: string | null
           featured: boolean
           featured_image_url: string | null
           id: string
@@ -23,14 +25,17 @@ export type Database = {
           published_at: string | null
           slug: string
           title: string
+          title_fr: string | null
           updated_at: string
         }
         Insert: {
           author_id?: string | null
           category_id?: string | null
           content?: string | null
+          content_fr?: string | null
           created_at?: string
           excerpt?: string | null
+          excerpt_fr?: string | null
           featured?: boolean
           featured_image_url?: string | null
           id?: string
@@ -38,14 +43,17 @@ export type Database = {
           published_at?: string | null
           slug: string
           title: string
+          title_fr?: string | null
           updated_at?: string
         }
         Update: {
           author_id?: string | null
           category_id?: string | null
           content?: string | null
+          content_fr?: string | null
           created_at?: string
           excerpt?: string | null
+          excerpt_fr?: string | null
           featured?: boolean
           featured_image_url?: string | null
           id?: string
@@ -53,6 +61,7 @@ export type Database = {
           published_at?: string | null
           slug?: string
           title?: string
+          title_fr?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -76,6 +85,7 @@ export type Database = {
         Row: {
           avatar_url: string | null
           bio: string | null
+          bio_fr: string | null
           created_at: string
           email: string | null
           id: string
@@ -85,6 +95,7 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           bio?: string | null
+          bio_fr?: string | null
           created_at?: string
           email?: string | null
           id?: string
@@ -94,6 +105,7 @@ export type Database = {
         Update: {
           avatar_url?: string | null
           bio?: string | null
+          bio_fr?: string | null
           created_at?: string
           email?: string | null
           id?: string
@@ -106,24 +118,30 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
+          description_fr: string | null
           id: string
           name: string
+          name_fr: string | null
           slug: string
           updated_at: string
         }
         Insert: {
           created_at?: string
           description?: string | null
+          description_fr?: string | null
           id?: string
           name: string
+          name_fr?: string | null
           slug: string
           updated_at?: string
         }
         Update: {
           created_at?: string
           description?: string | null
+          description_fr?: string | null
           id?: string
           name?: string
+          name_fr?: string | null
           slug?: string
           updated_at?: string
         }

@@ -7,18 +7,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown, Globe } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export const LanguageToggle = () => {
-  const [currentLanguage, setCurrentLanguage] = useState("EN");
+  const { currentLanguage, setLanguage } = useLanguage();
 
   const languages = [
-    { code: "EN", name: "English" },
-    { code: "FR", name: "Français" },
+    { code: "EN" as const, name: "English" },
+    { code: "FR" as const, name: "Français" },
   ];
 
-  const handleLanguageChange = (languageCode: string) => {
-    setCurrentLanguage(languageCode);
-    // TODO: Implement actual language switching logic
+  const handleLanguageChange = (languageCode: "EN" | "FR") => {
+    setLanguage(languageCode);
     console.log("Switching to language:", languageCode);
   };
 

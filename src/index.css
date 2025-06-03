@@ -99,12 +99,12 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-light tracking-wide;
     font-family: 'Inter', sans-serif;
   }
   
   .font-serif {
-    font-family: 'Crimson Text', serif;
+    font-family: 'Inter', sans-serif;
   }
 }
 

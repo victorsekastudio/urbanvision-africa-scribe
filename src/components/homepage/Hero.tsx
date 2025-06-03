@@ -34,14 +34,14 @@ export const Hero = () => {
       <article className="grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
           <div className="space-y-2">
-            <span className="text-sm font-light text-gray-600 uppercase tracking-wide">
+            <span className="text-sm font-medium text-gray-600 uppercase tracking-wide">
               Featured Article
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-gray-900 tracking-wide">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-gray-900">
               {featuredArticle.title}
             </h1>
           </div>
-          <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-light tracking-wide">
+          <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-serif">
             {featuredArticle.excerpt}
           </p>
           <div className="flex items-center space-x-4 text-sm text-gray-500">
@@ -55,7 +55,7 @@ export const Hero = () => {
           </div>
           <Link 
             to={`/article/${featuredArticle.slug}`}
-            className="group flex items-center space-x-2 text-gray-900 font-light hover:text-gray-700 transition-colors tracking-wide"
+            className="group flex items-center space-x-2 text-gray-900 font-medium hover:text-gray-700 transition-colors"
           >
             <span>Read Article</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

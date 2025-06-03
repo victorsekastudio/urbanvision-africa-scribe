@@ -19,10 +19,10 @@ export const Newsletter = () => {
   return (
     <section className="py-16 pb-24">
       <div className="max-w-2xl mx-auto text-center">
-        <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-4 tracking-wide">
+        <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-4">
           Stay Connected
         </h3>
-        <p className="text-lg text-gray-600 mb-8 font-light tracking-wide">
+        <p className="text-lg text-gray-600 mb-8 font-serif">
           Get the latest insights on Africa's cities. No spam.
         </p>
         

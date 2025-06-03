@@ -3,10 +3,11 @@ import { useArticles, useCategories, useAuthors } from "@/hooks/useArticles";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Edit, Eye, Calendar, User, Tag, Trash2 } from "lucide-react";
+import { Plus, Edit, Eye, Calendar, User, Tag, Trash2, LogOut, Settings } from "lucide-react";
 import { ArticleDialog } from "@/components/admin/ArticleDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import type { Article } from "@/types/database";
 
 const Admin = () => {
@@ -18,8 +19,25 @@ const Admin = () => {
   const { data: categories, isLoading: categoriesLoading } = useCategories();
   const { data: authors, isLoading: authorsLoading } = useAuthors();
   const { toast } = useToast();
+  const { user, signOut } = useAuth();
 
   const isLoading = articlesLoading || categoriesLoading || authorsLoading;
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Signed out",
+        description: "You have been successfully signed out",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to sign out",
+        variant: "destructive",
+      });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -138,9 +156,25 @@ const Admin = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-light text-gray-900 mb-2">Content Management</h1>
-          <p className="text-gray-600">Manage your articles, categories, and authors</p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-light text-gray-900 mb-2">Content Management</h1>
+            <p className="text-gray-600">Manage your articles, categories, and authors</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <User className="w-4 h-4" />
+              <span>Welcome, {user?.email}</span>
+            </div>
+            <Button variant="outline" size="sm">
+              <Settings className="w-4 h-4 mr-2" />
+              Account
+            </Button>
+            <Button variant="outline" size="sm" onClick={handleSignOut}>
+              <LogOut className="w-4 h-4 mr-2" />
+              Sign Out
+            </Button>
+          </div>
         </div>
 
         {/* Stats Cards */}

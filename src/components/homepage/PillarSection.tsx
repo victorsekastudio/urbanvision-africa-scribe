@@ -9,6 +9,7 @@ interface PillarArticle {
   image: string;
   author: string;
   date: string;
+  slug?: string; // Add slug for linking
 }
 
 interface Pillar {
@@ -56,31 +57,37 @@ export const PillarSection = ({ pillar }: PillarSectionProps) => {
         <div className="lg:col-span-2">
           <div className="grid md:grid-cols-2 gap-8">
             {pillar.articles.map((article) => (
-              <article key={article.id} className="group cursor-pointer">
-                <div className="space-y-4">
-                  <div className="relative overflow-hidden rounded-lg">
-                    <img 
-                      src={article.image}
-                      alt={article.title}
-                      className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <h4 className="text-lg font-medium text-gray-900 leading-tight group-hover:text-gray-700 transition-colors">
-                      {article.title}
-                    </h4>
-                    <p className="text-gray-600 text-sm leading-relaxed font-serif">
-                      {article.excerpt}
-                    </p>
-                    <div className="text-xs text-gray-500">
-                      <span>{article.author}</span>
-                      <span className="mx-1">•</span>
-                      <span>{article.date}</span>
+              <Link 
+                key={article.id} 
+                to={article.slug ? `/article/${article.slug}` : '#'}
+                className="group cursor-pointer"
+              >
+                <article className="group cursor-pointer">
+                  <div className="space-y-4">
+                    <div className="relative overflow-hidden rounded-lg">
+                      <img 
+                        src={article.image}
+                        alt={article.title}
+                        className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <h4 className="text-lg font-medium text-gray-900 leading-tight group-hover:text-gray-700 transition-colors">
+                        {article.title}
+                      </h4>
+                      <p className="text-gray-600 text-sm leading-relaxed font-serif">
+                        {article.excerpt}
+                      </p>
+                      <div className="text-xs text-gray-500">
+                        <span>{article.author}</span>
+                        <span className="mx-1">•</span>
+                        <span>{article.date}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </article>
+                </article>
+              </Link>
             ))}
           </div>
         </div>

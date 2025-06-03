@@ -20,8 +20,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				serif: ['Crimson Text', 'serif'],
 				sans: ['Inter', 'sans-serif'],
+				serif: ['Crimson Text', 'serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',

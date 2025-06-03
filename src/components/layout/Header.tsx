@@ -1,5 +1,6 @@
 
 import { Link } from "react-router-dom";
+import { SearchButton } from "./SearchButton";
 
 export const Header = () => {
   return (
@@ -10,24 +11,25 @@ export const Header = () => {
             UrbanVision
           </Link>
           <nav className="hidden md:flex space-x-8">
-            <Link to="/urban-trends" className="text-gray-700 hover:text-gray-900 transition-colors font-light">
+            <Link to="/category/urban-trends" className="text-gray-700 hover:text-gray-900 transition-colors font-light">
               Urban Trends
             </Link>
-            <Link to="/infrastructure" className="text-gray-700 hover:text-gray-900 transition-colors font-light">
+            <Link to="/category/infrastructure" className="text-gray-700 hover:text-gray-900 transition-colors font-light">
               Infrastructure
             </Link>
-            <Link to="/climate" className="text-gray-700 hover:text-gray-900 transition-colors font-light">
+            <Link to="/category/climate" className="text-gray-700 hover:text-gray-900 transition-colors font-light">
               Climate
             </Link>
-            <Link to="/mobility" className="text-gray-700 hover:text-gray-900 transition-colors font-light">
+            <Link to="/category/mobility" className="text-gray-700 hover:text-gray-900 transition-colors font-light">
               Mobility
             </Link>
-            <Link to="/smart-cities" className="text-gray-700 hover:text-gray-900 transition-colors font-light">
+            <Link to="/category/smart-cities" className="text-gray-700 hover:text-gray-900 transition-colors font-light">
               Smart Cities
             </Link>
-            <Link to="/voices" className="text-gray-700 hover:text-gray-900 transition-colors font-light">
+            <Link to="/category/voices" className="text-gray-700 hover:text-gray-900 transition-colors font-light">
               Voices
             </Link>
+            <SearchButton />
             <Link to="/admin" className="text-blue-600 hover:text-blue-800 transition-colors font-medium">
               Admin
             </Link>

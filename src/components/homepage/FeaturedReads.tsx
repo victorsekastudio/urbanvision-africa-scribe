@@ -1,4 +1,5 @@
 
+import { Link } from "react-router-dom";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { useArticles } from "@/hooks/useArticles";
 
@@ -47,23 +48,24 @@ export const FeaturedReads = () => {
       
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
         {featuredReads?.map((article) => (
-          <ArticleCard 
-            key={article.id} 
-            article={{
-              id: parseInt(article.id.slice(-8), 16), // Convert UUID to number for compatibility
-              title: article.title,
-              excerpt: article.excerpt || '',
-              image: article.featured_image_url || `https://images.unsplash.com/photo-${Math.random() > 0.5 ? '1501854140801-50d01698950b' : '1426604966848-d7adac402bff'}?w=400&h=250&fit=crop&crop=entropy`,
-              author: article.author?.name || 'Unknown Author',
-              date: article.published_at ? new Date(article.published_at).toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'short', 
-                day: 'numeric' 
-              }) : 'Recently',
-              category: article.category?.name || 'Uncategorized',
-              slug: article.slug
-            }} 
-          />
+          <Link key={article.id} to={`/article/${article.slug}`}>
+            <ArticleCard 
+              article={{
+                id: parseInt(article.id.slice(-8), 16), // Convert UUID to number for compatibility
+                title: article.title,
+                excerpt: article.excerpt || '',
+                image: article.featured_image_url || `https://images.unsplash.com/photo-${Math.random() > 0.5 ? '1501854140801-50d01698950b' : '1426604966848-d7adac402bff'}?w=400&h=250&fit=crop&crop=entropy`,
+                author: article.author?.name || 'Unknown Author',
+                date: article.published_at ? new Date(article.published_at).toLocaleDateString('en-US', { 
+                  year: 'numeric', 
+                  month: 'short', 
+                  day: 'numeric' 
+                }) : 'Recently',
+                category: article.category?.name || 'Uncategorized',
+                slug: article.slug
+              }} 
+            />
+          </Link>
         ))}
       </div>
     </section>

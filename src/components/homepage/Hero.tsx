@@ -1,5 +1,6 @@
 
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useArticles } from "@/hooks/useArticles";
 
 export const Hero = () => {
@@ -52,10 +53,13 @@ export const Hero = () => {
               day: 'numeric' 
             }) : 'Recently'}</span>
           </div>
-          <button className="group flex items-center space-x-2 text-gray-900 font-medium hover:text-gray-700 transition-colors">
+          <Link 
+            to={`/article/${featuredArticle.slug}`}
+            className="group flex items-center space-x-2 text-gray-900 font-medium hover:text-gray-700 transition-colors"
+          >
             <span>Read Article</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
+          </Link>
         </div>
         <div className="relative">
           <img 

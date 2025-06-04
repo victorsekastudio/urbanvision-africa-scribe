@@ -12,6 +12,7 @@ export type Database = {
       articles: {
         Row: {
           author_id: string | null
+          canonical_url: string | null
           category_id: string | null
           content: string | null
           content_fr: string | null
@@ -21,6 +22,13 @@ export type Database = {
           featured: boolean
           featured_image_url: string | null
           id: string
+          meta_description: string | null
+          meta_description_fr: string | null
+          meta_keywords: string | null
+          meta_keywords_fr: string | null
+          meta_title: string | null
+          meta_title_fr: string | null
+          og_image_url: string | null
           published: boolean
           published_at: string | null
           slug: string
@@ -30,6 +38,7 @@ export type Database = {
         }
         Insert: {
           author_id?: string | null
+          canonical_url?: string | null
           category_id?: string | null
           content?: string | null
           content_fr?: string | null
@@ -39,6 +48,13 @@ export type Database = {
           featured?: boolean
           featured_image_url?: string | null
           id?: string
+          meta_description?: string | null
+          meta_description_fr?: string | null
+          meta_keywords?: string | null
+          meta_keywords_fr?: string | null
+          meta_title?: string | null
+          meta_title_fr?: string | null
+          og_image_url?: string | null
           published?: boolean
           published_at?: string | null
           slug: string
@@ -48,6 +64,7 @@ export type Database = {
         }
         Update: {
           author_id?: string | null
+          canonical_url?: string | null
           category_id?: string | null
           content?: string | null
           content_fr?: string | null
@@ -57,6 +74,13 @@ export type Database = {
           featured?: boolean
           featured_image_url?: string | null
           id?: string
+          meta_description?: string | null
+          meta_description_fr?: string | null
+          meta_keywords?: string | null
+          meta_keywords_fr?: string | null
+          meta_title?: string | null
+          meta_title_fr?: string | null
+          og_image_url?: string | null
           published?: boolean
           published_at?: string | null
           slug?: string

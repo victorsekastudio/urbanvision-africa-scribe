@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Header } from "@/components/layout/Header";
+import { SEOHead } from "@/components/shared/SEOHead";
 import { ArrowLeft, Calendar, User, Tag } from "lucide-react";
 import type { Article } from "@/types/database";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -93,6 +94,7 @@ const Article = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead article={article} currentLanguage={currentLanguage} />
       <Header />
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <Link 

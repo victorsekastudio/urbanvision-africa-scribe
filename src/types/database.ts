@@ -38,6 +38,15 @@ export interface Article {
   published_at?: string;
   created_at: string;
   updated_at: string;
+  // SEO fields
+  meta_title?: string;
+  meta_title_fr?: string;
+  meta_description?: string;
+  meta_description_fr?: string;
+  meta_keywords?: string;
+  meta_keywords_fr?: string;
+  og_image_url?: string;
+  canonical_url?: string;
   // Joined data
   author?: Author;
   category?: Category;

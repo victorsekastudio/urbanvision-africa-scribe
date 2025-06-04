@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/useLanguage";
+import { SEOSection } from "./SEOSection";
 import type { Article, Author, Category } from "@/types/database";
 
 interface ArticleFormData {
@@ -26,6 +27,14 @@ interface ArticleFormData {
   published: boolean;
   featured: boolean;
   featured_image_url: string;
+  meta_title: string;
+  meta_title_fr: string;
+  meta_description: string;
+  meta_description_fr: string;
+  meta_keywords: string;
+  meta_keywords_fr: string;
+  og_image_url: string;
+  canonical_url: string;
 }
 
 interface ArticleFormProps {
@@ -55,6 +64,14 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       published: article?.published || false,
       featured: article?.featured || false,
       featured_image_url: article?.featured_image_url || "",
+      meta_title: article?.meta_title || "",
+      meta_title_fr: article?.meta_title_fr || "",
+      meta_description: article?.meta_description || "",
+      meta_description_fr: article?.meta_description_fr || "",
+      meta_keywords: article?.meta_keywords || "",
+      meta_keywords_fr: article?.meta_keywords_fr || "",
+      og_image_url: article?.og_image_url || "",
+      canonical_url: article?.canonical_url || "",
     },
   });
 
@@ -388,6 +405,9 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
               )}
             />
           </div>
+
+          {/* SEO Section */}
+          <SEOSection form={form} currentLanguage={currentLanguage} />
 
           <div className="flex justify-end space-x-4">
             <Button type="button" variant="outline" onClick={onCancel}>

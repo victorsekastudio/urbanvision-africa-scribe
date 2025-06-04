@@ -1,5 +1,6 @@
 
 import { Hero } from "@/components/homepage/Hero";
+import { EventsWebinars } from "@/components/homepage/EventsWebinars";
 import { FeaturedReads } from "@/components/homepage/FeaturedReads";
 import { EditorialPillars } from "@/components/homepage/EditorialPillars";
 import { EditorNote } from "@/components/homepage/EditorNote";
@@ -13,6 +14,9 @@ const Index = () => {
       <Header />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Hero />
+      </main>
+      <EventsWebinars />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FeaturedReads />
         <EditorialPillars />
         <EditorNote />

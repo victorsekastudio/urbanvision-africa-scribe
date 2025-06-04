@@ -81,19 +81,15 @@ export const EventsWebinars = () => {
                 </div>
               </div>
               
-              <div className="p-6 pb-8 flex flex-col flex-1">
-                <h3 className="text-xl font-light tracking-wide text-gray-900 mb-3 leading-tight h-14 overflow-hidden">
-                  <span className="line-clamp-2">
-                    {event.title}
-                  </span>
+              <div className="p-6 flex flex-col flex-1">
+                <h3 className="text-xl font-light tracking-wide text-gray-900 mb-3 leading-tight line-clamp-2">
+                  {event.title}
                 </h3>
-                <p className="text-gray-600 text-sm font-light tracking-wide leading-relaxed mb-4 h-16 overflow-hidden">
-                  <span className="line-clamp-3">
-                    {event.description}
-                  </span>
+                <p className="text-gray-600 text-sm font-light tracking-wide leading-relaxed mb-4 line-clamp-3 flex-1">
+                  {event.description}
                 </p>
                 
-                <div className="space-y-2 mb-4 flex-1">
+                <div className="space-y-2 mb-4">
                   <div className="flex items-center text-sm text-gray-500">
                     <Calendar className="w-4 h-4 mr-2" />
                     <span>{formatDate(event.date)}</span>
@@ -108,7 +104,7 @@ export const EventsWebinars = () => {
                   </div>
                 </div>
                 
-                <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-md font-medium tracking-wide hover:bg-gray-800 transition-colors">
+                <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-md font-medium tracking-wide hover:bg-gray-800 transition-colors mt-auto">
                   Register Now
                 </button>
               </div>

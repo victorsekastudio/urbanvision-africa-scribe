@@ -81,7 +81,7 @@ export const EventsWebinars = () => {
                 </div>
               </div>
               
-              <div className="p-6 flex flex-col flex-1">
+              <div className="p-6 pb-8 flex flex-col flex-1">
                 <h3 className="text-xl font-light tracking-wide text-gray-900 mb-3 leading-tight h-14 overflow-hidden">
                   <span className="line-clamp-2">
                     {event.title}

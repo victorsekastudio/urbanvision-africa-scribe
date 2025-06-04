@@ -62,7 +62,7 @@ export const EventsWebinars = () => {
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {events.map((event) => (
-            <div key={event.id} className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+            <div key={event.id} className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow h-[500px] flex flex-col">
               <div className="relative">
                 <img 
                   src={event.image}
@@ -81,11 +81,11 @@ export const EventsWebinars = () => {
                 </div>
               </div>
               
-              <div className="p-6">
-                <h3 className="text-xl font-light tracking-wide text-gray-900 mb-3 leading-tight">
+              <div className="p-6 flex flex-col flex-1">
+                <h3 className="text-xl font-light tracking-wide text-gray-900 mb-3 leading-tight line-clamp-2">
                   {event.title}
                 </h3>
-                <p className="text-gray-600 text-sm font-light tracking-wide leading-relaxed mb-4">
+                <p className="text-gray-600 text-sm font-light tracking-wide leading-relaxed mb-4 line-clamp-3 flex-1">
                   {event.description}
                 </p>
                 
@@ -104,7 +104,7 @@ export const EventsWebinars = () => {
                   </div>
                 </div>
                 
-                <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-md font-medium tracking-wide hover:bg-gray-800 transition-colors">
+                <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-md font-medium tracking-wide hover:bg-gray-800 transition-colors mt-auto">
                   Register Now
                 </button>
               </div>

@@ -9,17 +9,17 @@ import { ArrowLeft } from "lucide-react";
 import type { Article, Category as CategoryType } from "@/types/database";
 
 const Category = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { category } = useParams<{ category: string }>();
 
-  const { data: category, isLoading: categoryLoading } = useQuery({
-    queryKey: ['category', slug],
+  const { data: categoryData, isLoading: categoryLoading } = useQuery({
+    queryKey: ['category', category],
     queryFn: async () => {
-      if (!slug) throw new Error('No slug provided');
+      if (!category) throw new Error('No category provided');
       
       const { data, error } = await supabase
         .from('categories')
         .select('*')
-        .eq('slug', slug)
+        .eq('slug', category)
         .single();
 
       if (error) {
@@ -29,13 +29,13 @@ const Category = () => {
 
       return data as CategoryType;
     },
-    enabled: !!slug,
+    enabled: !!category,
   });
 
   const { data: articles, isLoading: articlesLoading } = useQuery({
-    queryKey: ['category-articles', slug],
+    queryKey: ['category-articles', category],
     queryFn: async () => {
-      if (!slug || !category) return [];
+      if (!category || !categoryData) return [];
       
       const { data, error } = await supabase
         .from('articles')
@@ -44,7 +44,7 @@ const Category = () => {
           author:authors(*),
           category:categories(*)
         `)
-        .eq('category_id', category.id)
+        .eq('category_id', categoryData.id)
         .eq('published', true)
         .order('published_at', { ascending: false });
 
@@ -55,7 +55,7 @@ const Category = () => {
 
       return data as Article[];
     },
-    enabled: !!category,
+    enabled: !!categoryData,
   });
 
   const isLoading = categoryLoading || articlesLoading;
@@ -85,7 +85,7 @@ const Category = () => {
     );
   }
 
-  if (!category) {
+  if (!categoryData) {
     return (
       <div className="min-h-screen bg-white">
         <Header />
@@ -116,11 +116,11 @@ const Category = () => {
 
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-4">
-            {category.name}
+            {categoryData.name}
           </h1>
-          {category.description && (
+          {categoryData.description && (
             <p className="text-lg text-gray-600 max-w-3xl">
-              {category.description}
+              {categoryData.description}
             </p>
           )}
         </div>

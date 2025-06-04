@@ -82,14 +82,19 @@ export const EventsWebinars = () => {
               </div>
               
               <div className="p-6 flex flex-col flex-1">
-                <h3 className="text-xl font-light tracking-wide text-gray-900 mb-3 leading-tight line-clamp-2">
-                  {event.title}
-                </h3>
-                <p className="text-gray-600 text-sm font-light tracking-wide leading-relaxed mb-4 line-clamp-3 flex-1">
-                  {event.description}
-                </p>
+                <div className="h-16 mb-3">
+                  <h3 className="text-xl font-light tracking-wide text-gray-900 leading-tight line-clamp-2 h-full flex items-center">
+                    {event.title}
+                  </h3>
+                </div>
                 
-                <div className="space-y-2 mb-4">
+                <div className="h-20 mb-4">
+                  <p className="text-gray-600 text-sm font-light tracking-wide leading-relaxed line-clamp-4">
+                    {event.description}
+                  </p>
+                </div>
+                
+                <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gray-500">
                     <Calendar className="w-4 h-4 mr-2" />
                     <span>{formatDate(event.date)}</span>

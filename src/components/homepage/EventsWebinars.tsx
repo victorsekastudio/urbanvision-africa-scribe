@@ -62,7 +62,7 @@ export const EventsWebinars = () => {
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {events.map((event) => (
-            <div key={event.id} className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow h-[500px] flex flex-col">
+            <div key={event.id} className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow h-[600px] flex flex-col">
               <div className="relative">
                 <img 
                   src={event.image}
@@ -82,14 +82,14 @@ export const EventsWebinars = () => {
               </div>
               
               <div className="p-6 flex flex-col flex-1">
-                <div className="h-16 mb-3">
+                <div className="h-14 mb-4">
                   <h3 className="text-xl font-light tracking-wide text-gray-900 leading-tight line-clamp-2 h-full flex items-center">
                     {event.title}
                   </h3>
                 </div>
                 
-                <div className="h-20 mb-4">
-                  <p className="text-gray-600 text-sm font-light tracking-wide leading-relaxed line-clamp-4">
+                <div className="h-16 mb-4">
+                  <p className="text-gray-600 text-sm font-light tracking-wide leading-relaxed line-clamp-3">
                     {event.description}
                   </p>
                 </div>

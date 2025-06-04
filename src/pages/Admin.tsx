@@ -1,27 +1,33 @@
 import { useState } from "react";
 import { useArticles, useCategories, useAuthors } from "@/hooks/useArticles";
+import { useEvents, useDeleteEvent } from "@/hooks/useEvents";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Edit, Eye, Calendar, User, Tag, Trash2, LogOut, Settings } from "lucide-react";
+import { Plus, Edit, Eye, Calendar, User, Tag, Trash2, LogOut, Settings, Clock, Users, Video } from "lucide-react";
 import { ArticleDialog } from "@/components/admin/ArticleDialog";
+import { EventDialog } from "@/components/admin/EventDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import type { Article } from "@/types/database";
+import type { Article, Event } from "@/types/database";
 
 const Admin = () => {
-  const [activeTab, setActiveTab] = useState<'articles' | 'categories' | 'authors'>('articles');
+  const [activeTab, setActiveTab] = useState<'articles' | 'categories' | 'authors' | 'events'>('articles');
   const [articleDialogOpen, setArticleDialogOpen] = useState(false);
+  const [eventDialogOpen, setEventDialogOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<Article | undefined>();
+  const [editingEvent, setEditingEvent] = useState<Event | undefined>();
   
   const { data: articles, isLoading: articlesLoading, refetch: refetchArticles } = useArticles();
   const { data: categories, isLoading: categoriesLoading } = useCategories();
   const { data: authors, isLoading: authorsLoading } = useAuthors();
+  const { data: events, isLoading: eventsLoading, refetch: refetchEvents } = useEvents();
+  const deleteEvent = useDeleteEvent();
   const { toast } = useToast();
   const { user, signOut } = useAuth();
 
-  const isLoading = articlesLoading || categoriesLoading || authorsLoading;
+  const isLoading = articlesLoading || categoriesLoading || authorsLoading || eventsLoading;
 
   const handleSignOut = async () => {
     try {
@@ -58,6 +64,7 @@ const Admin = () => {
 
   const publishedCount = articles?.filter(a => a.published).length || 0;
   const draftCount = articles?.filter(a => !a.published).length || 0;
+  const publishedEventsCount = events?.filter(e => e.published).length || 0;
 
   const handleCreateArticle = () => {
     setEditingArticle(undefined);
@@ -149,8 +156,37 @@ const Admin = () => {
     }
   };
 
-  const handleArticleSave = () => {
-    refetchArticles();
+  const handleCreateEvent = () => {
+    setEditingEvent(undefined);
+    setEventDialogOpen(true);
+  };
+
+  const handleEditEvent = (event: Event) => {
+    setEditingEvent(event);
+    setEventDialogOpen(true);
+  };
+
+  const handleDeleteEvent = async (eventId: string) => {
+    if (!confirm('Are you sure you want to delete this event?')) return;
+
+    try {
+      await deleteEvent.mutateAsync(eventId);
+      toast({
+        title: "Success",
+        description: "Event deleted successfully",
+      });
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete event",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleEventSave = () => {
+    refetchEvents();
   };
 
   return (
@@ -159,7 +195,7 @@ const Admin = () => {
         <div className="mb-8 flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-light text-gray-900 mb-2">Content Management</h1>
-            <p className="text-gray-600">Manage your articles, categories, and authors</p>
+            <p className="text-gray-600">Manage your articles, categories, authors, and events</p>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -178,7 +214,7 @@ const Admin = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Articles</CardTitle>
@@ -215,6 +251,15 @@ const Admin = () => {
               <div className="text-2xl font-bold">{categories?.length || 0}</div>
             </CardContent>
           </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Events</CardTitle>
+              <Calendar className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-blue-600">{events?.length || 0}</div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Navigation Tabs */}
@@ -224,6 +269,7 @@ const Admin = () => {
               { key: 'articles', label: 'Articles', count: articles?.length },
               { key: 'categories', label: 'Categories', count: categories?.length },
               { key: 'authors', label: 'Authors', count: authors?.length },
+              { key: 'events', label: 'Events', count: events?.length },
             ].map((tab) => (
               <button
                 key={tab.key}
@@ -304,6 +350,76 @@ const Admin = () => {
                         variant="outline" 
                         size="sm"
                         onClick={() => handleDeleteArticle(article.id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'events' && (
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-semibold">Events</h2>
+                <Button onClick={handleCreateEvent}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  New Event
+                </Button>
+              </div>
+              
+              <div className="space-y-4">
+                {events?.map((event) => (
+                  <div key={event.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="font-medium">{event.title}</h3>
+                        <Badge 
+                          variant={event.published ? "default" : "secondary"}
+                        >
+                          {event.published ? "Published" : "Draft"}
+                        </Badge>
+                        <Badge 
+                          variant={event.type === 'webinar' ? "outline" : "default"}
+                        >
+                          {event.type === 'webinar' ? <Video className="w-3 h-3 mr-1" /> : <Calendar className="w-3 h-3 mr-1" />}
+                          {event.type === 'webinar' ? 'Webinar' : 'Event'}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-2">{event.description}</p>
+                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {new Date(event.date).toLocaleDateString()}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {event.time}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Users className="w-3 h-3" />
+                          {event.attendees_count} registered
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => handleEditEvent(event)}
+                      >
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                      <Button variant="outline" size="sm">
+                        <Eye className="w-4 h-4" />
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => handleDeleteEvent(event.id)}
                         className="text-red-600 hover:text-red-700"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -396,6 +512,13 @@ const Admin = () => {
         onOpenChange={setArticleDialogOpen}
         article={editingArticle}
         onSave={handleArticleSave}
+      />
+
+      <EventDialog
+        open={eventDialogOpen}
+        onOpenChange={setEventDialogOpen}
+        event={editingEvent}
+        onSave={handleEventSave}
       />
     </div>
   );

@@ -1,43 +1,15 @@
 
-import { Calendar, Clock, Users, Video } from "lucide-react";
+import { Calendar, Clock, Users, Video, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/hooks/useLanguage";
-
-const events = [
-  {
-    id: 1,
-    title: "Urban Planning in Lagos: Future Challenges",
-    date: "2024-06-15",
-    time: "14:00 GMT",
-    type: "webinar",
-    attendees: 120,
-    image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=250&fit=crop",
-    description: "Join urban planners and experts as we discuss the evolving landscape of Lagos and sustainable development strategies."
-  },
-  {
-    id: 2,
-    title: "Smart Cities Conference - Nairobi",
-    date: "2024-06-20",
-    time: "09:00 EAT",
-    type: "event",
-    attendees: 250,
-    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=250&fit=crop",
-    description: "A comprehensive conference exploring smart city solutions and innovations across East Africa."
-  },
-  {
-    id: 3,
-    title: "Transport Innovation Workshop",
-    date: "2024-06-25",
-    time: "16:00 WAT",
-    type: "webinar",
-    attendees: 85,
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop",
-    description: "Interactive workshop on sustainable transport solutions for African urban centers."
-  }
-];
+import { usePublishedEvents } from "@/hooks/useEvents";
 
 export const EventsWebinars = () => {
   const { currentLanguage } = useLanguage();
+  const { data: allEvents, isLoading } = usePublishedEvents();
+
+  // Get first 3 events for homepage
+  const events = allEvents?.slice(0, 3) || [];
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -47,6 +19,35 @@ export const EventsWebinars = () => {
       year: 'numeric'
     });
   };
+
+  if (isLoading) {
+    return (
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-light tracking-wide text-gray-900 mb-4">
+              Events & Webinars
+            </h2>
+            <p className="text-lg text-gray-600 font-light tracking-wide max-w-3xl mx-auto">
+              Join our community discussions and expert panels on African urban development
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="bg-white rounded-lg shadow-sm overflow-hidden animate-pulse h-[600px]">
+                <div className="w-full h-48 bg-gray-200"></div>
+                <div className="p-6">
+                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-16 bg-gray-50">
@@ -65,7 +66,7 @@ export const EventsWebinars = () => {
             <div key={event.id} className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow h-[600px] flex flex-col">
               <div className="relative">
                 <img 
-                  src={event.image}
+                  src={event.image_url || "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=250&fit=crop"}
                   alt={event.title}
                   className="w-full h-48 object-cover"
                 />
@@ -105,13 +106,25 @@ export const EventsWebinars = () => {
                   </div>
                   <div className="flex items-center text-sm text-gray-500">
                     <Users className="w-4 h-4 mr-2" />
-                    <span>{event.attendees} registered</span>
+                    <span>{event.attendees_count} registered</span>
                   </div>
                 </div>
                 
-                <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-md font-medium tracking-wide hover:bg-gray-800 transition-colors mt-auto">
-                  Register Now
-                </button>
+                {event.registration_link ? (
+                  <a 
+                    href={event.registration_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-gray-900 text-white py-2 px-4 rounded-md font-medium tracking-wide hover:bg-gray-800 transition-colors mt-auto inline-flex items-center justify-center gap-2"
+                  >
+                    Register Now
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                ) : (
+                  <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-md font-medium tracking-wide hover:bg-gray-800 transition-colors mt-auto">
+                    Register Now
+                  </button>
+                )}
               </div>
             </div>
           ))}

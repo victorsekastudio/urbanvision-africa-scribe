@@ -42,3 +42,18 @@ export interface Article {
   author?: Author;
   category?: Category;
 }
+
+export interface Event {
+  id: string;
+  title: string;
+  description?: string;
+  date: string;
+  time: string;
+  type: 'webinar' | 'event';
+  image_url?: string;
+  registration_link?: string;
+  attendees_count: number;
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+}

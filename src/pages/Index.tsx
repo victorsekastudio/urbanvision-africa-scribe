@@ -14,11 +14,11 @@ const Index = () => {
       <Header />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Hero />
+        <FeaturedReads />
+        <EditorialPillars />
       </main>
       <EventsWebinars />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <FeaturedReads />
-        <EditorialPillars />
         <EditorNote />
         <Newsletter />
       </main>

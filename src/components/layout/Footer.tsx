@@ -15,7 +15,7 @@ export const Footer = () => {
           
           <div className="flex items-center space-x-4">
             <a 
-              href="https://instagram.com/urbanvision" 
+              href="https://www.instagram.com/official.urban.vision/?igsh=MTQxOG9nZHlzeDFucQ%3D%3D#" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"

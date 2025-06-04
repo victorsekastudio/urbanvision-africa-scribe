@@ -10,12 +10,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const categories = [
-  { name: "Urban Trends & Growth", path: "/category/urban-trends" },
-  { name: "Infrastructure Gaps & Investment", path: "/category/infrastructure" },
-  { name: "Climate Resilience & Sustainability", path: "/category/climate" },
-  { name: "Transport & Mobility", path: "/category/mobility" },
-  { name: "Smart Cities & Tech", path: "/category/smart-cities" },
-  { name: "Voices from the Ground", path: "/category/voices" },
+  { name: "Urban Trends & Growth", path: "/category/urban-trends-growth" },
+  { name: "Infrastructure Gaps & Investment", path: "/category/infrastructure-investment" },
+  { name: "Climate Resilience & Sustainability", path: "/category/climate-sustainability" },
+  { name: "Transport & Mobility", path: "/category/transport-mobility" },
+  { name: "Smart Cities & Tech", path: "/category/smart-city-tech" },
+  { name: "Voices from the Ground", path: "/category/voices-ground" },
 ];
 
 export const ExploreDropdown = () => {

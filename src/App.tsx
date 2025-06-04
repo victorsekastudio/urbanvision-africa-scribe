@@ -14,6 +14,7 @@ import Search from "./pages/Search";
 import AllArticles from "./pages/AllArticles";
 import About from "./pages/About";
 import Contribute from "./pages/Contribute";
+import Events from "./pages/Events";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/articles" element={<AllArticles />} />
             <Route path="/about" element={<About />} />
             <Route path="/contribute" element={<Contribute />} />
+            <Route path="/events" element={<Events />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

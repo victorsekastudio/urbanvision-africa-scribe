@@ -94,7 +94,7 @@ const Events = () => {
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {events.map((event) => (
-            <div key={event.id} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+            <div key={event.id} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow h-[650px] flex flex-col">
               <div className="relative">
                 <img 
                   src={event.image}
@@ -113,14 +113,18 @@ const Events = () => {
                 </div>
               </div>
               
-              <div className="p-6">
-                <h3 className="text-xl font-light tracking-wide text-gray-900 mb-3 leading-tight">
-                  {event.title}
-                </h3>
+              <div className="p-6 flex flex-col flex-1">
+                <div className="h-16 mb-4">
+                  <h3 className="text-xl font-light tracking-wide text-gray-900 mb-3 leading-tight line-clamp-2 h-full flex items-center">
+                    {event.title}
+                  </h3>
+                </div>
                 
-                <p className="text-gray-600 text-sm font-light tracking-wide leading-relaxed mb-4">
-                  {event.description}
-                </p>
+                <div className="h-20 mb-4">
+                  <p className="text-gray-600 text-sm font-light tracking-wide leading-relaxed line-clamp-4">
+                    {event.description}
+                  </p>
+                </div>
                 
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center text-sm text-gray-500">
@@ -137,7 +141,7 @@ const Events = () => {
                   </div>
                 </div>
                 
-                <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-md font-medium tracking-wide hover:bg-gray-800 transition-colors">
+                <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-md font-medium tracking-wide hover:bg-gray-800 transition-colors mt-auto">
                   Register Now
                 </button>
               </div>

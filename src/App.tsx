@@ -17,6 +17,7 @@ import AllArticles from "./pages/AllArticles";
 import About from "./pages/About";
 import Contribute from "./pages/Contribute";
 import Events from "./pages/Events";
+import Tags from "./pages/Tags";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/category/:category" element={<Category />} />
               <Route path="/article/:slug" element={<Article />} />
+              <Route path="/tag/:tagName" element={<Tags />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/admin" element={
                 <ProtectedRoute>

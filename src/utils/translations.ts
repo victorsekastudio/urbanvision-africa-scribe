@@ -39,6 +39,12 @@ export const translations = {
     noArticlesFound: "No articles found matching your search.",
     enterSearchTerm: "Enter a search term to find articles.",
     
+    // Tags
+    tags: "Tags",
+    taggedWith: "Tagged with",
+    articlesFound: "articles found",
+    noArticlesWithTag: "No articles found with this tag.",
+    
     // General
     by: "By",
     noArticles: "No articles found.",
@@ -84,6 +90,12 @@ export const translations = {
     searchResultsFor: "Résultats de recherche pour :",
     noArticlesFound: "Aucun article trouvé correspondant à votre recherche.",
     enterSearchTerm: "Entrez un terme de recherche pour trouver des articles.",
+    
+    // Tags
+    tags: "Étiquettes",
+    taggedWith: "Étiquetés avec",
+    articlesFound: "articles trouvés",
+    noArticlesWithTag: "Aucun article trouvé avec cette étiquette.",
     
     // General
     by: "Par",

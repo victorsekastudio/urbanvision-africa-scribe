@@ -1,9 +1,9 @@
-
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Header } from "@/components/layout/Header";
 import { SEOHead } from "@/components/shared/SEOHead";
+import { TagsList } from "@/components/shared/TagsList";
 import { ArrowLeft, Calendar, User, Tag } from "lucide-react";
 import type { Article } from "@/types/database";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -162,6 +162,13 @@ const Article = () => {
             ) : (
               <p className="text-gray-600 italic">Full article content coming soon...</p>
             )}
+          </div>
+
+          <div className="border-t pt-8">
+            <TagsList 
+              keywords={article.meta_keywords} 
+              keywords_fr={article.meta_keywords_fr} 
+            />
           </div>
         </article>
       </main>

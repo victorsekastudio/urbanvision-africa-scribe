@@ -53,6 +53,8 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       instagram_caption: article?.instagram_caption || "",
       twitter_caption: article?.twitter_caption || "",
       social_hashtags: article?.social_hashtags || "",
+      instagram_image_text: article?.instagram_image_text || "",
+      instagram_text_color: article?.instagram_text_color || 'white',
     },
   });
 

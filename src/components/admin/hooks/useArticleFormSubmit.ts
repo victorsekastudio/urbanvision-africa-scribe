@@ -32,6 +32,8 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
           articleId,
           imageUrl: data.featured_image_url,
           caption: `${data.instagram_caption}\n\n${data.social_hashtags || ''}`.trim(),
+          imageText: data.instagram_image_text,
+          textColor: data.instagram_text_color,
         }),
       });
       promises.push(instagramPromise);

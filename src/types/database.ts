@@ -59,6 +59,9 @@ export interface Article {
   instagram_post_url?: string;
   twitter_post_url?: string;
   social_media_posted_at?: string;
+  // Image overlay fields
+  instagram_image_text?: string;
+  instagram_text_color?: 'white' | 'black';
   // Joined data
   author?: Author;
   category?: Category;

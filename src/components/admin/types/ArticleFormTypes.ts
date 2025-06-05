@@ -27,4 +27,7 @@ export interface ArticleFormData {
   instagram_caption: string;
   twitter_caption: string;
   social_hashtags: string;
+  // Image overlay fields
+  instagram_image_text: string;
+  instagram_text_color: 'white' | 'black';
 }

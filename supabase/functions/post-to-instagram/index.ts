@@ -10,6 +10,34 @@ interface InstagramPostRequest {
   articleId: string;
   imageUrl: string;
   caption: string;
+  imageText?: string;
+  textColor?: 'white' | 'black';
+}
+
+async function generateImageWithText(
+  imageUrl: string, 
+  text: string, 
+  textColor: 'white' | 'black' = 'white'
+): Promise<string> {
+  const response = await fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/generate-instagram-image`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`,
+    },
+    body: JSON.stringify({
+      imageUrl,
+      text,
+      textColor,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to generate image with text overlay');
+  }
+
+  const result = await response.json();
+  return result.imageDataUrl;
 }
 
 async function postToInstagram(imageUrl: string, caption: string): Promise<any> {
@@ -82,12 +110,20 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    const { articleId, imageUrl, caption }: InstagramPostRequest = await req.json();
+    const { articleId, imageUrl, caption, imageText, textColor }: InstagramPostRequest = await req.json();
 
     console.log('Posting to Instagram for article:', articleId);
 
+    let finalImageUrl = imageUrl;
+
+    // Generate image with text overlay if text is provided
+    if (imageText && imageText.trim()) {
+      console.log('Generating image with text overlay:', imageText);
+      finalImageUrl = await generateImageWithText(imageUrl, imageText, textColor || 'white');
+    }
+
     // Post to Instagram
-    const result = await postToInstagram(imageUrl, caption);
+    const result = await postToInstagram(finalImageUrl, caption);
 
     // Update article with Instagram post information
     const { error: updateError } = await supabaseClient

@@ -14,9 +14,7 @@ export const EditorNote = () => {
               the quality of life for generations to come."
             </blockquote>
             <footer className="text-gray-600">
-              <cite className="font-medium">Kwame Asante</cite>
-              <span className="mx-2">•</span>
-              <span className="text-sm">Editor-in-Chief, UrbanVision</span>
+              <cite className="font-medium">UrbanVision team</cite>
             </footer>
           </div>
         </div>

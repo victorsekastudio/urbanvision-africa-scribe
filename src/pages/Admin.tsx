@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { ArticleDialog } from "@/components/admin/ArticleDialog";
 import { EventDialog } from "@/components/admin/EventDialog";
 import { CategoryDialog } from "@/components/admin/CategoryDialog";
+import { AuthorDialog } from "@/components/admin/AuthorDialog";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { StatsDashboard } from "@/components/admin/StatsDashboard";
 import { AdminTabs } from "@/components/admin/AdminTabs";
@@ -16,20 +17,22 @@ import { CategoriesTab } from "@/components/admin/CategoriesTab";
 import { AuthorsTab } from "@/components/admin/AuthorsTab";
 import { NewsletterTab } from "@/components/admin/NewsletterTab";
 import { createArticleHandlers } from "@/utils/adminHandlers";
-import type { Article, Event, Category } from "@/types/database";
+import type { Article, Event, Category, Author } from "@/types/database";
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState<'articles' | 'categories' | 'authors' | 'events' | 'newsletter'>('articles');
   const [articleDialogOpen, setArticleDialogOpen] = useState(false);
   const [eventDialogOpen, setEventDialogOpen] = useState(false);
   const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
+  const [authorDialogOpen, setAuthorDialogOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<Article | undefined>();
   const [editingEvent, setEditingEvent] = useState<Event | undefined>();
   const [editingCategory, setEditingCategory] = useState<Category | undefined>();
+  const [editingAuthor, setEditingAuthor] = useState<Author | undefined>();
   
   const { data: articles, isLoading: articlesLoading, refetch: refetchArticles } = useArticles();
   const { data: categories, isLoading: categoriesLoading, refetch: refetchCategories } = useCategories();
-  const { data: authors, isLoading: authorsLoading } = useAuthors();
+  const { data: authors, isLoading: authorsLoading, refetch: refetchAuthors } = useAuthors();
   const { data: events, isLoading: eventsLoading, refetch: refetchEvents } = useEvents();
   const { data: subscribers, isLoading: subscribersLoading } = useNewsletterSubscribers();
   const deleteEvent = useDeleteEvent();
@@ -132,6 +135,20 @@ const Admin = () => {
     refetchCategories();
   };
 
+  const handleCreateAuthor = () => {
+    setEditingAuthor(undefined);
+    setAuthorDialogOpen(true);
+  };
+
+  const handleEditAuthor = (author: Author) => {
+    setEditingAuthor(author);
+    setAuthorDialogOpen(true);
+  };
+
+  const handleAuthorSave = () => {
+    refetchAuthors();
+  };
+
   const articleHandlers = createArticleHandlers(toast, refetchArticles);
 
   const renderTabContent = () => {
@@ -166,7 +183,14 @@ const Admin = () => {
           />
         );
       case 'authors':
-        return <AuthorsTab authors={authors} articles={articles} />;
+        return (
+          <AuthorsTab 
+            authors={authors} 
+            articles={articles}
+            onCreateAuthor={handleCreateAuthor}
+            onEditAuthor={handleEditAuthor}
+          />
+        );
       case 'newsletter':
         return <NewsletterTab subscribers={subscribers} />;
       default:
@@ -231,6 +255,13 @@ const Admin = () => {
         onOpenChange={setCategoryDialogOpen}
         category={editingCategory}
         onSave={handleCategorySave}
+      />
+
+      <AuthorDialog
+        open={authorDialogOpen}
+        onOpenChange={setAuthorDialogOpen}
+        author={editingAuthor}
+        onSave={handleAuthorSave}
       />
     </div>
   );

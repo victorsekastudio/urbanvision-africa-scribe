@@ -1,7 +1,7 @@
-
 import { useState } from "react";
 import { useArticles, useCategories, useAuthors } from "@/hooks/useArticles";
 import { useEvents, useDeleteEvent } from "@/hooks/useEvents";
+import { useNewsletterSubscribers } from "@/hooks/useNewsletterSubscribers";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { ArticleDialog } from "@/components/admin/ArticleDialog";
@@ -13,11 +13,12 @@ import { ArticlesTab } from "@/components/admin/ArticlesTab";
 import { EventsTab } from "@/components/admin/EventsTab";
 import { CategoriesTab } from "@/components/admin/CategoriesTab";
 import { AuthorsTab } from "@/components/admin/AuthorsTab";
+import { NewsletterTab } from "@/components/admin/NewsletterTab";
 import { createArticleHandlers } from "@/utils/adminHandlers";
 import type { Article, Event } from "@/types/database";
 
 const Admin = () => {
-  const [activeTab, setActiveTab] = useState<'articles' | 'categories' | 'authors' | 'events'>('articles');
+  const [activeTab, setActiveTab] = useState<'articles' | 'categories' | 'authors' | 'events' | 'newsletter'>('articles');
   const [articleDialogOpen, setArticleDialogOpen] = useState(false);
   const [eventDialogOpen, setEventDialogOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<Article | undefined>();
@@ -27,11 +28,12 @@ const Admin = () => {
   const { data: categories, isLoading: categoriesLoading } = useCategories();
   const { data: authors, isLoading: authorsLoading } = useAuthors();
   const { data: events, isLoading: eventsLoading, refetch: refetchEvents } = useEvents();
+  const { data: subscribers, isLoading: subscribersLoading } = useNewsletterSubscribers();
   const deleteEvent = useDeleteEvent();
   const { toast } = useToast();
   const { user, signOut } = useAuth();
 
-  const isLoading = articlesLoading || categoriesLoading || authorsLoading || eventsLoading;
+  const isLoading = articlesLoading || categoriesLoading || authorsLoading || eventsLoading || subscribersLoading;
 
   const handleSignOut = async () => {
     try {
@@ -141,6 +143,8 @@ const Admin = () => {
         return <CategoriesTab categories={categories} articles={articles} />;
       case 'authors':
         return <AuthorsTab authors={authors} articles={articles} />;
+      case 'newsletter':
+        return <NewsletterTab subscribers={subscribers} />;
       default:
         return null;
     }
@@ -153,14 +157,31 @@ const Admin = () => {
         
         <StatsDashboard articles={articles} events={events} categories={categories} />
 
-        <AdminTabs
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          articles={articles}
-          categories={categories}
-          authors={authors}
-          events={events}
-        />
+        <div className="mb-8">
+          <div className="border-b border-gray-200">
+            <nav className="-mb-px flex space-x-8">
+              {[
+                { key: 'articles', label: `Articles (${articles?.length || 0})` },
+                { key: 'events', label: `Events (${events?.length || 0})` },
+                { key: 'categories', label: `Categories (${categories?.length || 0})` },
+                { key: 'authors', label: `Authors (${authors?.length || 0})` },
+                { key: 'newsletter', label: `Newsletter (${subscribers?.length || 0})` },
+              ].map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key as any)}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                    activeTab === tab.key
+                      ? 'border-indigo-500 text-indigo-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+        </div>
 
         <div className="bg-white rounded-lg shadow">
           {renderTabContent()}

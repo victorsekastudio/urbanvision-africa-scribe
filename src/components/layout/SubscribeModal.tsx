@@ -11,27 +11,25 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mail } from "lucide-react";
+import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
 
 export const SubscribeModal = () => {
   const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { subscribe, isSubmitting } = useNewsletterSubscription();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     
-    // TODO: Implement Supabase newsletter signup
-    console.log("Subscribing email:", email);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    const success = await subscribe(email);
+    if (success) {
       setEmail("");
-    }, 1000);
+      setIsOpen(false);
+    }
   };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button 
           variant="outline" 
@@ -56,6 +54,7 @@ export const SubscribeModal = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
             className="font-light"
+            disabled={isSubmitting}
           />
           <Button 
             type="submit" 

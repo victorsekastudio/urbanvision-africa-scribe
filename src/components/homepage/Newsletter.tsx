@@ -3,21 +3,25 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
 import { translations } from "@/utils/translations";
 
 export const Newsletter = () => {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { currentLanguage } = useLanguage();
+  const { subscribe, isSubmitting } = useNewsletterSubscription();
   const t = translations[currentLanguage];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Integrate with Brevo/ConvertKit
-    console.log("Newsletter signup:", email);
-    setIsSubmitted(true);
-    setEmail("");
-    setTimeout(() => setIsSubmitted(false), 3000);
+    
+    const success = await subscribe(email);
+    if (success) {
+      setIsSubmitted(true);
+      setEmail("");
+      setTimeout(() => setIsSubmitted(false), 3000);
+    }
   };
 
   return (
@@ -43,9 +47,14 @@ export const Newsletter = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="flex-1"
+              disabled={isSubmitting}
             />
-            <Button type="submit" className="bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide">
-              {t.subscribe}
+            <Button 
+              type="submit" 
+              className="bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Subscribing..." : t.subscribe}
             </Button>
           </form>
         )}

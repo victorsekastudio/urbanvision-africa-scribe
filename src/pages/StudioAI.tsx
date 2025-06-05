@@ -22,6 +22,16 @@ const StudioAI = () => {
             </p>
           </div>
 
+          {/* Hero Image */}
+          <div className="relative h-64 md:h-80 rounded-lg overflow-hidden">
+            <img 
+              src="/lovable-uploads/3084d7ec-76db-43a2-991f-5c68b5e7f669.png"
+              alt="Aerial view of African urban development showing mixed formal and informal settlements"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+          </div>
+
           <div className="prose prose-lg max-w-none space-y-6 text-gray-700 leading-relaxed">
             <p>
               UrbanVision Studio AI is the next evolution of our mission — transforming how African cities are planned, built, and experienced through data, technology, and design.
@@ -30,6 +40,18 @@ const StudioAI = () => {
             <p>
               While UrbanVision Magazine brings you stories, insights, and voices from across the continent, Studio AI will provide the tools to act on those insights. It will be a platform where real-time geospatial data meets predictive analytics, giving city leaders, planners, and developers the intelligence they need to make informed decisions — fast.
             </p>
+
+            {/* Second Image with Context */}
+            <div className="my-8">
+              <img 
+                src="/lovable-uploads/e0e47970-1acb-49fd-9804-34de75a6e737.png"
+                alt="Aerial view showing urban infrastructure and transportation networks in an African city"
+                className="w-full h-64 md:h-80 object-cover rounded-lg"
+              />
+              <p className="text-sm text-gray-500 mt-2 text-center">
+                Complex urban dynamics require intelligent data-driven solutions
+              </p>
+            </div>
 
             <p>
               As urban growth accelerates across Africa, challenges like infrastructure deficits, climate vulnerability, and unplanned sprawl demand smarter, more responsive solutions. UrbanVision Studio AI is built to meet that need.

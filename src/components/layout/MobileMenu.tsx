@@ -79,6 +79,13 @@ export const MobileMenu = () => {
               >
                 Contribute
               </Link>
+              <Link
+                to="/studio-ai"
+                onClick={() => setIsOpen(false)}
+                className="block py-2 text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light"
+              >
+                Urban Vision Studio AI
+              </Link>
             </div>
           </div>
 

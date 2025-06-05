@@ -18,6 +18,7 @@ import About from "./pages/About";
 import Contribute from "./pages/Contribute";
 import Events from "./pages/Events";
 import Tags from "./pages/Tags";
+import StudioAI from "./pages/StudioAI";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ const App = () => (
               <Route path="/about" element={<About />} />
               <Route path="/contribute" element={<Contribute />} />
               <Route path="/events" element={<Events />} />
+              <Route path="/studio-ai" element={<StudioAI />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

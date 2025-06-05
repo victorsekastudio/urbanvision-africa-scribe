@@ -36,6 +36,13 @@ export const Header = () => {
               >
                 Contribute
               </Link>
+
+              <Link 
+                to="/studio-ai" 
+                className="text-gray-700 hover:text-gray-900 transition-colors duration-300 font-light"
+              >
+                Urban Vision Studio AI
+              </Link>
             </nav>
 
             <div className="flex items-center space-x-4">

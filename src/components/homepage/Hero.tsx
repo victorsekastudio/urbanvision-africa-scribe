@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useArticles } from "@/hooks/useArticles";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/utils/translations";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Hero = () => {
   const { data: articles, isLoading } = useArticles(true, true);
@@ -14,11 +15,25 @@ export const Hero = () => {
   if (isLoading) {
     return (
       <section className="py-16 md:py-24">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/4 mb-4"></div>
-          <div className="h-16 bg-gray-200 rounded w-3/4 mb-6"></div>
-          <div className="h-24 bg-gray-200 rounded w-full mb-6"></div>
-        </div>
+        <article className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-32" />
+              <Skeleton className="h-16 w-full" />
+              <Skeleton className="h-12 w-4/5" />
+            </div>
+            <Skeleton className="h-20 w-full" />
+            <div className="flex items-center space-x-4">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-4 w-2" />
+              <Skeleton className="h-4 w-32" />
+            </div>
+            <Skeleton className="h-6 w-32" />
+          </div>
+          <div className="relative">
+            <Skeleton className="w-full h-[400px] md:h-[500px] rounded-lg" />
+          </div>
+        </article>
       </section>
     );
   }

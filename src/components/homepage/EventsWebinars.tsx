@@ -3,6 +3,7 @@ import { Calendar, Clock, Users, Video, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/hooks/useLanguage";
 import { usePublishedEvents } from "@/hooks/useEvents";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const EventsWebinars = () => {
   const { currentLanguage } = useLanguage();
@@ -35,11 +36,24 @@ export const EventsWebinars = () => {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="bg-white rounded-lg shadow-sm overflow-hidden animate-pulse h-[600px]">
-                <div className="w-full h-48 bg-gray-200"></div>
-                <div className="p-6">
-                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+              <div key={i} className="bg-white rounded-lg shadow-sm overflow-hidden h-[600px] flex flex-col">
+                <Skeleton className="w-full h-48" />
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="h-14 mb-4">
+                    <Skeleton className="h-6 w-full mb-2" />
+                    <Skeleton className="h-6 w-3/4" />
+                  </div>
+                  <div className="h-16 mb-4">
+                    <Skeleton className="h-4 w-full mb-1" />
+                    <Skeleton className="h-4 w-full mb-1" />
+                    <Skeleton className="h-4 w-2/3" />
+                  </div>
+                  <div className="space-y-2 mb-6">
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-4 w-28" />
+                  </div>
+                  <Skeleton className="h-10 w-full mt-auto rounded-md" />
                 </div>
               </div>
             ))}

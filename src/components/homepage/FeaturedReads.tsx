@@ -4,6 +4,7 @@ import { ArticleCard } from "@/components/shared/ArticleCard";
 import { Loader2 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/utils/translations";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const FeaturedReads = () => {
   const { data: articles, isLoading } = useArticles(true, true); // Only published and featured articles
@@ -17,9 +18,26 @@ export const FeaturedReads = () => {
           <h2 className="text-3xl md:text-4xl font-light tracking-wide text-gray-900 mb-4">
             {t.featuredReads}
           </h2>
+          <p className="text-lg text-gray-600 font-light tracking-wide max-w-3xl mx-auto">
+            {t.featuredReadsSubtitle}
+          </p>
         </div>
-        <div className="flex justify-center">
-          <Loader2 className="w-8 h-8 animate-spin text-gray-600" />
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="space-y-4">
+              <Skeleton className="w-full h-48 rounded-lg" />
+              <div className="space-y-3">
+                <Skeleton className="h-6 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-3/4" />
+                <div className="flex items-center justify-between">
+                  <Skeleton className="h-3 w-32" />
+                  <Skeleton className="h-4 w-4" />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     );

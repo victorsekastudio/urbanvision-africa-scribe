@@ -1,9 +1,6 @@
 
-import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { supabase } from "@/integrations/supabase/client";
 import { Form } from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/useLanguage";
 import { SEOSection } from "./SEOSection";
 import { LanguageToggle } from "./form/LanguageToggle";
@@ -11,31 +8,10 @@ import { ContentFields } from "./form/ContentFields";
 import { MetadataFields } from "./form/MetadataFields";
 import { PublicationSettings } from "./form/PublicationSettings";
 import { FormActions } from "./form/FormActions";
-import type { Article, Author, Category } from "@/types/database";
-
-interface ArticleFormData {
-  title: string;
-  title_fr: string;
-  slug: string;
-  excerpt: string;
-  excerpt_fr: string;
-  content: string;
-  content_fr: string;
-  author_id: string;
-  category_id: string;
-  published: boolean;
-  featured: boolean;
-  pin_as_hero: boolean;
-  featured_image_url: string;
-  meta_title: string;
-  meta_title_fr: string;
-  meta_description: string;
-  meta_description_fr: string;
-  meta_keywords: string;
-  meta_keywords_fr: string;
-  og_image_url: string;
-  canonical_url: string;
-}
+import { useArticleFormData } from "./hooks/useArticleFormData";
+import { useArticleFormSubmit } from "./hooks/useArticleFormSubmit";
+import type { Article } from "@/types/database";
+import type { ArticleFormData } from "./types/ArticleFormTypes";
 
 interface ArticleFormProps {
   article?: Article;
@@ -44,11 +20,8 @@ interface ArticleFormProps {
 }
 
 export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => {
-  const [authors, setAuthors] = useState<Author[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [defaultAuthorId, setDefaultAuthorId] = useState<string>("");
-  const { toast } = useToast();
+  const { authors, categories, defaultAuthorId } = useArticleFormData();
+  const { isLoading, onSubmit, generateSlug } = useArticleFormSubmit(article, onSave);
   const { currentLanguage, setLanguage } = useLanguage();
 
   const form = useForm<ArticleFormData>({
@@ -60,7 +33,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       excerpt_fr: article?.excerpt_fr || "",
       content: article?.content || "",
       content_fr: article?.content_fr || "",
-      author_id: article?.author_id || "",
+      author_id: article?.author_id || defaultAuthorId,
       category_id: article?.category_id || "",
       published: article?.published || false,
       featured: article?.featured || false,
@@ -76,95 +49,6 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       canonical_url: article?.canonical_url || "",
     },
   });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const [authorsResponse, categoriesResponse] = await Promise.all([
-        supabase.from('authors').select('*').order('name'),
-        supabase.from('categories').select('*').order('name')
-      ]);
-
-      if (authorsResponse.data) {
-        setAuthors(authorsResponse.data);
-        
-        // Find UrbanVision Editorial Team author and set as default
-        const editorialTeam = authorsResponse.data.find(
-          author => author.name === "UrbanVision Editorial Team"
-        );
-        
-        if (editorialTeam && !article) {
-          setDefaultAuthorId(editorialTeam.id);
-          form.setValue('author_id', editorialTeam.id);
-        }
-      }
-      
-      if (categoriesResponse.data) setCategories(categoriesResponse.data);
-    };
-
-    fetchData();
-  }, [article, form]);
-
-  const generateSlug = (title: string) => {
-    return title
-      .toLowerCase()
-      .replace(/[^a-z0-9 -]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .trim();
-  };
-
-  const onSubmit = async (data: ArticleFormData) => {
-    setIsLoading(true);
-
-    try {
-      // If pinning as hero, unpin all other articles first
-      if (data.pin_as_hero) {
-        await supabase
-          .from('articles')
-          .update({ pin_as_hero: false })
-          .neq('id', article?.id || '');
-      }
-
-      const articleData = {
-        ...data,
-        slug: data.slug || generateSlug(data.title),
-        published_at: data.published ? new Date().toISOString() : null,
-        updated_at: new Date().toISOString(),
-      };
-
-      let result;
-      if (article) {
-        result = await supabase
-          .from('articles')
-          .update(articleData)
-          .eq('id', article.id);
-      } else {
-        result = await supabase
-          .from('articles')
-          .insert([articleData]);
-      }
-
-      if (result.error) {
-        throw result.error;
-      }
-
-      toast({
-        title: "Success",
-        description: `Article ${article ? 'updated' : 'created'} successfully`,
-      });
-
-      onSave();
-    } catch (error) {
-      console.error('Error saving article:', error);
-      toast({
-        title: "Error",
-        description: `Failed to ${article ? 'update' : 'create'} article`,
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleTitleChange = (title: string) => {
     if (!article) {

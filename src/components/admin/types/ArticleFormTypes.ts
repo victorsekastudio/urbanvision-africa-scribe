@@ -1,0 +1,24 @@
+
+export interface ArticleFormData {
+  title: string;
+  title_fr: string;
+  slug: string;
+  excerpt: string;
+  excerpt_fr: string;
+  content: string;
+  content_fr: string;
+  author_id: string;
+  category_id: string;
+  published: boolean;
+  featured: boolean;
+  pin_as_hero: boolean;
+  featured_image_url: string;
+  meta_title: string;
+  meta_title_fr: string;
+  meta_description: string;
+  meta_description_fr: string;
+  meta_keywords: string;
+  meta_keywords_fr: string;
+  og_image_url: string;
+  canonical_url: string;
+}

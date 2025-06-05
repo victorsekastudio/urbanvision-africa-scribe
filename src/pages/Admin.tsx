@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { ArticleDialog } from "@/components/admin/ArticleDialog";
 import { EventDialog } from "@/components/admin/EventDialog";
+import { CategoryDialog } from "@/components/admin/CategoryDialog";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { StatsDashboard } from "@/components/admin/StatsDashboard";
 import { AdminTabs } from "@/components/admin/AdminTabs";
@@ -15,17 +16,19 @@ import { CategoriesTab } from "@/components/admin/CategoriesTab";
 import { AuthorsTab } from "@/components/admin/AuthorsTab";
 import { NewsletterTab } from "@/components/admin/NewsletterTab";
 import { createArticleHandlers } from "@/utils/adminHandlers";
-import type { Article, Event } from "@/types/database";
+import type { Article, Event, Category } from "@/types/database";
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState<'articles' | 'categories' | 'authors' | 'events' | 'newsletter'>('articles');
   const [articleDialogOpen, setArticleDialogOpen] = useState(false);
   const [eventDialogOpen, setEventDialogOpen] = useState(false);
+  const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<Article | undefined>();
   const [editingEvent, setEditingEvent] = useState<Event | undefined>();
+  const [editingCategory, setEditingCategory] = useState<Category | undefined>();
   
   const { data: articles, isLoading: articlesLoading, refetch: refetchArticles } = useArticles();
-  const { data: categories, isLoading: categoriesLoading } = useCategories();
+  const { data: categories, isLoading: categoriesLoading, refetch: refetchCategories } = useCategories();
   const { data: authors, isLoading: authorsLoading } = useAuthors();
   const { data: events, isLoading: eventsLoading, refetch: refetchEvents } = useEvents();
   const { data: subscribers, isLoading: subscribersLoading } = useNewsletterSubscribers();
@@ -115,6 +118,20 @@ const Admin = () => {
     refetchArticles();
   };
 
+  const handleCreateCategory = () => {
+    setEditingCategory(undefined);
+    setCategoryDialogOpen(true);
+  };
+
+  const handleEditCategory = (category: Category) => {
+    setEditingCategory(category);
+    setCategoryDialogOpen(true);
+  };
+
+  const handleCategorySave = () => {
+    refetchCategories();
+  };
+
   const articleHandlers = createArticleHandlers(toast, refetchArticles);
 
   const renderTabContent = () => {
@@ -140,7 +157,14 @@ const Admin = () => {
           />
         );
       case 'categories':
-        return <CategoriesTab categories={categories} articles={articles} />;
+        return (
+          <CategoriesTab 
+            categories={categories} 
+            articles={articles}
+            onCreateCategory={handleCreateCategory}
+            onEditCategory={handleEditCategory}
+          />
+        );
       case 'authors':
         return <AuthorsTab authors={authors} articles={articles} />;
       case 'newsletter':
@@ -200,6 +224,13 @@ const Admin = () => {
         onOpenChange={setEventDialogOpen}
         event={editingEvent}
         onSave={handleEventSave}
+      />
+
+      <CategoryDialog
+        open={categoryDialogOpen}
+        onOpenChange={setCategoryDialogOpen}
+        category={editingCategory}
+        onSave={handleCategorySave}
       />
     </div>
   );

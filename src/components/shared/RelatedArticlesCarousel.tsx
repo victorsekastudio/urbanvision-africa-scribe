@@ -13,8 +13,8 @@ import {
 import type { Article } from "@/types/database";
 
 interface RelatedArticlesCarouselProps {
-  currentArticleId: number;
-  categoryId?: number;
+  currentArticleId: string;
+  categoryId?: string;
   tags?: string;
   limit?: number;
 }

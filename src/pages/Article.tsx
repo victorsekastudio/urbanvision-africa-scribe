@@ -200,7 +200,7 @@ const Article = () => {
           <div className="border-t pt-8">
             <RelatedArticlesCarousel
               currentArticleId={article.id}
-              categoryId={article.category_id}
+              categoryId={article.category_id || undefined}
               tags={article.meta_keywords}
             />
           </div>
@@ -209,7 +209,7 @@ const Article = () => {
           <div className="border-t pt-8">
             <MoreLikeThis
               currentArticleId={article.id}
-              categoryId={article.category_id}
+              categoryId={article.category_id || undefined}
               keywords={article.meta_keywords}
             />
           </div>

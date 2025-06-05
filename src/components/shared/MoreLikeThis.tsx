@@ -6,8 +6,8 @@ import { ArticleCardSkeleton } from "@/components/shared/ArticleCardSkeleton";
 import type { Article } from "@/types/database";
 
 interface MoreLikeThisProps {
-  currentArticleId: number;
-  categoryId?: number;
+  currentArticleId: string;
+  categoryId?: string;
   keywords?: string;
   limit?: number;
 }

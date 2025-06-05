@@ -2,16 +2,15 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/hooks/useLanguage";
 import { SEOSection } from "./SEOSection";
+import { LanguageToggle } from "./form/LanguageToggle";
+import { ContentFields } from "./form/ContentFields";
+import { MetadataFields } from "./form/MetadataFields";
+import { PublicationSettings } from "./form/PublicationSettings";
+import { FormActions } from "./form/FormActions";
 import type { Article, Author, Category } from "@/types/database";
 
 interface ArticleFormData {
@@ -158,7 +157,6 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
   };
 
   const handleTitleChange = (title: string) => {
-    form.setValue('title', title);
     if (!article) {
       form.setValue('slug', generateSlug(title));
     }
@@ -166,271 +164,35 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
 
   return (
     <div className="space-y-6">
-      {/* Language Toggle */}
-      <div className="flex items-center space-x-4 pb-4 border-b">
-        <Label className="text-sm font-medium">Editing Language:</Label>
-        <div className="flex space-x-2">
-          <Button
-            type="button"
-            variant={currentLanguage === 'EN' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setLanguage('EN')}
-          >
-            English
-          </Button>
-          <Button
-            type="button"
-            variant={currentLanguage === 'FR' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setLanguage('FR')}
-          >
-            Français
-          </Button>
-        </div>
-      </div>
+      <LanguageToggle
+        currentLanguage={currentLanguage}
+        onLanguageChange={setLanguage}
+      />
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {currentLanguage === 'EN' ? (
-            <>
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Title (English)</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        onChange={(e) => handleTitleChange(e.target.value)}
-                        placeholder="Article title in English"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="excerpt"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Excerpt (English)</FormLabel>
-                    <FormControl>
-                      <Textarea {...field} placeholder="Brief description in English" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="content"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Content (English)</FormLabel>
-                    <FormControl>
-                      <Textarea 
-                        {...field} 
-                        placeholder="Article content in English"
-                        className="min-h-[200px]"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </>
-          ) : (
-            <>
-              <FormField
-                control={form.control}
-                name="title_fr"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Title (French)</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Article title in French"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="excerpt_fr"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Excerpt (French)</FormLabel>
-                    <FormControl>
-                      <Textarea {...field} placeholder="Brief description in French" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="content_fr"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Content (French)</FormLabel>
-                    <FormControl>
-                      <Textarea 
-                        {...field} 
-                        placeholder="Article content in French"
-                        className="min-h-[200px]"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </>
-          )}
-
-          <FormField
-            control={form.control}
-            name="slug"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Slug</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="article-slug" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+          <ContentFields
+            form={form}
+            currentLanguage={currentLanguage}
+            onTitleChange={handleTitleChange}
           />
 
-          <FormField
-            control={form.control}
-            name="featured_image_url"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Featured Image URL</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="https://example.com/image.jpg" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+          <MetadataFields
+            form={form}
+            authors={authors}
+            categories={categories}
+            defaultAuthorId={defaultAuthorId}
           />
 
-          <div className="grid grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="author_id"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Author</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value || defaultAuthorId}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select an author" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {authors.map((author) => (
-                        <SelectItem key={author.id} value={author.id}>
-                          {author.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <PublicationSettings form={form} />
 
-            <FormField
-              control={form.control}
-              name="category_id"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a category" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="published"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">Published</FormLabel>
-                    <div className="text-sm text-muted-foreground">
-                      Make this article visible to readers
-                    </div>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="featured"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">Featured</FormLabel>
-                    <div className="text-sm text-muted-foreground">
-                      Feature this article on the homepage
-                    </div>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </div>
-
-          {/* SEO Section */}
           <SEOSection form={form} currentLanguage={currentLanguage} />
 
-          <div className="flex justify-end space-x-4">
-            <Button type="button" variant="outline" onClick={onCancel}>
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? 'Saving...' : (article ? 'Update' : 'Create')} Article
-            </Button>
-          </div>
+          <FormActions
+            isLoading={isLoading}
+            isEditing={!!article}
+            onCancel={onCancel}
+          />
         </form>
       </Form>
     </div>

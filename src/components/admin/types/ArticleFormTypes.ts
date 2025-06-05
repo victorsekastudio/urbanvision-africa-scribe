@@ -3,6 +3,7 @@ export interface ArticleFormData {
   title: string;
   title_fr: string;
   slug: string;
+  slug_fr: string;
   excerpt: string;
   excerpt_fr: string;
   content: string;

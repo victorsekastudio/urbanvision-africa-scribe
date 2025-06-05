@@ -16,19 +16,36 @@ interface MetadataFieldsProps {
 export const MetadataFields = ({ form, authors, categories, defaultAuthorId }: MetadataFieldsProps) => {
   return (
     <>
-      <FormField
-        control={form.control}
-        name="slug"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Slug</FormLabel>
-            <FormControl>
-              <Input {...field} placeholder="article-slug" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      {/* Slug Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Slug (English)</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="article-slug" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="slug_fr"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Slug (French)</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="article-slug-fr" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
 
       <FormField
         control={form.control}

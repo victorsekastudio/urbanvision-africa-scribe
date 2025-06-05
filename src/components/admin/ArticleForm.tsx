@@ -28,6 +28,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       title: article?.title || "",
       title_fr: article?.title_fr || "",
       slug: article?.slug || "",
+      slug_fr: article?.slug_fr || "",
       excerpt: article?.excerpt || "",
       excerpt_fr: article?.excerpt_fr || "",
       content: article?.content || "",
@@ -62,14 +63,15 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
     },
   });
 
-  const handleTitleChange = (title: string) => {
-    console.log('Title change handler called with:', title);
+  const handleTitleChange = (title: string, language: 'en' | 'fr') => {
+    console.log(`${language} title change handler called with:`, title);
     if (!article && title) {
       const newSlug = generateSlug(title);
-      const currentSlug = form.getValues('slug');
+      const slugField = language === 'en' ? 'slug' : 'slug_fr';
+      const currentSlug = form.getValues(slugField);
       if (!currentSlug) {
-        console.log('Setting slug to:', newSlug);
-        form.setValue('slug', newSlug);
+        console.log(`Setting ${language} slug to:`, newSlug);
+        form.setValue(slugField, newSlug);
       }
     }
   };

@@ -6,7 +6,7 @@ import { UseFormReturn } from "react-hook-form";
 
 interface ContentFieldsProps {
   form: UseFormReturn<any>;
-  onTitleChange?: (title: string) => void;
+  onTitleChange?: (title: string, language: 'en' | 'fr') => void;
 }
 
 export const ContentFields = ({ form, onTitleChange }: ContentFieldsProps) => {
@@ -27,7 +27,7 @@ export const ContentFields = ({ form, onTitleChange }: ContentFieldsProps) => {
                   onChange={(e) => {
                     console.log('English title changed:', e.target.value);
                     field.onChange(e);
-                    onTitleChange?.(e.target.value);
+                    onTitleChange?.(e.target.value, 'en');
                   }}
                   placeholder="Article title in English"
                 />
@@ -50,6 +50,7 @@ export const ContentFields = ({ form, onTitleChange }: ContentFieldsProps) => {
                   onChange={(e) => {
                     console.log('French title changed:', e.target.value);
                     field.onChange(e);
+                    onTitleChange?.(e.target.value, 'fr');
                   }}
                   placeholder="Article title in French"
                 />

@@ -1,12 +1,12 @@
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { SEOHead } from "@/components/shared/SEOHead";
+import { StaticSEOHead } from "@/components/shared/StaticSEOHead";
 
 const StudioAI = () => {
   return (
     <div className="min-h-screen bg-white">
-      <SEOHead 
+      <StaticSEOHead 
         title="UrbanVision Studio AI - Intelligence Engine for Africa's Urban Future"
         description="Transform how African cities are planned, built, and experienced through data, technology, and design with UrbanVision Studio AI."
       />

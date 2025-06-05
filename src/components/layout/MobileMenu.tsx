@@ -12,18 +12,40 @@ import {
 import { SubscribeModal } from "./SubscribeModal";
 import { LanguageToggle } from "./LanguageToggle";
 import { SearchButton } from "./SearchButton";
+import { useLanguage } from "@/hooks/useLanguage";
+import { translations } from "@/utils/translations";
 
 const categories = [
-  { name: "Urban Trends & Growth", path: "/category/urban-trends-growth" },
-  { name: "Infrastructure Gaps & Investment", path: "/category/infrastructure-investment" },
-  { name: "Climate Resilience & Sustainability", path: "/category/climate-sustainability" },
-  { name: "Transport & Mobility", path: "/category/transport-mobility" },
-  { name: "Smart Cities & Tech", path: "/category/smart-city-tech" },
-  { name: "Voices from the Ground", path: "/category/voices-ground" },
+  { 
+    nameKey: "urbanTrendsGrowth" as const, 
+    path: "/category/urban-trends-growth" 
+  },
+  { 
+    nameKey: "infrastructureInvestment" as const, 
+    path: "/category/infrastructure-investment" 
+  },
+  { 
+    nameKey: "climateSustainability" as const, 
+    path: "/category/climate-sustainability" 
+  },
+  { 
+    nameKey: "transportMobility" as const, 
+    path: "/category/transport-mobility" 
+  },
+  { 
+    nameKey: "smartCityTech" as const, 
+    path: "/category/smart-city-tech" 
+  },
+  { 
+    nameKey: "voicesGround" as const, 
+    path: "/category/voices-ground" 
+  },
 ];
 
 export const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage];
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -35,7 +57,7 @@ export const MobileMenu = () => {
       <SheetContent side="right" className="w-80 bg-white">
         <SheetHeader>
           <SheetTitle className="text-left font-light text-xl text-gray-900">
-            Navigation
+            {t.navigation}
           </SheetTitle>
         </SheetHeader>
         
@@ -43,7 +65,7 @@ export const MobileMenu = () => {
           {/* Categories */}
           <div>
             <h3 className="font-light text-sm text-gray-500 uppercase tracking-wide mb-3">
-              Explore
+              {t.explore}
             </h3>
             <div className="space-y-2">
               {categories.map((category) => (
@@ -53,7 +75,7 @@ export const MobileMenu = () => {
                   onClick={() => setIsOpen(false)}
                   className="block py-2 text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light"
                 >
-                  {category.name}
+                  {t[category.nameKey]}
                 </Link>
               ))}
             </div>
@@ -62,7 +84,7 @@ export const MobileMenu = () => {
           {/* Main Navigation */}
           <div>
             <h3 className="font-light text-sm text-gray-500 uppercase tracking-wide mb-3">
-              Pages
+              {t.pages}
             </h3>
             <div className="space-y-2">
               <Link
@@ -70,21 +92,21 @@ export const MobileMenu = () => {
                 onClick={() => setIsOpen(false)}
                 className="block py-2 text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light"
               >
-                About
+                {t.about}
               </Link>
               <Link
                 to="/contribute"
                 onClick={() => setIsOpen(false)}
                 className="block py-2 text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light"
               >
-                Contribute
+                {t.contribute}
               </Link>
               <Link
                 to="/studio-ai"
                 onClick={() => setIsOpen(false)}
                 className="block py-2 text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light"
               >
-                Urban Vision Studio AI
+                {t.urbanVisionStudioAI}
               </Link>
             </div>
           </div>
@@ -93,12 +115,12 @@ export const MobileMenu = () => {
           <div className="pt-6 border-t border-gray-100">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="font-light text-sm text-gray-500">Search</span>
+                <span className="font-light text-sm text-gray-500">{t.search}</span>
                 <SearchButton />
               </div>
               
               <div className="flex items-center justify-between">
-                <span className="font-light text-sm text-gray-500">Language</span>
+                <span className="font-light text-sm text-gray-500">{t.language}</span>
                 <LanguageToggle />
               </div>
               

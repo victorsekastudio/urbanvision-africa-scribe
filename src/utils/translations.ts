@@ -7,6 +7,18 @@ export const translations = {
     articles: "Articles",
     contribute: "Contribute",
     search: "Search",
+    explore: "Explore",
+    navigation: "Navigation",
+    pages: "Pages",
+    language: "Language",
+    
+    // Categories
+    urbanTrendsGrowth: "Urban Trends & Growth",
+    infrastructureInvestment: "Infrastructure Gaps & Investment",
+    climateSustainability: "Climate Resilience & Sustainability",
+    transportMobility: "Transport & Mobility",
+    smartCityTech: "Smart Cities & Tech",
+    voicesGround: "Voices from the Ground",
     
     // Homepage sections
     featuredReads: "Featured Reads",
@@ -55,7 +67,10 @@ export const translations = {
     // Featured Articles
     featuredArticles: "Featured Articles",
     readMore: "Read More",
-    editorialDisclaimer: "This article was researched and written by the UrbanVision Editorial Team using a combination of human insight and AI-assisted tools."
+    editorialDisclaimer: "This article was researched and written by the UrbanVision Editorial Team using a combination of human insight and AI-assisted tools.",
+    
+    // Special pages
+    urbanVisionStudioAI: "Urban Vision Studio AI"
   },
   FR: {
     // Navigation
@@ -64,6 +79,18 @@ export const translations = {
     articles: "Articles",
     contribute: "Contribuer",
     search: "Rechercher",
+    explore: "Explorer",
+    navigation: "Navigation",
+    pages: "Pages",
+    language: "Langue",
+    
+    // Categories
+    urbanTrendsGrowth: "Tendances et Croissance Urbaines",
+    infrastructureInvestment: "Lacunes d'Infrastructure et Investissement",
+    climateSustainability: "Résilience Climatique et Durabilité",
+    transportMobility: "Transport et Mobilité",
+    smartCityTech: "Villes Intelligentes et Technologie",
+    voicesGround: "Voix du Terrain",
     
     // Homepage sections
     featuredReads: "Lectures en Vedette",
@@ -112,7 +139,10 @@ export const translations = {
     // Featured Articles
     featuredArticles: "Articles en Vedette",
     readMore: "Lire Plus",
-    editorialDisclaimer: "Cet article a été recherché et rédigé par l'équipe éditoriale d'UrbanVision en utilisant une combinaison d'insights humains et d'outils assistés par l'IA."
+    editorialDisclaimer: "Cet article a été recherché et rédigé par l'équipe éditoriale d'UrbanVision en utilisant une combinaison d'insights humains et d'outils assistés par l'IA.",
+    
+    // Special pages
+    urbanVisionStudioAI: "Studio IA UrbanVision"
   }
 };
 

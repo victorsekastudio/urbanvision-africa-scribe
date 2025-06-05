@@ -5,8 +5,13 @@ import { SubscribeModal } from "./SubscribeModal";
 import { LanguageToggle } from "./LanguageToggle";
 import { MobileMenu } from "./MobileMenu";
 import { AnimatedSearchBar } from "@/components/shared/AnimatedSearchBar";
+import { useLanguage } from "@/hooks/useLanguage";
+import { translations } from "@/utils/translations";
 
 export const Header = () => {
+  const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage];
+
   return (
     <header className="border-b border-gray-100 bg-white sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,21 +32,21 @@ export const Header = () => {
                 to="/about" 
                 className="text-gray-700 hover:text-gray-900 transition-colors duration-300 font-light"
               >
-                About
+                {t.about}
               </Link>
               
               <Link 
                 to="/contribute" 
                 className="text-gray-700 hover:text-gray-900 transition-colors duration-300 font-light"
               >
-                Contribute
+                {t.contribute}
               </Link>
 
               <Link 
                 to="/studio-ai" 
                 className="text-gray-700 hover:text-gray-900 transition-colors duration-300 font-light"
               >
-                Urban Vision Studio AI
+                {t.urbanVisionStudioAI}
               </Link>
             </nav>
 

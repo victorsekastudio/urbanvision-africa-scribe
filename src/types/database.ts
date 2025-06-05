@@ -26,6 +26,7 @@ export interface Article {
   title: string;
   title_fr?: string;
   slug: string;
+  slug_fr?: string;
   excerpt?: string;
   excerpt_fr?: string;
   content?: string;
@@ -48,6 +49,7 @@ export interface Article {
   meta_keywords_fr?: string;
   og_image_url?: string;
   canonical_url?: string;
+  canonical_url_fr?: string;
   // Social media fields
   instagram_enabled?: boolean;
   twitter_enabled?: boolean;

@@ -110,20 +110,16 @@ export const SEOSection = ({ form }: SEOSectionProps) => {
           />
         </div>
 
-        {/* Shared Fields */}
-        <div className="space-y-4">
+        {/* Canonical URL Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <FormField
             control={form.control}
-            name="og_image_url"
+            name="canonical_url"
             render={({ field }) => (
               <FormItem>
+                <FormLabel>Canonical URL (English)</FormLabel>
                 <FormControl>
-                  <ImageUpload
-                    value={field.value}
-                    onChange={field.onChange}
-                    label="Open Graph Image"
-                    placeholder="https://example.com/og-image.jpg"
-                  />
+                  <Input {...field} placeholder="https://example.com/canonical-url" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -132,18 +128,37 @@ export const SEOSection = ({ form }: SEOSectionProps) => {
 
           <FormField
             control={form.control}
-            name="canonical_url"
+            name="canonical_url_fr"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Canonical URL</FormLabel>
+                <FormLabel>Canonical URL (French)</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="https://example.com/canonical-url" />
+                  <Input {...field} placeholder="https://example.com/canonical-url-fr" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
+
+        {/* Open Graph Image */}
+        <FormField
+          control={form.control}
+          name="og_image_url"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <ImageUpload
+                  value={field.value}
+                  onChange={field.onChange}
+                  label="Open Graph Image"
+                  placeholder="https://example.com/og-image.jpg"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </CardContent>
     </Card>
   );

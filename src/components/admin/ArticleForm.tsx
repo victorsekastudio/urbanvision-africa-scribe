@@ -47,6 +47,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       meta_keywords_fr: article?.meta_keywords_fr || "",
       og_image_url: article?.og_image_url || "",
       canonical_url: article?.canonical_url || "",
+      canonical_url_fr: article?.canonical_url_fr || "",
       instagram_enabled: article?.instagram_enabled || false,
       twitter_enabled: article?.twitter_enabled || false,
       linkedin_enabled: article?.linkedin_enabled || false,

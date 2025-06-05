@@ -22,6 +22,7 @@ export interface ArticleFormData {
   meta_keywords_fr: string;
   og_image_url: string;
   canonical_url: string;
+  canonical_url_fr: string;
   // Social media fields
   instagram_enabled: boolean;
   twitter_enabled: boolean;

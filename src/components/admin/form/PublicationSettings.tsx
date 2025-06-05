@@ -9,7 +9,7 @@ interface PublicationSettingsProps {
 
 export const PublicationSettings = ({ form }: PublicationSettingsProps) => {
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <FormField
         control={form.control}
         name="published"
@@ -40,6 +40,27 @@ export const PublicationSettings = ({ form }: PublicationSettingsProps) => {
               <FormLabel className="text-base">Featured</FormLabel>
               <div className="text-sm text-muted-foreground">
                 Feature this article on the homepage
+              </div>
+            </div>
+            <FormControl>
+              <Switch
+                checked={field.value}
+                onCheckedChange={field.onChange}
+              />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="pin_as_hero"
+        render={({ field }) => (
+          <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+            <div className="space-y-0.5">
+              <FormLabel className="text-base">Pin as Hero</FormLabel>
+              <div className="text-sm text-muted-foreground">
+                Pin this article in the hero section
               </div>
             </div>
             <FormControl>

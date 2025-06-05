@@ -1,16 +1,60 @@
 
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useArticles } from "@/hooks/useArticles";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/utils/translations";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { Article } from "@/types/database";
 
 export const Hero = () => {
-  const { data: articles, isLoading } = useArticles(true, true);
   const { currentLanguage } = useLanguage();
   const t = translations[currentLanguage];
-  const featuredArticle = articles?.[0];
+
+  // Fetch hero article (pinned article has priority, then featured articles)
+  const { data: heroArticle, isLoading } = useQuery({
+    queryKey: ['hero-article'],
+    queryFn: async () => {
+      // First try to get a pinned hero article
+      const { data: pinnedArticle } = await supabase
+        .from('articles')
+        .select(`
+          *,
+          author:authors(*),
+          category:categories(*)
+        `)
+        .eq('published', true)
+        .eq('pin_as_hero', true)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (pinnedArticle) {
+        return pinnedArticle as Article;
+      }
+
+      // If no pinned article, fall back to featured articles
+      const { data: featuredArticles, error } = await supabase
+        .from('articles')
+        .select(`
+          *,
+          author:authors(*),
+          category:categories(*)
+        `)
+        .eq('published', true)
+        .eq('featured', true)
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (error) {
+        console.error('Error fetching hero article:', error);
+        throw error;
+      }
+
+      return featuredArticles?.[0] as Article || null;
+    },
+  });
 
   if (isLoading) {
     return (
@@ -38,7 +82,7 @@ export const Hero = () => {
     );
   }
 
-  if (!featuredArticle) {
+  if (!heroArticle) {
     return (
       <section className="py-16 md:py-24">
         <div className="text-center">
@@ -48,13 +92,13 @@ export const Hero = () => {
     );
   }
 
-  const title = currentLanguage === 'FR' && featuredArticle.title_fr 
-    ? featuredArticle.title_fr 
-    : featuredArticle.title;
+  const title = currentLanguage === 'FR' && heroArticle.title_fr 
+    ? heroArticle.title_fr 
+    : heroArticle.title;
     
-  const excerpt = currentLanguage === 'FR' && featuredArticle.excerpt_fr 
-    ? featuredArticle.excerpt_fr 
-    : featuredArticle.excerpt;
+  const excerpt = currentLanguage === 'FR' && heroArticle.excerpt_fr 
+    ? heroArticle.excerpt_fr 
+    : heroArticle.excerpt;
 
   return (
     <section className="py-16 md:py-24">
@@ -72,16 +116,16 @@ export const Hero = () => {
             {excerpt}
           </p>
           <div className="flex items-center space-x-4 text-sm text-gray-500 font-light tracking-wide">
-            <span>{t.by} {featuredArticle.author?.name}</span>
+            <span>{t.by} {heroArticle.author?.name}</span>
             <span>•</span>
-            <span>{featuredArticle.published_at ? new Date(featuredArticle.published_at).toLocaleDateString(currentLanguage === 'FR' ? 'fr-FR' : 'en-US', { 
+            <span>{heroArticle.published_at ? new Date(heroArticle.published_at).toLocaleDateString(currentLanguage === 'FR' ? 'fr-FR' : 'en-US', { 
               year: 'numeric', 
               month: 'long', 
               day: 'numeric' 
             }) : t.recently}</span>
           </div>
           <Link 
-            to={`/article/${featuredArticle.slug}`}
+            to={`/article/${heroArticle.slug}`}
             className="group flex items-center space-x-2 text-gray-900 font-medium tracking-wide hover:text-gray-700 transition-colors"
           >
             <span>{t.readArticle}</span>
@@ -90,7 +134,7 @@ export const Hero = () => {
         </div>
         <div className="relative">
           <img 
-            src={featuredArticle.featured_image_url || "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&h=600&fit=crop&crop=entropy"}
+            src={heroArticle.featured_image_url || "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&h=600&fit=crop&crop=entropy"}
             alt={title}
             className="w-full h-[400px] md:h-[500px] object-cover rounded-lg shadow-lg"
           />

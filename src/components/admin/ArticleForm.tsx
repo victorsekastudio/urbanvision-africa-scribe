@@ -25,6 +25,7 @@ interface ArticleFormData {
   category_id: string;
   published: boolean;
   featured: boolean;
+  pin_as_hero: boolean;
   featured_image_url: string;
   meta_title: string;
   meta_title_fr: string;
@@ -63,6 +64,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       category_id: article?.category_id || "",
       published: article?.published || false,
       featured: article?.featured || false,
+      pin_as_hero: (article as any)?.pin_as_hero || false,
       featured_image_url: article?.featured_image_url || "",
       meta_title: article?.meta_title || "",
       meta_title_fr: article?.meta_title_fr || "",
@@ -115,6 +117,14 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
     setIsLoading(true);
 
     try {
+      // If pinning as hero, unpin all other articles first
+      if (data.pin_as_hero) {
+        await supabase
+          .from('articles')
+          .update({ pin_as_hero: false })
+          .neq('id', article?.id || '');
+      }
+
       const articleData = {
         ...data,
         slug: data.slug || generateSlug(data.title),

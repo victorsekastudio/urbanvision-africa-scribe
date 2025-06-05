@@ -24,8 +24,10 @@ export type Database = {
           id: string
           instagram_caption: string | null
           instagram_enabled: boolean | null
+          instagram_image_text: string | null
           instagram_post_id: string | null
           instagram_post_url: string | null
+          instagram_text_color: string | null
           meta_description: string | null
           meta_description_fr: string | null
           meta_keywords: string | null
@@ -61,8 +63,10 @@ export type Database = {
           id?: string
           instagram_caption?: string | null
           instagram_enabled?: boolean | null
+          instagram_image_text?: string | null
           instagram_post_id?: string | null
           instagram_post_url?: string | null
+          instagram_text_color?: string | null
           meta_description?: string | null
           meta_description_fr?: string | null
           meta_keywords?: string | null
@@ -98,8 +102,10 @@ export type Database = {
           id?: string
           instagram_caption?: string | null
           instagram_enabled?: boolean | null
+          instagram_image_text?: string | null
           instagram_post_id?: string | null
           instagram_post_url?: string | null
+          instagram_text_color?: string | null
           meta_description?: string | null
           meta_description_fr?: string | null
           meta_keywords?: string | null

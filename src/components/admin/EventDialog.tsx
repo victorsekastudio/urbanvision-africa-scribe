@@ -9,6 +9,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useCreateEvent, useUpdateEvent } from "@/hooks/useEvents";
 import { useToast } from "@/hooks/use-toast";
+import { ImageUpload } from "./form/ImageUpload";
 import type { Event } from "@/types/database";
 
 interface EventDialogProps {
@@ -158,15 +159,12 @@ export const EventDialog = ({ open, onOpenChange, event, onSave }: EventDialogPr
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="image_url">Image URL</Label>
-            <Input
-              id="image_url"
-              value={formData.image_url}
-              onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-              placeholder="https://example.com/image.jpg"
-            />
-          </div>
+          <ImageUpload
+            value={formData.image_url}
+            onChange={(url) => setFormData({ ...formData, image_url: url })}
+            label="Event Image"
+            placeholder="https://example.com/image.jpg"
+          />
 
           <div className="space-y-2">
             <Label htmlFor="registration_link">Registration Link</Label>

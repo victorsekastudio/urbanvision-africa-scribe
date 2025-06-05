@@ -62,15 +62,17 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       linkedin_image_text: article?.linkedin_image_text || "",
       linkedin_text_color: article?.linkedin_text_color || 'white',
     },
-    mode: 'onChange', // This helps with real-time validation and prevents form state issues
+    mode: 'onBlur', // Changed from onChange to reduce reactive updates that might cause interference
   });
 
   const handleTitleChange = (title: string) => {
+    console.log('Title change handler called with:', title);
     if (!article && title) {
       const newSlug = generateSlug(title);
       // Only update slug if it's empty or if we're creating a new article
       const currentSlug = form.getValues('slug');
       if (!currentSlug) {
+        console.log('Setting slug to:', newSlug);
         form.setValue('slug', newSlug);
       }
     }

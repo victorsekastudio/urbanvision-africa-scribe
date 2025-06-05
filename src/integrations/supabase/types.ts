@@ -22,6 +22,10 @@ export type Database = {
           featured: boolean
           featured_image_url: string | null
           id: string
+          instagram_caption: string | null
+          instagram_enabled: boolean | null
+          instagram_post_id: string | null
+          instagram_post_url: string | null
           meta_description: string | null
           meta_description_fr: string | null
           meta_keywords: string | null
@@ -33,8 +37,14 @@ export type Database = {
           published: boolean
           published_at: string | null
           slug: string
+          social_hashtags: string | null
+          social_media_posted_at: string | null
           title: string
           title_fr: string | null
+          twitter_caption: string | null
+          twitter_enabled: boolean | null
+          twitter_post_id: string | null
+          twitter_post_url: string | null
           updated_at: string
         }
         Insert: {
@@ -49,6 +59,10 @@ export type Database = {
           featured?: boolean
           featured_image_url?: string | null
           id?: string
+          instagram_caption?: string | null
+          instagram_enabled?: boolean | null
+          instagram_post_id?: string | null
+          instagram_post_url?: string | null
           meta_description?: string | null
           meta_description_fr?: string | null
           meta_keywords?: string | null
@@ -60,8 +74,14 @@ export type Database = {
           published?: boolean
           published_at?: string | null
           slug: string
+          social_hashtags?: string | null
+          social_media_posted_at?: string | null
           title: string
           title_fr?: string | null
+          twitter_caption?: string | null
+          twitter_enabled?: boolean | null
+          twitter_post_id?: string | null
+          twitter_post_url?: string | null
           updated_at?: string
         }
         Update: {
@@ -76,6 +96,10 @@ export type Database = {
           featured?: boolean
           featured_image_url?: string | null
           id?: string
+          instagram_caption?: string | null
+          instagram_enabled?: boolean | null
+          instagram_post_id?: string | null
+          instagram_post_url?: string | null
           meta_description?: string | null
           meta_description_fr?: string | null
           meta_keywords?: string | null
@@ -87,8 +111,14 @@ export type Database = {
           published?: boolean
           published_at?: string | null
           slug?: string
+          social_hashtags?: string | null
+          social_media_posted_at?: string | null
           title?: string
           title_fr?: string | null
+          twitter_caption?: string | null
+          twitter_enabled?: boolean | null
+          twitter_post_id?: string | null
+          twitter_post_url?: string | null
           updated_at?: string
         }
         Relationships: [

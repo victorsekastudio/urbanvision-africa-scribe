@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { useLanguage } from "@/hooks/useLanguage";
 import { SEOSection } from "./SEOSection";
+import { SocialMediaSection } from "./SocialMediaSection";
 import { LanguageToggle } from "./form/LanguageToggle";
 import { ContentFields } from "./form/ContentFields";
 import { MetadataFields } from "./form/MetadataFields";
@@ -47,6 +48,11 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       meta_keywords_fr: article?.meta_keywords_fr || "",
       og_image_url: article?.og_image_url || "",
       canonical_url: article?.canonical_url || "",
+      instagram_enabled: article?.instagram_enabled || false,
+      twitter_enabled: article?.twitter_enabled || false,
+      instagram_caption: article?.instagram_caption || "",
+      twitter_caption: article?.twitter_caption || "",
+      social_hashtags: article?.social_hashtags || "",
     },
   });
 
@@ -79,6 +85,8 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
           />
 
           <PublicationSettings form={form} />
+
+          <SocialMediaSection form={form} />
 
           <SEOSection form={form} currentLanguage={currentLanguage} />
 

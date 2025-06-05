@@ -36,11 +36,7 @@ const App = () => (
               <Route path="/article/:slug" element={<Article />} />
               <Route path="/tag/:tagName" element={<Tags />} />
               <Route path="/auth" element={<Auth />} />
-              <Route path="/admin" element={
-                <ProtectedRoute>
-                  <Admin />
-                </ProtectedRoute>
-              } />
+              <Route path="/admin" element={<Admin />} />
               <Route path="/search" element={<Search />} />
               <Route path="/articles" element={<AllArticles />} />
               <Route path="/about" element={<About />} />

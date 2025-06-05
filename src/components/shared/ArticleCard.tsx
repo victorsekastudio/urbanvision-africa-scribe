@@ -36,6 +36,9 @@ export const ArticleCard = ({ article, size = 'default' }: ArticleCardProps) => 
   const categoryName = currentLanguage === 'FR' && article.category?.name_fr 
     ? article.category.name_fr 
     : article.category?.name;
+
+  // Use "UrbanVision Editorial Team" as default author name
+  const authorName = article.author?.name || "UrbanVision Editorial Team";
   
   return (
     <Link to={`/article/${article.slug}`}>
@@ -65,12 +68,8 @@ export const ArticleCard = ({ article, size = 'default' }: ArticleCardProps) => 
             </p>
             <div className="flex items-center justify-between">
               <div className="text-xs text-gray-500 font-light tracking-wide">
-                {article.author && (
-                  <>
-                    <span>{article.author.name}</span>
-                    <span className="mx-1">•</span>
-                  </>
-                )}
+                <span>{authorName}</span>
+                <span className="mx-1">•</span>
                 <span>{formatDate(article.created_at)}</span>
               </div>
               <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all" />

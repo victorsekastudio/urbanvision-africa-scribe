@@ -1,9 +1,11 @@
+
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Header } from "@/components/layout/Header";
 import { SEOHead } from "@/components/shared/SEOHead";
 import { TagsList } from "@/components/shared/TagsList";
+import { EditorialDisclaimer } from "@/components/shared/EditorialDisclaimer";
 import { ArrowLeft, Calendar, User, Tag } from "lucide-react";
 import type { Article } from "@/types/database";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -92,6 +94,9 @@ const Article = () => {
     ? article.category.name_fr 
     : article.category?.name;
 
+  // Use "UrbanVision Editorial Team" as default author name
+  const authorName = article.author?.name || "UrbanVision Editorial Team";
+
   return (
     <div className="min-h-screen bg-white">
       <SEOHead article={article} currentLanguage={currentLanguage} />
@@ -127,12 +132,10 @@ const Article = () => {
                   })}
                 </span>
               )}
-              {article.author && (
-                <span className="flex items-center">
-                  <User className="w-4 h-4 mr-1" />
-                  {article.author.name}
-                </span>
-              )}
+              <span className="flex items-center">
+                <User className="w-4 h-4 mr-1" />
+                {authorName}
+              </span>
             </div>
 
             <h1 className="text-4xl md:text-5xl font-light leading-tight text-gray-900">
@@ -163,6 +166,8 @@ const Article = () => {
               <p className="text-gray-600 italic">Full article content coming soon...</p>
             )}
           </div>
+
+          <EditorialDisclaimer />
 
           <div className="border-t pt-8">
             <TagsList 

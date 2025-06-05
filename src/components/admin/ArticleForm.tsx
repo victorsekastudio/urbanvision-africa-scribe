@@ -47,6 +47,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
   const [authors, setAuthors] = useState<Author[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [defaultAuthorId, setDefaultAuthorId] = useState<string>("");
   const { toast } = useToast();
   const { currentLanguage, setLanguage } = useLanguage();
 
@@ -82,12 +83,25 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
         supabase.from('categories').select('*').order('name')
       ]);
 
-      if (authorsResponse.data) setAuthors(authorsResponse.data);
+      if (authorsResponse.data) {
+        setAuthors(authorsResponse.data);
+        
+        // Find UrbanVision Editorial Team author and set as default
+        const editorialTeam = authorsResponse.data.find(
+          author => author.name === "UrbanVision Editorial Team"
+        );
+        
+        if (editorialTeam && !article) {
+          setDefaultAuthorId(editorialTeam.id);
+          form.setValue('author_id', editorialTeam.id);
+        }
+      }
+      
       if (categoriesResponse.data) setCategories(categoriesResponse.data);
     };
 
     fetchData();
-  }, []);
+  }, [article, form]);
 
   const generateSlug = (title: string) => {
     return title
@@ -317,7 +331,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Author</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} defaultValue={field.value || defaultAuthorId}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select an author" />

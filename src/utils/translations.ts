@@ -1,4 +1,3 @@
-
 export const translations = {
   EN: {
     // Navigation
@@ -50,7 +49,15 @@ export const translations = {
     noArticles: "No articles found.",
     loading: "Loading...",
     allArticles: "All Articles",
-    exploreComplete: "Explore our complete collection of insights on African urban development"
+    exploreComplete: "Explore our complete collection of insights on African urban development",
+    
+    // Featured Articles
+    featuredArticles: "Featured Articles",
+    readMore: "Read More",
+    backToHomepage: "Back to homepage",
+    articleNotFound: "Article not found",
+    returnToHomepage: "Return to homepage",
+    editorialDisclaimer: "This article was researched and written by the UrbanVision Editorial Team using a combination of human insight and AI-assisted tools."
   },
   FR: {
     // Navigation
@@ -102,7 +109,15 @@ export const translations = {
     noArticles: "Aucun article trouvé.",
     loading: "Chargement...",
     allArticles: "Tous les Articles",
-    exploreComplete: "Explorez notre collection complète d'analyses sur le développement urbain africain"
+    exploreComplete: "Explorez notre collection complète d'analyses sur le développement urbain africain",
+    
+    // Featured Articles
+    featuredArticles: "Articles en Vedette",
+    readMore: "Lire Plus",
+    backToHomepage: "Retour à l'accueil",
+    articleNotFound: "Article non trouvé",
+    returnToHomepage: "Retour à l'accueil",
+    editorialDisclaimer: "Cet article a été recherché et rédigé par l'équipe éditoriale d'UrbanVision en utilisant une combinaison d'insights humains et d'outils assistés par l'IA."
   }
 };
 

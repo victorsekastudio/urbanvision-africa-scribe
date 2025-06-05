@@ -50,13 +50,17 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       canonical_url: article?.canonical_url || "",
       instagram_enabled: article?.instagram_enabled || false,
       twitter_enabled: article?.twitter_enabled || false,
+      linkedin_enabled: article?.linkedin_enabled || false,
       instagram_caption: article?.instagram_caption || "",
       twitter_caption: article?.twitter_caption || "",
+      linkedin_caption: article?.linkedin_caption || "",
       social_hashtags: article?.social_hashtags || "",
       instagram_image_text: article?.instagram_image_text || "",
       instagram_text_color: article?.instagram_text_color || 'white',
       twitter_image_text: article?.twitter_image_text || "",
       twitter_text_color: article?.twitter_text_color || 'white',
+      linkedin_image_text: article?.linkedin_image_text || "",
+      linkedin_text_color: article?.linkedin_text_color || 'white',
     },
   });
 

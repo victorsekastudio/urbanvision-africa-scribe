@@ -3,6 +3,7 @@ import { UseFormReturn } from "react-hook-form";
 import { Hash } from "lucide-react";
 import { InstagramSection } from "./social/InstagramSection";
 import { TwitterSection } from "./social/TwitterSection";
+import { LinkedinSection } from "./social/LinkedinSection";
 import { SocialHashtagsField } from "./social/SocialHashtagsField";
 import type { ArticleFormData } from "./types/ArticleFormTypes";
 
@@ -21,7 +22,7 @@ export const SocialMediaSection = ({ form }: SocialMediaSectionProps) => {
         <h3 className="text-lg font-medium">Social Media Publishing</h3>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <InstagramSection 
           form={form} 
           watchTitle={watchTitle} 
@@ -29,6 +30,12 @@ export const SocialMediaSection = ({ form }: SocialMediaSectionProps) => {
         />
         
         <TwitterSection 
+          form={form} 
+          watchTitle={watchTitle} 
+          watchExcerpt={watchExcerpt} 
+        />
+
+        <LinkedinSection 
           form={form} 
           watchTitle={watchTitle} 
           watchExcerpt={watchExcerpt} 

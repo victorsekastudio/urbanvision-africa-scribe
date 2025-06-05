@@ -56,6 +56,24 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
       promises.push(twitterPromise);
     }
 
+    if (data.linkedin_enabled && data.linkedin_caption && data.featured_image_url) {
+      const linkedinPromise = fetch('/functions/v1/post-to-linkedin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+        },
+        body: JSON.stringify({
+          articleId,
+          imageUrl: data.featured_image_url,
+          caption: `${data.linkedin_caption}\n\n${data.social_hashtags || ''}`.trim(),
+          imageText: data.linkedin_image_text,
+          textColor: data.linkedin_text_color,
+        }),
+      });
+      promises.push(linkedinPromise);
+    }
+
     if (promises.length > 0) {
       try {
         const results = await Promise.allSettled(promises);
@@ -129,7 +147,7 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
       }
 
       // Post to social media if publishing and social media is enabled
-      if (data.published && (data.instagram_enabled || data.twitter_enabled)) {
+      if (data.published && (data.instagram_enabled || data.twitter_enabled || data.linkedin_enabled)) {
         // Run social media posting in the background
         postToSocialMedia(articleId, data);
       } else {

@@ -51,19 +51,25 @@ export interface Article {
   // Social media fields
   instagram_enabled?: boolean;
   twitter_enabled?: boolean;
+  linkedin_enabled?: boolean;
   instagram_caption?: string;
   twitter_caption?: string;
+  linkedin_caption?: string;
   social_hashtags?: string;
   instagram_post_id?: string;
   twitter_post_id?: string;
+  linkedin_post_id?: string;
   instagram_post_url?: string;
   twitter_post_url?: string;
+  linkedin_post_url?: string;
   social_media_posted_at?: string;
   // Image overlay fields
   instagram_image_text?: string;
   instagram_text_color?: 'white' | 'black';
   twitter_image_text?: string;
   twitter_text_color?: 'white' | 'black';
+  linkedin_image_text?: string;
+  linkedin_text_color?: 'white' | 'black';
   // Joined data
   author?: Author;
   category?: Category;

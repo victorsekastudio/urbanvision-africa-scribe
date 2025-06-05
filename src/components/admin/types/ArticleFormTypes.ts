@@ -24,12 +24,16 @@ export interface ArticleFormData {
   // Social media fields
   instagram_enabled: boolean;
   twitter_enabled: boolean;
+  linkedin_enabled: boolean;
   instagram_caption: string;
   twitter_caption: string;
+  linkedin_caption: string;
   social_hashtags: string;
   // Image overlay fields
   instagram_image_text: string;
   instagram_text_color: 'white' | 'black';
   twitter_image_text: string;
   twitter_text_color: 'white' | 'black';
+  linkedin_image_text: string;
+  linkedin_text_color: 'white' | 'black';
 }

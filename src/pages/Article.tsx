@@ -21,7 +21,7 @@ const Article = () => {
   const t = translations[currentLanguage];
 
   const { data: article, isLoading } = useQuery({
-    queryKey: ['article', slug],
+    queryKey: ['article', slug, currentLanguage],
     queryFn: async () => {
       if (!slug) throw new Error('No slug provided');
       
@@ -41,6 +41,7 @@ const Article = () => {
         throw error;
       }
 
+      console.log('Article: Fetched article for language:', currentLanguage, 'slug:', slug);
       return data as Article;
     },
     enabled: !!slug,
@@ -103,6 +104,8 @@ const Article = () => {
 
   // Calculate reading time
   const readingTime = content ? calculateReadingTime(content) : 5;
+
+  console.log('Article: Displaying article with title:', title, 'for language:', currentLanguage);
 
   return (
     <div className="min-h-screen bg-white">

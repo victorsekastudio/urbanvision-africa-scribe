@@ -1,20 +1,28 @@
 
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/utils/translations";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Article } from "@/types/database";
+import { useEffect } from "react";
 
 export const Hero = () => {
   const { currentLanguage } = useLanguage();
   const t = translations[currentLanguage];
+  const queryClient = useQueryClient();
+
+  // Invalidate hero article query when language changes
+  useEffect(() => {
+    console.log('Hero: Language changed, invalidating hero article query');
+    queryClient.invalidateQueries({ queryKey: ['hero-article'] });
+  }, [currentLanguage, queryClient]);
 
   // Fetch hero article (pinned article has priority, then featured articles)
   const { data: heroArticle, isLoading } = useQuery({
-    queryKey: ['hero-article'],
+    queryKey: ['hero-article', currentLanguage],
     queryFn: async (): Promise<Article | null> => {
       // First try to get a pinned hero article
       const { data: pinnedArticle } = await supabase
@@ -31,6 +39,7 @@ export const Hero = () => {
         .single();
 
       if (pinnedArticle) {
+        console.log('Hero: Found pinned article for language', currentLanguage);
         return pinnedArticle as Article;
       }
 
@@ -52,6 +61,7 @@ export const Hero = () => {
         throw error;
       }
 
+      console.log('Hero: Found featured article for language', currentLanguage);
       return featuredArticles?.[0] as Article || null;
     },
   });
@@ -99,6 +109,8 @@ export const Hero = () => {
   const excerpt = currentLanguage === 'FR' && heroArticle.excerpt_fr 
     ? heroArticle.excerpt_fr 
     : heroArticle.excerpt;
+
+  console.log('Hero: Displaying article with title:', title, 'for language:', currentLanguage);
 
   return (
     <section className="py-16 md:py-24">

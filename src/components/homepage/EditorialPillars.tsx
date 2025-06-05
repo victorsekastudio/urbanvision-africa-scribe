@@ -1,10 +1,10 @@
-
 import { PillarSection } from "@/components/homepage/PillarSection";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/utils/translations";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Article } from "@/types/database";
+import { useEffect } from "react";
 
 // Define the pillar categories that should exist in your database
 const pillarCategories = [
@@ -49,10 +49,17 @@ const pillarCategories = [
 export const EditorialPillars = () => {
   const { currentLanguage } = useLanguage();
   const t = translations[currentLanguage];
+  const queryClient = useQueryClient();
+
+  // Invalidate pillar articles query when language changes
+  useEffect(() => {
+    console.log('EditorialPillars: Language changed, invalidating pillar articles query');
+    queryClient.invalidateQueries({ queryKey: ['pillar-articles'] });
+  }, [currentLanguage, queryClient]);
 
   // Fetch articles for all categories
   const { data: articles, isLoading } = useQuery({
-    queryKey: ['pillar-articles'],
+    queryKey: ['pillar-articles', currentLanguage],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('articles')
@@ -69,6 +76,7 @@ export const EditorialPillars = () => {
         throw error;
       }
 
+      console.log('EditorialPillars: Articles fetched for language:', currentLanguage, data?.length || 0, 'articles');
       return data as Article[];
     },
   });

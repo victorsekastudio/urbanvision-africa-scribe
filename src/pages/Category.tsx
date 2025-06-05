@@ -7,12 +7,14 @@ import { Footer } from "@/components/layout/Footer";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { ArrowLeft } from "lucide-react";
 import type { Article, Category as CategoryType } from "@/types/database";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const Category = () => {
   const { category } = useParams<{ category: string }>();
+  const { currentLanguage } = useLanguage();
 
   const { data: categoryData, isLoading: categoryLoading } = useQuery({
-    queryKey: ['category', category],
+    queryKey: ['category', category, currentLanguage],
     queryFn: async () => {
       if (!category) throw new Error('No category provided');
       
@@ -33,7 +35,7 @@ const Category = () => {
   });
 
   const { data: articles, isLoading: articlesLoading } = useQuery({
-    queryKey: ['category-articles', category],
+    queryKey: ['category-articles', category, currentLanguage],
     queryFn: async () => {
       if (!category || !categoryData) return [];
       
@@ -53,6 +55,7 @@ const Category = () => {
         throw error;
       }
 
+      console.log('Category: Articles fetched for language:', currentLanguage, data?.length || 0, 'articles');
       return data as Article[];
     },
     enabled: !!categoryData,

@@ -47,6 +47,8 @@ export const ArticleCard = ({ article, size = 'default' }: ArticleCardProps) => 
 
   // Calculate reading time
   const readingTime = content ? calculateReadingTime(content) : 5;
+
+  console.log('ArticleCard: Rendering article', article.slug, 'with title:', title, 'for language:', currentLanguage);
   
   return (
     <Link to={`/article/${article.slug}`}>

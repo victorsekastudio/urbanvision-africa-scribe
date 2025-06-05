@@ -1,11 +1,24 @@
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Article } from "@/types/database";
+import { useLanguage } from "./useLanguage";
+import { useEffect } from "react";
 
 export const useArticles = (published?: boolean, featured?: boolean) => {
+  const { currentLanguage } = useLanguage();
+  const queryClient = useQueryClient();
+
+  // Invalidate queries when language changes
+  useEffect(() => {
+    console.log('Language changed, invalidating article queries');
+    queryClient.invalidateQueries({ queryKey: ['articles'] });
+    queryClient.invalidateQueries({ queryKey: ['hero-article'] });
+    queryClient.invalidateQueries({ queryKey: ['pillar-articles'] });
+  }, [currentLanguage, queryClient]);
+
   return useQuery({
-    queryKey: ['articles', published, featured],
+    queryKey: ['articles', published, featured, currentLanguage],
     queryFn: async () => {
       let query = supabase
         .from('articles')
@@ -31,14 +44,17 @@ export const useArticles = (published?: boolean, featured?: boolean) => {
         throw error;
       }
 
+      console.log('Articles fetched for language:', currentLanguage, data?.length || 0, 'articles');
       return data as Article[];
     },
   });
 };
 
 export const useCategories = () => {
+  const { currentLanguage } = useLanguage();
+  
   return useQuery({
-    queryKey: ['categories'],
+    queryKey: ['categories', currentLanguage],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('categories')
@@ -56,8 +72,10 @@ export const useCategories = () => {
 };
 
 export const useAuthors = () => {
+  const { currentLanguage } = useLanguage();
+  
   return useQuery({
-    queryKey: ['authors'],
+    queryKey: ['authors', currentLanguage],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('authors')

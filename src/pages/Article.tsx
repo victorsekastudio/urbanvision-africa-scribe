@@ -4,17 +4,16 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Header } from "@/components/layout/Header";
 import { SEOHead } from "@/components/shared/SEOHead";
-import { TagsList } from "@/components/shared/TagsList";
-import { EditorialDisclaimer } from "@/components/shared/EditorialDisclaimer";
 import { ReadingProgress } from "@/components/shared/ReadingProgress";
-import { ShareButtons } from "@/components/shared/ShareButtons";
-import { RelatedArticlesCarousel } from "@/components/shared/RelatedArticlesCarousel";
-import { MoreLikeThis } from "@/components/shared/MoreLikeThis";
-import { ArrowLeft, Calendar, User, Tag, Clock } from "lucide-react";
+import { ArticleMetadata } from "@/components/article/ArticleMetadata";
+import { ArticleHeader } from "@/components/article/ArticleHeader";
+import { ArticleContent } from "@/components/article/ArticleContent";
+import { ArticleFooter } from "@/components/article/ArticleFooter";
+import { ArrowLeft } from "lucide-react";
 import type { Article } from "@/types/database";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/utils/translations";
-import { calculateReadingTime, formatReadingTime } from "@/utils/readingTime";
+import { calculateReadingTime } from "@/utils/readingTime";
 
 const Article = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -120,99 +119,25 @@ const Article = () => {
         </Link>
 
         <article className="space-y-8">
-          <header className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4 text-sm text-gray-500">
-                {article.category && (
-                  <Link 
-                    to={`/category/${article.category.slug}`}
-                    className="inline-flex items-center hover:text-gray-700 transition-colors"
-                  >
-                    <Tag className="w-4 h-4 mr-1" />
-                    {categoryName}
-                  </Link>
-                )}
-                {article.published_at && (
-                  <span className="flex items-center">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    {new Date(article.published_at).toLocaleDateString(currentLanguage === 'FR' ? 'fr-FR' : 'en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </span>
-                )}
-                <span className="flex items-center">
-                  <User className="w-4 h-4 mr-1" />
-                  {authorName}
-                </span>
-                <span className="flex items-center">
-                  <Clock className="w-4 h-4 mr-1" />
-                  {formatReadingTime(readingTime)}
-                </span>
-              </div>
-              <ShareButtons 
-                url={`/article/${article.slug}`}
-                title={title}
-                excerpt={excerpt}
-              />
-            </div>
+          <ArticleMetadata
+            article={article}
+            categoryName={categoryName}
+            authorName={authorName}
+            readingTime={readingTime}
+            title={title}
+            excerpt={excerpt}
+            currentLanguage={currentLanguage}
+          />
 
-            <h1 className="text-4xl md:text-5xl font-light leading-tight text-gray-900">
-              {title}
-            </h1>
+          <ArticleHeader
+            article={article}
+            title={title}
+            excerpt={excerpt}
+          />
 
-            {excerpt && (
-              <p className="text-xl text-gray-600 leading-relaxed font-serif">
-                {excerpt}
-              </p>
-            )}
+          <ArticleContent content={content} />
 
-            {article.featured_image_url && (
-              <div className="relative">
-                <img 
-                  src={article.featured_image_url}
-                  alt={title}
-                  className="w-full h-[400px] md:h-[500px] object-cover rounded-lg"
-                />
-              </div>
-            )}
-          </header>
-
-          <div className="prose prose-lg max-w-none">
-            {content ? (
-              <div dangerouslySetInnerHTML={{ __html: content }} />
-            ) : (
-              <p className="text-gray-600 italic">Full article content coming soon...</p>
-            )}
-          </div>
-
-          <EditorialDisclaimer />
-
-          <div className="border-t pt-8">
-            <TagsList 
-              keywords={article.meta_keywords} 
-              keywords_fr={article.meta_keywords_fr} 
-            />
-          </div>
-
-          {/* Related Articles Carousel */}
-          <div className="border-t pt-8">
-            <RelatedArticlesCarousel
-              currentArticleId={article.id}
-              categoryId={article.category_id || undefined}
-              tags={article.meta_keywords}
-            />
-          </div>
-
-          {/* More Like This Section */}
-          <div className="border-t pt-8">
-            <MoreLikeThis
-              currentArticleId={article.id}
-              categoryId={article.category_id || undefined}
-              keywords={article.meta_keywords}
-            />
-          </div>
+          <ArticleFooter article={article} />
         </article>
       </main>
     </div>

@@ -1,5 +1,97 @@
+export interface Translations {
+  // Navigation
+  home: string;
+  about: string;
+  articles: string;
+  contribute: string;
+  search: string;
+  explore: string;
+  navigation: string;
+  pages: string;
+  language: string;
+  
+  // Categories
+  urbanTrendsGrowth: string;
+  infrastructureInvestment: string;
+  climateSustainability: string;
+  transportMobility: string;
+  smartCityTech: string;
+  voicesGround: string;
+  
+  // Homepage sections
+  featuredReads: string;
+  featuredReadsSubtitle: string;
+  noFeaturedArticles: string;
+  editorialPillars: string;
+  editorialPillarsSubtitle: string;
+  featuredArticle: string;
+  
+  // Newsletter
+  stayConnected: string;
+  newsletterSubtitle: string;
+  enterEmail: string;
+  subscribe: string;
+  thankYouSubscribe: string;
+  
+  // Article actions
+  readArticle: string;
+  viewAllArticles: string;
+  backToHomepage: string;
+  recently: string;
+  
+  // Article page
+  articleNotFound: string;
+  returnToHomepage: string;
+  
+  // Search
+  searchArticles: string;
+  searchPlaceholder: string;
+  searchResultsFor: string;
+  noArticlesFound: string;
+  enterSearchTerm: string;
+  
+  // Tags
+  tags: string;
+  taggedWith: string;
+  articlesFound: string;
+  noArticlesWithTag: string;
+  
+  // General
+  by: string;
+  noArticles: string;
+  loading: string;
+  allArticles: string;
+  exploreComplete: string;
+  
+  // Featured Articles
+  featuredArticles: string;
+  readMore: string;
+  editorialDisclaimer: string;
+  
+  // Footer
+  tagline: string;
+  followInstagram: string;
+  allRightsReserved: string;
+  
+  // Editorial Pillars
+  urbanTrendsGrowthTitle: string;
+  urbanTrendsGrowthDesc: string;
+  infrastructureInvestmentTitle: string;
+  infrastructureInvestmentDesc: string;
+  climateSustainabilityTitle: string;
+  climateSustainabilityDesc: string;
+  transportMobilityTitle: string;
+  transportMobilityDesc: string;
+  smartCityTechTitle: string;
+  smartCityTechDesc: string;
+  voicesGroundTitle: string;
+  voicesGroundDesc: string;
+  
+  // Special pages
+  urbanVisionStudioAI: string;
+}
 
-export const translations = {
+export const translations: Record<'EN' | 'FR', Translations> = {
   EN: {
     // Navigation
     home: "Home",
@@ -186,4 +278,4 @@ export const translations = {
   }
 };
 
-export type TranslationKey = keyof typeof translations.EN;
+export type TranslationKey = keyof Translations;

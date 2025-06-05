@@ -2,151 +2,146 @@
 import { PillarSection } from "@/components/homepage/PillarSection";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/utils/translations";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import type { Article } from "@/types/database";
 
-const pillarsData = [
+// Define the pillar categories that should exist in your database
+const pillarCategories = [
   {
     id: "urban-trends-growth",
     titleKey: "urbanTrendsGrowthTitle" as const,
     descriptionKey: "urbanTrendsGrowthDesc" as const,
-    articles: [
-      {
-        id: 5,
-        title: "The Rise of Secondary Cities in East Africa",
-        excerpt: "How medium-sized urban centers are becoming economic powerhouses.",
-        image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=300&h=200&fit=crop&crop=entropy",
-        author: "Sarah Nyong",
-        date: "March 3, 2024"
-      },
-      {
-        id: 6,
-        title: "Youth-Driven Urban Innovation in Kampala",
-        excerpt: "Young entrepreneurs reshaping Uganda's capital through technology and creativity.",
-        image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=300&h=200&fit=crop&crop=entropy",
-        author: "Moses Ssali",
-        date: "February 28, 2024"
-      }
-    ]
+    categorySlug: "urban-trends"
   },
   {
     id: "infrastructure-investment",
     titleKey: "infrastructureInvestmentTitle" as const,
     descriptionKey: "infrastructureInvestmentDesc" as const,
-    articles: [
-      {
-        id: 7,
-        title: "Bridging the Infrastructure Financing Gap in West Africa",
-        excerpt: "New models for funding critical urban infrastructure projects.",
-        image: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=300&h=200&fit=crop&crop=entropy",
-        author: "Kemi Adebayo",
-        date: "February 25, 2024"
-      },
-      {
-        id: 8,
-        title: "PPP Success Stories from Johannesburg",
-        excerpt: "How public-private partnerships are transforming South Africa's largest city.",
-        image: "https://images.unsplash.com/photo-1493397212122-2b85dda8106b?w=300&h=200&fit=crop&crop=entropy",
-        author: "Mandla Ndaba",
-        date: "February 22, 2024"
-      }
-    ]
+    categorySlug: "infrastructure"
   },
   {
     id: "climate-sustainability",
     titleKey: "climateSustainabilityTitle" as const,
     descriptionKey: "climateSustainabilityDesc" as const,
-    articles: [
-      {
-        id: 9,
-        title: "Flood Management in Dakar: Lessons from the 2023 Season",
-        excerpt: "How Senegal's capital is building resilience against extreme weather events.",
-        image: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?w=300&h=200&fit=crop&crop=entropy",
-        author: "Aminata Diallo",
-        date: "February 20, 2024"
-      },
-      {
-        id: 10,
-        title: "Solar Microgrids Powering Urban Growth",
-        excerpt: "Decentralized energy solutions transforming African city planning.",
-        image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=300&h=200&fit=crop&crop=entropy",
-        author: "Emmanuel Asante",
-        date: "February 18, 2024"
-      }
-    ]
+    categorySlug: "climate"
   },
   {
     id: "transport-mobility",
     titleKey: "transportMobilityTitle" as const,
     descriptionKey: "transportMobilityDesc" as const,
-    articles: [
-      {
-        id: 11,
-        title: "BRT Systems Transforming African Cities",
-        excerpt: "The success and challenges of Bus Rapid Transit across the continent.",
-        image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?w=300&h=200&fit=crop&crop=entropy",
-        author: "Grace Ochieng",
-        date: "February 15, 2024"
-      },
-      {
-        id: 12,
-        title: "Motorcycle Taxis: Formalizing Informal Transport",
-        excerpt: "How digital platforms are organizing traditional transportation modes.",
-        image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=300&h=200&fit=crop&crop=entropy",
-        author: "Bola Tinubu",
-        date: "February 12, 2024"
-      }
-    ]
+    categorySlug: "transport"
   },
   {
     id: "smart-city-tech",
     titleKey: "smartCityTechTitle" as const,
     descriptionKey: "smartCityTechDesc" as const,
-    articles: [
-      {
-        id: 13,
-        title: "AI-Powered Traffic Management in Rwanda",
-        excerpt: "How Kigali is using artificial intelligence to optimize urban mobility.",
-        image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&h=200&fit=crop&crop=entropy",
-        author: "Jean-Claude Nzeyimana",
-        date: "February 10, 2024"
-      },
-      {
-        id: 14,
-        title: "Digital Twin Technology for African Cities",
-        excerpt: "Virtual city models helping planners make better decisions.",
-        image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=300&h=200&fit=crop&crop=entropy",
-        author: "Nomsa Mbeki",
-        date: "February 8, 2024"
-      }
-    ]
+    categorySlug: "smart-city"
   },
   {
     id: "voices-ground",
     titleKey: "voicesGroundTitle" as const,
     descriptionKey: "voicesGroundDesc" as const,
-    articles: [
-      {
-        id: 15,
-        title: "Community-Led Urban Agriculture in Lusaka",
-        excerpt: "How residents are transforming vacant lots into productive green spaces.",
-        image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=300&h=200&fit=crop&crop=entropy",
-        author: "Chipo Mwanza",
-        date: "February 5, 2024"
-      },
-      {
-        id: 16,
-        title: "Women's Cooperatives Building Better Cities",
-        excerpt: "Female-led initiatives driving urban development across Sub-Saharan Africa.",
-        image: "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=300&h=200&fit=crop&crop=entropy",
-        author: "Aisha Mohammed",
-        date: "February 3, 2024"
-      }
-    ]
+    categorySlug: "voices"
   }
 ];
 
 export const EditorialPillars = () => {
   const { currentLanguage } = useLanguage();
   const t = translations[currentLanguage];
+
+  // Fetch articles for all categories
+  const { data: articles, isLoading } = useQuery({
+    queryKey: ['pillar-articles'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('articles')
+        .select(`
+          *,
+          author:authors(*),
+          category:categories(*)
+        `)
+        .eq('published', true)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching pillar articles:', error);
+        throw error;
+      }
+
+      return data as Article[];
+    },
+  });
+
+  // Group articles by category and create pillar data
+  const pillarsData = pillarCategories.map(pillar => {
+    const categoryArticles = articles?.filter(article => 
+      article.category?.slug === pillar.categorySlug
+    ).slice(0, 2) || []; // Limit to 2 articles per pillar
+
+    return {
+      ...pillar,
+      articles: categoryArticles
+    };
+  }).filter(pillar => pillar.articles.length > 0); // Only show pillars that have articles
+
+  if (isLoading) {
+    return (
+      <section className="py-16">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-light tracking-wide text-gray-900 mb-4">
+            {t.editorialPillars}
+          </h2>
+          <p className="text-lg text-gray-600 font-light tracking-wide max-w-3xl mx-auto">
+            {t.editorialPillarsSubtitle}
+          </p>
+        </div>
+        
+        <div className="space-y-16">
+          {[1, 2, 3].map((index) => (
+            <div key={index} className="border-t border-gray-100 pt-12">
+              <div className="grid lg:grid-cols-3 gap-12">
+                <div className="lg:col-span-1">
+                  <div className="h-8 bg-gray-200 rounded mb-4 animate-pulse"></div>
+                  <div className="h-20 bg-gray-200 rounded mb-6 animate-pulse"></div>
+                  <div className="h-6 bg-gray-200 rounded w-32 animate-pulse"></div>
+                </div>
+                <div className="lg:col-span-2">
+                  <div className="grid md:grid-cols-2 gap-8">
+                    {[1, 2].map((articleIndex) => (
+                      <div key={articleIndex} className="space-y-4">
+                        <div className="h-40 bg-gray-200 rounded-lg animate-pulse"></div>
+                        <div className="space-y-3">
+                          <div className="h-6 bg-gray-200 rounded animate-pulse"></div>
+                          <div className="h-12 bg-gray-200 rounded animate-pulse"></div>
+                          <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (!articles || articles.length === 0) {
+    return (
+      <section className="py-16">
+        <div className="text-center">
+          <h2 className="text-3xl md:text-4xl font-light tracking-wide text-gray-900 mb-4">
+            {t.editorialPillars}
+          </h2>
+          <p className="text-lg text-gray-600 font-light tracking-wide">
+            {t.noArticlesFound}
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-16">

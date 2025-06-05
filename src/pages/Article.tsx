@@ -6,10 +6,15 @@ import { Header } from "@/components/layout/Header";
 import { SEOHead } from "@/components/shared/SEOHead";
 import { TagsList } from "@/components/shared/TagsList";
 import { EditorialDisclaimer } from "@/components/shared/EditorialDisclaimer";
-import { ArrowLeft, Calendar, User, Tag } from "lucide-react";
+import { ReadingProgress } from "@/components/shared/ReadingProgress";
+import { ShareButtons } from "@/components/shared/ShareButtons";
+import { RelatedArticlesCarousel } from "@/components/shared/RelatedArticlesCarousel";
+import { MoreLikeThis } from "@/components/shared/MoreLikeThis";
+import { ArrowLeft, Calendar, User, Tag, Clock } from "lucide-react";
 import type { Article } from "@/types/database";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/utils/translations";
+import { calculateReadingTime, formatReadingTime } from "@/utils/readingTime";
 
 const Article = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -97,9 +102,13 @@ const Article = () => {
   // Use "UrbanVision Editorial Team" as default author name
   const authorName = article.author?.name || "UrbanVision Editorial Team";
 
+  // Calculate reading time
+  const readingTime = content ? calculateReadingTime(content) : 5;
+
   return (
     <div className="min-h-screen bg-white">
       <SEOHead article={article} currentLanguage={currentLanguage} />
+      <ReadingProgress />
       <Header />
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <Link 
@@ -112,30 +121,41 @@ const Article = () => {
 
         <article className="space-y-8">
           <header className="space-y-6">
-            <div className="flex items-center space-x-4 text-sm text-gray-500">
-              {article.category && (
-                <Link 
-                  to={`/category/${article.category.slug}`}
-                  className="inline-flex items-center hover:text-gray-700 transition-colors"
-                >
-                  <Tag className="w-4 h-4 mr-1" />
-                  {categoryName}
-                </Link>
-              )}
-              {article.published_at && (
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4 text-sm text-gray-500">
+                {article.category && (
+                  <Link 
+                    to={`/category/${article.category.slug}`}
+                    className="inline-flex items-center hover:text-gray-700 transition-colors"
+                  >
+                    <Tag className="w-4 h-4 mr-1" />
+                    {categoryName}
+                  </Link>
+                )}
+                {article.published_at && (
+                  <span className="flex items-center">
+                    <Calendar className="w-4 h-4 mr-1" />
+                    {new Date(article.published_at).toLocaleDateString(currentLanguage === 'FR' ? 'fr-FR' : 'en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </span>
+                )}
                 <span className="flex items-center">
-                  <Calendar className="w-4 h-4 mr-1" />
-                  {new Date(article.published_at).toLocaleDateString(currentLanguage === 'FR' ? 'fr-FR' : 'en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
+                  <User className="w-4 h-4 mr-1" />
+                  {authorName}
                 </span>
-              )}
-              <span className="flex items-center">
-                <User className="w-4 h-4 mr-1" />
-                {authorName}
-              </span>
+                <span className="flex items-center">
+                  <Clock className="w-4 h-4 mr-1" />
+                  {formatReadingTime(readingTime)}
+                </span>
+              </div>
+              <ShareButtons 
+                url={`/article/${article.slug}`}
+                title={title}
+                excerpt={excerpt}
+              />
             </div>
 
             <h1 className="text-4xl md:text-5xl font-light leading-tight text-gray-900">
@@ -173,6 +193,24 @@ const Article = () => {
             <TagsList 
               keywords={article.meta_keywords} 
               keywords_fr={article.meta_keywords_fr} 
+            />
+          </div>
+
+          {/* Related Articles Carousel */}
+          <div className="border-t pt-8">
+            <RelatedArticlesCarousel
+              currentArticleId={article.id}
+              categoryId={article.category_id}
+              tags={article.meta_keywords}
+            />
+          </div>
+
+          {/* More Like This Section */}
+          <div className="border-t pt-8">
+            <MoreLikeThis
+              currentArticleId={article.id}
+              categoryId={article.category_id}
+              keywords={article.meta_keywords}
             />
           </div>
         </article>

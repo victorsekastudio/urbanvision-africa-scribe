@@ -1,9 +1,10 @@
 
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { Article } from "@/types/database";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/utils/translations";
+import { calculateReadingTime, formatReadingTime } from "@/utils/readingTime";
 
 interface ArticleCardProps {
   article: Article;
@@ -33,12 +34,19 @@ export const ArticleCard = ({ article, size = 'default' }: ArticleCardProps) => 
     ? article.excerpt_fr 
     : article.excerpt;
 
+  const content = currentLanguage === 'FR' && article.content_fr 
+    ? article.content_fr 
+    : article.content;
+
   const categoryName = currentLanguage === 'FR' && article.category?.name_fr 
     ? article.category.name_fr 
     : article.category?.name;
 
   // Use "UrbanVision Editorial Team" as default author name
   const authorName = article.author?.name || "UrbanVision Editorial Team";
+
+  // Calculate reading time
+  const readingTime = content ? calculateReadingTime(content) : 5;
   
   return (
     <Link to={`/article/${article.slug}`}>
@@ -57,6 +65,12 @@ export const ArticleCard = ({ article, size = 'default' }: ArticleCardProps) => 
                 </span>
               </div>
             )}
+            <div className="absolute top-3 right-3">
+              <span className="bg-black/70 text-white text-xs font-medium px-2 py-1 rounded-full tracking-wide flex items-center">
+                <Clock className="w-3 h-3 mr-1" />
+                {formatReadingTime(readingTime)}
+              </span>
+            </div>
           </div>
           
           <div className="space-y-3">

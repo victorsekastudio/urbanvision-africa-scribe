@@ -1,10 +1,10 @@
 
 import { Link } from "react-router-dom";
 import { ExploreDropdown } from "./ExploreDropdown";
-import { SearchButton } from "./SearchButton";
 import { SubscribeModal } from "./SubscribeModal";
 import { LanguageToggle } from "./LanguageToggle";
 import { MobileMenu } from "./MobileMenu";
+import { AnimatedSearchBar } from "@/components/shared/AnimatedSearchBar";
 
 export const Header = () => {
   return (
@@ -48,13 +48,13 @@ export const Header = () => {
             <div className="flex items-center space-x-4">
               <SubscribeModal />
               <LanguageToggle />
-              <SearchButton />
+              <AnimatedSearchBar />
             </div>
           </div>
 
           {/* Mobile Actions */}
           <div className="lg:hidden flex items-center space-x-2">
-            <SearchButton />
+            <AnimatedSearchBar />
             <MobileMenu />
           </div>
         </div>

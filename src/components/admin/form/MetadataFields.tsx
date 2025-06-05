@@ -3,6 +3,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { UseFormReturn } from "react-hook-form";
+import { ImageUpload } from "./ImageUpload";
 import type { Author, Category } from "@/types/database";
 
 interface MetadataFieldsProps {
@@ -34,9 +35,13 @@ export const MetadataFields = ({ form, authors, categories, defaultAuthorId }: M
         name="featured_image_url"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Featured Image URL</FormLabel>
             <FormControl>
-              <Input {...field} placeholder="https://example.com/image.jpg" />
+              <ImageUpload
+                value={field.value}
+                onChange={field.onChange}
+                label="Featured Image"
+                placeholder="https://example.com/image.jpg"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

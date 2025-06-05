@@ -42,7 +42,7 @@ export const Hero = () => {
     return (
       <section className="py-16 md:py-24">
         <div className="text-center">
-          <h2 className="text-2xl font-light tracking-wide text-gray-500">No featured articles available</h2>
+          <h2 className="text-2xl font-light tracking-wide text-gray-500">{t.noFeaturedArticles}</h2>
         </div>
       </section>
     );
@@ -62,7 +62,7 @@ export const Hero = () => {
         <div className="space-y-6">
           <div className="space-y-2">
             <span className="text-sm font-medium text-gray-600 uppercase tracking-wide">
-              Featured Article
+              {t.featuredArticle}
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-wide leading-tight text-gray-900">
               {title}

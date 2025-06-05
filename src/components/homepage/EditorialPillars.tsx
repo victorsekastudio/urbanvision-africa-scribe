@@ -1,11 +1,13 @@
+
 import { PillarSection } from "@/components/homepage/PillarSection";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/utils/translations";
 
 const pillarsData = [
   {
-    title: "Urban Trends and Growth",
-    description: "Analyzing population dynamics, urbanization patterns, and emerging city development models across Sub-Saharan Africa.",
+    id: "urban-trends-growth",
+    titleKey: "urbanTrendsGrowthTitle" as const,
+    descriptionKey: "urbanTrendsGrowthDesc" as const,
     articles: [
       {
         id: 5,
@@ -26,8 +28,9 @@ const pillarsData = [
     ]
   },
   {
-    title: "Infrastructure Gaps and Investment",
-    description: "Examining funding mechanisms, public-private partnerships, and innovative financing for essential urban infrastructure.",
+    id: "infrastructure-investment",
+    titleKey: "infrastructureInvestmentTitle" as const,
+    descriptionKey: "infrastructureInvestmentDesc" as const,
     articles: [
       {
         id: 7,
@@ -48,8 +51,9 @@ const pillarsData = [
     ]
   },
   {
-    title: "Climate Resilience and Sustainability",
-    description: "Exploring adaptation strategies, green infrastructure, and sustainable development practices for African cities.",
+    id: "climate-sustainability",
+    titleKey: "climateSustainabilityTitle" as const,
+    descriptionKey: "climateSustainabilityDesc" as const,
     articles: [
       {
         id: 9,
@@ -70,8 +74,9 @@ const pillarsData = [
     ]
   },
   {
-    title: "Transport and Mobility",
-    description: "Investigating sustainable transportation solutions, urban mobility innovations, and infrastructure development.",
+    id: "transport-mobility",
+    titleKey: "transportMobilityTitle" as const,
+    descriptionKey: "transportMobilityDesc" as const,
     articles: [
       {
         id: 11,
@@ -92,8 +97,9 @@ const pillarsData = [
     ]
   },
   {
-    title: "Smart City and Tech in Planning",
-    description: "Covering digital transformation, data-driven governance, and technology adoption in urban planning.",
+    id: "smart-city-tech",
+    titleKey: "smartCityTechTitle" as const,
+    descriptionKey: "smartCityTechDesc" as const,
     articles: [
       {
         id: 13,
@@ -114,8 +120,9 @@ const pillarsData = [
     ]
   },
   {
-    title: "Voices from the Ground",
-    description: "Featuring community perspectives, grassroots initiatives, and local solutions to urban challenges.",
+    id: "voices-ground",
+    titleKey: "voicesGroundTitle" as const,
+    descriptionKey: "voicesGroundDesc" as const,
     articles: [
       {
         id: 15,

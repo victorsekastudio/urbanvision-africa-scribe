@@ -1,7 +1,12 @@
 
 import { Instagram } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
+import { translations } from "@/utils/translations";
 
 export const Footer = () => {
+  const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage];
+
   return (
     <footer className="bg-gray-50 border-t border-gray-100 mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -9,7 +14,7 @@ export const Footer = () => {
           <div className="text-center">
             <h3 className="text-2xl font-light text-gray-900 mb-2">UrbanVision</h3>
             <p className="text-gray-600 font-serif">
-              Insights on African Urban Development
+              {t.tagline}
             </p>
           </div>
           
@@ -21,12 +26,12 @@ export const Footer = () => {
               className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
               <Instagram className="w-5 h-5" />
-              <span>Follow us on Instagram</span>
+              <span>{t.followInstagram}</span>
             </a>
           </div>
           
           <div className="text-center text-sm text-gray-500">
-            <p>&copy; 2024 UrbanVision. All rights reserved.</p>
+            <p>&copy; 2024 UrbanVision. {t.allRightsReserved}</p>
           </div>
         </div>
       </div>

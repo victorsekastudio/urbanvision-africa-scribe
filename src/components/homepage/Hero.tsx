@@ -15,7 +15,7 @@ export const Hero = () => {
   // Fetch hero article (pinned article has priority, then featured articles)
   const { data: heroArticle, isLoading } = useQuery({
     queryKey: ['hero-article'],
-    queryFn: async () => {
+    queryFn: async (): Promise<Article | null> => {
       // First try to get a pinned hero article
       const { data: pinnedArticle } = await supabase
         .from('articles')

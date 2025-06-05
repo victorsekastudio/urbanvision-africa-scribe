@@ -29,6 +29,7 @@ export type Database = {
           meta_title: string | null
           meta_title_fr: string | null
           og_image_url: string | null
+          pin_as_hero: boolean | null
           published: boolean
           published_at: string | null
           slug: string
@@ -55,6 +56,7 @@ export type Database = {
           meta_title?: string | null
           meta_title_fr?: string | null
           og_image_url?: string | null
+          pin_as_hero?: boolean | null
           published?: boolean
           published_at?: string | null
           slug: string
@@ -81,6 +83,7 @@ export type Database = {
           meta_title?: string | null
           meta_title_fr?: string | null
           og_image_url?: string | null
+          pin_as_hero?: boolean | null
           published?: boolean
           published_at?: string | null
           slug?: string

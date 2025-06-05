@@ -64,7 +64,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       category_id: article?.category_id || "",
       published: article?.published || false,
       featured: article?.featured || false,
-      pin_as_hero: (article as any)?.pin_as_hero || false,
+      pin_as_hero: article?.pin_as_hero || false,
       featured_image_url: article?.featured_image_url || "",
       meta_title: article?.meta_title || "",
       meta_title_fr: article?.meta_title_fr || "",

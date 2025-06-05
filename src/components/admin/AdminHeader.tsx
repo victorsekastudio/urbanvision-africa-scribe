@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { User, Settings, LogOut } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface AdminHeaderProps {
   userEmail: string | undefined;
@@ -8,6 +9,15 @@ interface AdminHeaderProps {
 }
 
 export const AdminHeader = ({ userEmail, onSignOut }: AdminHeaderProps) => {
+  const { toast } = useToast();
+
+  const handleAccountClick = () => {
+    toast({
+      title: "Account Settings",
+      description: "Account settings will be available when authentication is enabled.",
+    });
+  };
+
   return (
     <div className="mb-8 flex justify-between items-center">
       <div>
@@ -17,9 +27,9 @@ export const AdminHeader = ({ userEmail, onSignOut }: AdminHeaderProps) => {
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 text-sm text-gray-600">
           <User className="w-4 h-4" />
-          <span>Welcome, {userEmail}</span>
+          <span>Welcome, {userEmail || 'Admin'}</span>
         </div>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" onClick={handleAccountClick}>
           <Settings className="w-4 h-4 mr-2" />
           Account
         </Button>

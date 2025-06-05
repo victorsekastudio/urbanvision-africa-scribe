@@ -8,10 +8,12 @@ import { ArticleCard } from "@/components/shared/ArticleCard";
 import { ArrowLeft } from "lucide-react";
 import type { Article, Category as CategoryType } from "@/types/database";
 import { useLanguage } from "@/hooks/useLanguage";
+import { translations } from "@/utils/translations";
 
 const Category = () => {
   const { category } = useParams<{ category: string }>();
   const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage];
 
   const { data: categoryData, isLoading: categoryLoading } = useQuery({
     queryKey: ['category', category, currentLanguage],
@@ -94,9 +96,9 @@ const Category = () => {
         <Header />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
-            <h1 className="text-2xl font-light text-gray-900 mb-4">Category not found</h1>
+            <h1 className="text-2xl font-light text-gray-900 mb-4">{t.articleNotFound}</h1>
             <Link to="/" className="text-blue-600 hover:text-blue-800">
-              Return to homepage
+              {t.returnToHomepage}
             </Link>
           </div>
         </main>
@@ -104,6 +106,15 @@ const Category = () => {
       </div>
     );
   }
+
+  // Use French versions when available and current language is French
+  const categoryName = currentLanguage === 'FR' && categoryData.name_fr 
+    ? categoryData.name_fr 
+    : categoryData.name;
+    
+  const categoryDescription = currentLanguage === 'FR' && categoryData.description_fr 
+    ? categoryData.description_fr 
+    : categoryData.description;
 
   return (
     <div className="min-h-screen bg-white">
@@ -114,16 +125,16 @@ const Category = () => {
           className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-8 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to homepage
+          {t.backToHomepage}
         </Link>
 
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-4">
-            {categoryData.name}
+            {categoryName}
           </h1>
-          {categoryData.description && (
+          {categoryDescription && (
             <p className="text-lg text-gray-600 max-w-3xl">
-              {categoryData.description}
+              {categoryDescription}
             </p>
           )}
         </div>
@@ -136,7 +147,7 @@ const Category = () => {
           </div>
         ) : (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No articles found in this category yet.</p>
+            <p className="text-gray-500 text-lg">{t.noArticlesFound}</p>
           </div>
         )}
       </main>

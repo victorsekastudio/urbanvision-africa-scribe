@@ -46,7 +46,7 @@ export const Header = () => {
                 to="/studio-ai" 
                 className="text-gray-700 hover:text-gray-900 transition-colors duration-300 font-light"
               >
-                {t.urbanVisionStudioAI}
+                UrbanVision AI Studio
               </Link>
             </nav>
 

@@ -106,7 +106,7 @@ export const MobileMenu = () => {
                 onClick={() => setIsOpen(false)}
                 className="block py-2 text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light"
               >
-                {t.urbanVisionStudioAI}
+                UrbanVision AI Studio
               </Link>
             </div>
           </div>

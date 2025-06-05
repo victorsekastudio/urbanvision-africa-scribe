@@ -30,4 +30,6 @@ export interface ArticleFormData {
   // Image overlay fields
   instagram_image_text: string;
   instagram_text_color: 'white' | 'black';
+  twitter_image_text: string;
+  twitter_text_color: 'white' | 'black';
 }

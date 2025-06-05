@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -50,6 +49,8 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
           articleId,
           imageUrl: data.featured_image_url,
           caption: `${data.twitter_caption}\n\n${data.social_hashtags || ''}`.trim(),
+          imageText: data.twitter_image_text,
+          textColor: data.twitter_text_color,
         }),
       });
       promises.push(twitterPromise);

@@ -4,6 +4,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { UseFormReturn } from "react-hook-form";
 import { Twitter } from "lucide-react";
+import { TwitterImageOverlay } from "./TwitterImageOverlay";
 import type { ArticleFormData } from "../types/ArticleFormTypes";
 
 interface TwitterSectionProps {
@@ -76,6 +77,11 @@ export const TwitterSection = ({ form, watchTitle, watchExcerpt }: TwitterSectio
                 </FormDescription>
               </FormItem>
             )}
+          />
+
+          <TwitterImageOverlay 
+            form={form} 
+            watchTitle={watchTitle} 
           />
         </div>
       )}

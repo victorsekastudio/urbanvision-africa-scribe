@@ -1,4 +1,3 @@
-
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { createHmac } from "node:crypto";
 
@@ -11,6 +10,8 @@ interface TwitterPostRequest {
   articleId: string;
   imageUrl: string;
   caption: string;
+  imageText?: string;
+  textColor?: 'white' | 'black';
 }
 
 function generateOAuthSignature(
@@ -79,6 +80,40 @@ function generateOAuthHeader(method: string, url: string): string {
   );
 }
 
+async function generateImageWithText(imageUrl: string, text: string, textColor: 'white' | 'black'): Promise<string> {
+  if (!text) {
+    return imageUrl; // Return original image if no text overlay needed
+  }
+
+  console.log('Generating Twitter image with text overlay:', { imageUrl, text, textColor });
+
+  try {
+    const response = await fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/generate-twitter-image`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`,
+      },
+      body: JSON.stringify({
+        imageUrl,
+        text,
+        textColor,
+      }),
+    });
+
+    if (!response.ok) {
+      console.error('Failed to generate Twitter image with text overlay');
+      return imageUrl; // Fallback to original image
+    }
+
+    const result = await response.json();
+    return result.imageUrl;
+  } catch (error) {
+    console.error('Error generating Twitter image with text overlay:', error);
+    return imageUrl; // Fallback to original image
+  }
+}
+
 async function uploadImageToTwitter(imageUrl: string): Promise<string> {
   // Download the image
   const imageResponse = await fetch(imageUrl);
@@ -107,8 +142,11 @@ async function uploadImageToTwitter(imageUrl: string): Promise<string> {
   return result.media_id_string;
 }
 
-async function postToTwitter(imageUrl: string, caption: string): Promise<any> {
-  const mediaId = await uploadImageToTwitter(imageUrl);
+async function postToTwitter(imageUrl: string, caption: string, imageText?: string, textColor?: 'white' | 'black'): Promise<any> {
+  // Generate image with text overlay if text is provided
+  const finalImageUrl = imageText ? await generateImageWithText(imageUrl, imageText, textColor || 'white') : imageUrl;
+  
+  const mediaId = await uploadImageToTwitter(finalImageUrl);
 
   const url = "https://api.x.com/2/tweets";
   const method = "POST";
@@ -153,12 +191,12 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    const { articleId, imageUrl, caption }: TwitterPostRequest = await req.json();
+    const { articleId, imageUrl, caption, imageText, textColor } = await req.json();
 
     console.log('Posting to Twitter for article:', articleId);
 
-    // Post to Twitter
-    const result = await postToTwitter(imageUrl, caption);
+    // Post to Twitter with image overlay
+    const result = await postToTwitter(imageUrl, caption, imageText, textColor);
 
     // Update article with Twitter post information
     const { error: updateError } = await supabaseClient

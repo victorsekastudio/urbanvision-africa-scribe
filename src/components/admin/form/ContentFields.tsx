@@ -6,11 +6,10 @@ import { UseFormReturn } from "react-hook-form";
 
 interface ContentFieldsProps {
   form: UseFormReturn<any>;
-  currentLanguage: 'EN' | 'FR';
   onTitleChange?: (title: string) => void;
 }
 
-export const ContentFields = ({ form, currentLanguage, onTitleChange }: ContentFieldsProps) => {
+export const ContentFields = ({ form, onTitleChange }: ContentFieldsProps) => {
   return (
     <div className="space-y-6">
       {/* Title Section */}

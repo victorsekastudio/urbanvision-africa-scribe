@@ -1,9 +1,8 @@
+
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import { useLanguage } from "@/hooks/useLanguage";
 import { SEOSection } from "./SEOSection";
 import { SocialMediaSection } from "./SocialMediaSection";
-import { LanguageToggle } from "./form/LanguageToggle";
 import { ContentFields } from "./form/ContentFields";
 import { MetadataFields } from "./form/MetadataFields";
 import { PublicationSettings } from "./form/PublicationSettings";
@@ -22,9 +21,9 @@ interface ArticleFormProps {
 export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => {
   const { authors, categories, defaultAuthorId } = useArticleFormData();
   const { isLoading, onSubmit, generateSlug } = useArticleFormSubmit(article, onSave);
-  const { currentLanguage, setLanguage } = useLanguage();
 
   const form = useForm<ArticleFormData>({
+    mode: 'onBlur',
     defaultValues: {
       title: article?.title || "",
       title_fr: article?.title_fr || "",
@@ -77,17 +76,10 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
 
   return (
     <div className="space-y-6">
-      {/* Keep language toggle for SEO section only */}
-      <LanguageToggle
-        currentLanguage={currentLanguage}
-        onLanguageChange={setLanguage}
-      />
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <ContentFields
             form={form}
-            currentLanguage={currentLanguage}
             onTitleChange={handleTitleChange}
           />
 
@@ -102,7 +94,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
 
           <SocialMediaSection form={form} />
 
-          <SEOSection form={form} currentLanguage={currentLanguage} />
+          <SEOSection form={form} />
 
           <FormActions
             isLoading={isLoading}

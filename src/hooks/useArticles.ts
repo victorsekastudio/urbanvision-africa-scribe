@@ -1,25 +1,30 @@
-
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Article } from "@/types/database";
 import { useLanguage } from "./useLanguage";
 import { useEffect } from "react";
 
-export const useArticles = (published?: boolean, featured?: boolean) => {
+export const useArticles = (published?: boolean, featured?: boolean, adminView?: boolean) => {
   const { currentLanguage } = useLanguage();
   const queryClient = useQueryClient();
 
-  // Invalidate queries when language changes
+  // Invalidate queries when language changes, but not for admin view
   useEffect(() => {
-    console.log('Language changed, invalidating article queries');
-    queryClient.invalidateQueries({ queryKey: ['articles'] });
-    queryClient.invalidateQueries({ queryKey: ['hero-article'] });
-    queryClient.invalidateQueries({ queryKey: ['pillar-articles'] });
-  }, [currentLanguage, queryClient]);
+    if (!adminView) {
+      console.log('Language changed, invalidating article queries');
+      queryClient.invalidateQueries({ queryKey: ['articles'] });
+      queryClient.invalidateQueries({ queryKey: ['hero-article'] });
+      queryClient.invalidateQueries({ queryKey: ['pillar-articles'] });
+    }
+  }, [currentLanguage, queryClient, adminView]);
 
   return useQuery({
-    queryKey: ['articles', published, featured, currentLanguage],
+    queryKey: adminView 
+      ? ['articles', 'admin', published, featured] 
+      : ['articles', published, featured, currentLanguage],
     queryFn: async () => {
+      console.log('Fetching articles with params:', { published, featured, adminView, currentLanguage });
+      
       let query = supabase
         .from('articles')
         .select(`
@@ -44,9 +49,10 @@ export const useArticles = (published?: boolean, featured?: boolean) => {
         throw error;
       }
 
-      console.log('Articles fetched for language:', currentLanguage, data?.length || 0, 'articles');
+      console.log('Articles fetched:', data?.length || 0, 'articles');
       return data as Article[];
     },
+    staleTime: adminView ? 0 : 5 * 60 * 1000, // Admin view always fetches fresh data
   });
 };
 

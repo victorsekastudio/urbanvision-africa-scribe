@@ -34,7 +34,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       content: article?.content || "",
       content_fr: article?.content_fr || "",
       author_id: article?.author_id || defaultAuthorId,
-      category_id: article?.category_id || "",
+      category_id: article?.category_id || (categories?.[0]?.id || ""),
       published: article?.published || false,
       featured: article?.featured || false,
       pin_as_hero: article?.pin_as_hero || false,
@@ -81,6 +81,22 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
     console.log('Form submit handler called');
     console.log('Form data:', data);
     console.log('Form errors:', form.formState.errors);
+    
+    // Ensure we have valid author_id and category_id for new articles
+    if (!article && (!data.author_id || !data.category_id)) {
+      const updatedData = {
+        ...data,
+        author_id: data.author_id || defaultAuthorId,
+        category_id: data.category_id || categories?.[0]?.id || ""
+      };
+      
+      if (!updatedData.author_id || !updatedData.category_id) {
+        console.error('Missing required author_id or category_id');
+        return;
+      }
+      
+      data = updatedData;
+    }
     
     // Check if form is valid
     if (!form.formState.isValid) {

@@ -30,7 +30,8 @@ const Admin = () => {
   const [editingCategory, setEditingCategory] = useState<Category | undefined>();
   const [editingAuthor, setEditingAuthor] = useState<Author | undefined>();
   
-  const { data: articles, isLoading: articlesLoading, refetch: refetchArticles } = useArticles();
+  // Use admin view for articles to bypass language filtering
+  const { data: articles, isLoading: articlesLoading, refetch: refetchArticles } = useArticles(undefined, undefined, true);
   const { data: categories, isLoading: categoriesLoading, refetch: refetchCategories } = useCategories();
   const { data: authors, isLoading: authorsLoading, refetch: refetchAuthors } = useAuthors();
   const { data: events, isLoading: eventsLoading, refetch: refetchEvents } = useEvents();
@@ -119,8 +120,17 @@ const Admin = () => {
 
   const handleArticleSave = async () => {
     console.log('Admin: handleArticleSave called, refreshing articles...');
-    await refetchArticles();
-    console.log('Admin: articles refreshed');
+    try {
+      await refetchArticles();
+      console.log('Admin: articles refreshed successfully');
+    } catch (error) {
+      console.error('Admin: Error refreshing articles:', error);
+      toast({
+        title: "Warning",
+        description: "Article saved but list might not be updated. Please refresh the page.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleCreateCategory = () => {

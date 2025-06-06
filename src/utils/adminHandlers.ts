@@ -2,7 +2,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { Article } from "@/types/database";
 
-export const createArticleHandlers = (toast: any, refetchArticles: () => void) => ({
+export const createArticleHandlers = (toast: any, refetchArticles: () => Promise<any>) => ({
   handleDeleteArticle: async (articleId: string) => {
     if (!confirm('Are you sure you want to delete this article?')) return;
 
@@ -19,7 +19,7 @@ export const createArticleHandlers = (toast: any, refetchArticles: () => void) =
         description: "Article deleted successfully",
       });
 
-      refetchArticles();
+      await refetchArticles();
     } catch (error) {
       console.error('Error deleting article:', error);
       toast({
@@ -47,7 +47,7 @@ export const createArticleHandlers = (toast: any, refetchArticles: () => void) =
         description: `Article ${!article.published ? 'published' : 'unpublished'} successfully`,
       });
 
-      refetchArticles();
+      await refetchArticles();
     } catch (error) {
       console.error('Error updating article:', error);
       toast({
@@ -72,7 +72,7 @@ export const createArticleHandlers = (toast: any, refetchArticles: () => void) =
         description: `Article ${!article.featured ? 'featured' : 'unfeatured'} successfully`,
       });
 
-      refetchArticles();
+      await refetchArticles();
     } catch (error) {
       console.error('Error updating article:', error);
       toast({

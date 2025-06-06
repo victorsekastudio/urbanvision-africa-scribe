@@ -1,6 +1,8 @@
 
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle, CheckCircle } from "lucide-react";
 import { SEOSection } from "./SEOSection";
 import { SocialMediaSection } from "./SocialMediaSection";
 import { ContentFields } from "./form/ContentFields";
@@ -11,6 +13,7 @@ import { useArticleFormData } from "./hooks/useArticleFormData";
 import { useArticleFormSubmit } from "./hooks/useArticleFormSubmit";
 import type { Article } from "@/types/database";
 import type { ArticleFormData } from "./types/ArticleFormTypes";
+import { useState } from "react";
 
 interface ArticleFormProps {
   article?: Article;
@@ -21,6 +24,8 @@ interface ArticleFormProps {
 export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => {
   const { authors, categories, defaultAuthorId } = useArticleFormData();
   const { isLoading, onSubmit, generateSlug } = useArticleFormSubmit(article, onSave);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
 
   const form = useForm<ArticleFormData>({
     mode: 'onBlur',
@@ -79,9 +84,20 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
 
   const handleFormSubmit = async (data: ArticleFormData) => {
     console.log('Form submit handler called');
-    console.log('Form data:', data);
-    console.log('Form errors:', form.formState.errors);
+    setSubmitError(null);
+    setSubmitSuccess(null);
     
+    // Basic validation
+    if (!data.title?.trim()) {
+      setSubmitError('Title is required');
+      return;
+    }
+    
+    if (!data.content?.trim()) {
+      setSubmitError('Content is required');
+      return;
+    }
+
     // Ensure we have valid author_id and category_id for new articles
     if (!article && (!data.author_id || !data.category_id)) {
       const updatedData = {
@@ -91,35 +107,50 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       };
       
       if (!updatedData.author_id || !updatedData.category_id) {
-        console.error('Missing required author_id or category_id');
+        setSubmitError('Missing required author or category information');
         return;
       }
       
       data = updatedData;
     }
     
-    // Check if form is valid
-    if (!form.formState.isValid) {
-      console.log('Form is not valid, errors:', form.formState.errors);
-      return;
-    }
-    
     try {
       await onSubmit(data);
+      
+      setSubmitSuccess(article ? 'Article updated successfully!' : 'Article created successfully!');
       
       // Reset form only if this is a new article (not editing)
       if (!article) {
         console.log('Resetting form after successful creation');
         form.reset();
       }
+      
+      // Close dialog after short delay to show success message
+      setTimeout(() => {
+        onSave();
+      }, 1500);
     } catch (error) {
       console.error('Form submission failed:', error);
-      // Don't reset form on error so user can try again
+      setSubmitError(`Failed to ${article ? 'update' : 'create'} article: ${error.message || 'Unknown error'}`);
     }
   };
 
   return (
     <div className="space-y-6">
+      {submitError && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{submitError}</AlertDescription>
+        </Alert>
+      )}
+      
+      {submitSuccess && (
+        <Alert className="border-green-200 bg-green-50">
+          <CheckCircle className="h-4 w-4 text-green-600" />
+          <AlertDescription className="text-green-800">{submitSuccess}</AlertDescription>
+        </Alert>
+      )}
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
           <ContentFields

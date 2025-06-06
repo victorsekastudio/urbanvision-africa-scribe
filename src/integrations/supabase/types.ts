@@ -13,6 +13,7 @@ export type Database = {
         Row: {
           author_id: string | null
           canonical_url: string | null
+          canonical_url_fr: string | null
           category_id: string | null
           content: string | null
           content_fr: string | null
@@ -39,6 +40,7 @@ export type Database = {
           published: boolean
           published_at: string | null
           slug: string
+          slug_fr: string | null
           social_hashtags: string | null
           social_media_posted_at: string | null
           title: string
@@ -52,6 +54,7 @@ export type Database = {
         Insert: {
           author_id?: string | null
           canonical_url?: string | null
+          canonical_url_fr?: string | null
           category_id?: string | null
           content?: string | null
           content_fr?: string | null
@@ -78,6 +81,7 @@ export type Database = {
           published?: boolean
           published_at?: string | null
           slug: string
+          slug_fr?: string | null
           social_hashtags?: string | null
           social_media_posted_at?: string | null
           title: string
@@ -91,6 +95,7 @@ export type Database = {
         Update: {
           author_id?: string | null
           canonical_url?: string | null
+          canonical_url_fr?: string | null
           category_id?: string | null
           content?: string | null
           content_fr?: string | null
@@ -117,6 +122,7 @@ export type Database = {
           published?: boolean
           published_at?: string | null
           slug?: string
+          slug_fr?: string | null
           social_hashtags?: string | null
           social_media_posted_at?: string | null
           title?: string

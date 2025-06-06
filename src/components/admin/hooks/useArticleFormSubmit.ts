@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -104,11 +105,16 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
   };
 
   const onSubmit = async (data: ArticleFormData) => {
+    console.log('Form submission started with data:', data);
     setIsLoading(true);
 
     try {
+      // Generate slug_fr if not provided
+      const slugFr = data.slug_fr || (data.title_fr ? generateSlug(data.title_fr) : '');
+
       // If pinning as hero, unpin all other articles first
       if (data.pin_as_hero) {
+        console.log('Unpinning other hero articles...');
         await supabase
           .from('articles')
           .update({ pin_as_hero: false })
@@ -118,14 +124,18 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
       const articleData = {
         ...data,
         slug: data.slug || generateSlug(data.title),
+        slug_fr: slugFr,
         published_at: data.published ? new Date().toISOString() : null,
         updated_at: new Date().toISOString(),
       };
+
+      console.log('Prepared article data for submission:', articleData);
 
       let result;
       let articleId: string;
 
       if (article) {
+        console.log('Updating existing article with ID:', article.id);
         result = await supabase
           .from('articles')
           .update(articleData)
@@ -134,6 +144,7 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
           .single();
         articleId = article.id;
       } else {
+        console.log('Creating new article...');
         result = await supabase
           .from('articles')
           .insert([articleData])
@@ -142,12 +153,18 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
         articleId = result.data?.id;
       }
 
+      console.log('Supabase result:', result);
+
       if (result.error) {
+        console.error('Supabase error:', result.error);
         throw result.error;
       }
 
+      console.log('Article saved successfully with ID:', articleId);
+
       // Post to social media if publishing and social media is enabled
       if (data.published && (data.instagram_enabled || data.twitter_enabled || data.linkedin_enabled)) {
+        console.log('Posting to social media...');
         // Run social media posting in the background
         postToSocialMedia(articleId, data);
       } else {
@@ -157,12 +174,13 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
         });
       }
 
+      console.log('Calling onSave callback...');
       onSave?.();
     } catch (error) {
       console.error('Error saving article:', error);
       toast({
         title: "Error",
-        description: `Failed to ${article ? 'update' : 'create'} article`,
+        description: `Failed to ${article ? 'update' : 'create'} article: ${error.message || 'Unknown error'}`,
         variant: "destructive",
       });
     } finally {

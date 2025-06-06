@@ -77,10 +77,24 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
     }
   };
 
+  const handleFormSubmit = (data: ArticleFormData) => {
+    console.log('Form submit handler called');
+    console.log('Form data:', data);
+    console.log('Form errors:', form.formState.errors);
+    
+    // Check if form is valid
+    if (!form.formState.isValid) {
+      console.log('Form is not valid, errors:', form.formState.errors);
+      return;
+    }
+    
+    onSubmit(data);
+  };
+
   return (
     <div className="space-y-6">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
           <ContentFields
             form={form}
             onTitleChange={handleTitleChange}

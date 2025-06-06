@@ -21,35 +21,46 @@ import Tags from "./pages/Tags";
 import StudioAI from "./pages/StudioAI";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <HelmetProvider>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/category/:category" element={<Category />} />
-              <Route path="/article/:slug" element={<Article />} />
-              <Route path="/tag/:tagName" element={<Tags />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/search" element={<Search />} />
-              <Route path="/articles" element={<AllArticles />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contribute" element={<Contribute />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="/studio-ai" element={<StudioAI />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </AuthProvider>
-    </HelmetProvider>
-  </QueryClientProvider>
-);
+const App: React.FC = () => {
+  console.log('App: Rendering...');
+  
+  return (
+    <QueryClientProvider client={queryClient}>
+      <HelmetProvider>
+        <AuthProvider>
+          <TooltipProvider>
+            <Toaster />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/category/:category" element={<Category />} />
+                <Route path="/article/:slug" element={<Article />} />
+                <Route path="/tag/:tagName" element={<Tags />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+                <Route path="/search" element={<Search />} />
+                <Route path="/articles" element={<AllArticles />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contribute" element={<Contribute />} />
+                <Route path="/events" element={<Events />} />
+                <Route path="/studio-ai" element={<StudioAI />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </AuthProvider>
+      </HelmetProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

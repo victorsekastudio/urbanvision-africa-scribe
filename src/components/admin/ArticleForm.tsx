@@ -77,7 +77,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
     }
   };
 
-  const handleFormSubmit = (data: ArticleFormData) => {
+  const handleFormSubmit = async (data: ArticleFormData) => {
     console.log('Form submit handler called');
     console.log('Form data:', data);
     console.log('Form errors:', form.formState.errors);
@@ -88,7 +88,18 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       return;
     }
     
-    onSubmit(data);
+    try {
+      await onSubmit(data);
+      
+      // Reset form only if this is a new article (not editing)
+      if (!article) {
+        console.log('Resetting form after successful creation');
+        form.reset();
+      }
+    } catch (error) {
+      console.error('Form submission failed:', error);
+      // Don't reset form on error so user can try again
+    }
   };
 
   return (

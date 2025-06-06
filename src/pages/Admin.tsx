@@ -117,8 +117,10 @@ const Admin = () => {
     refetchEvents();
   };
 
-  const handleArticleSave = () => {
-    refetchArticles();
+  const handleArticleSave = async () => {
+    console.log('Admin: handleArticleSave called, refreshing articles...');
+    await refetchArticles();
+    console.log('Admin: articles refreshed');
   };
 
   const handleCreateCategory = () => {

@@ -162,16 +162,18 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
 
       console.log('Article saved successfully with ID:', articleId);
 
+      // Show success toast immediately
+      const successMessage = article ? 'Article updated successfully!' : 'Article created successfully!';
+      toast({
+        title: "Success",
+        description: successMessage,
+      });
+
       // Post to social media if publishing and social media is enabled
       if (data.published && (data.instagram_enabled || data.twitter_enabled || data.linkedin_enabled)) {
         console.log('Posting to social media...');
         // Run social media posting in the background
         postToSocialMedia(articleId, data);
-      } else {
-        toast({
-          title: "Success",
-          description: `Article ${article ? 'updated' : 'created'} successfully`,
-        });
       }
 
       console.log('Calling onSave callback...');
@@ -183,6 +185,7 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
         description: `Failed to ${article ? 'update' : 'create'} article: ${error.message || 'Unknown error'}`,
         variant: "destructive",
       });
+      throw error; // Re-throw so form can handle it
     } finally {
       setIsLoading(false);
     }

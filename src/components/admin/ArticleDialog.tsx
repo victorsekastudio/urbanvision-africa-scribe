@@ -11,11 +11,9 @@ interface ArticleDialogProps {
 }
 
 export const ArticleDialog = ({ open, onOpenChange, article, onSave }: ArticleDialogProps) => {
-  const handleSave = async () => {
+  const handleSave = () => {
     console.log('ArticleDialog: handleSave called');
-    // Wait for the parent to handle the save and refresh
-    await onSave();
-    console.log('ArticleDialog: onSave completed, closing dialog');
+    onSave();
     onOpenChange(false);
   };
 

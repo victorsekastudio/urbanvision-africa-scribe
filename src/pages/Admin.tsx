@@ -120,6 +120,7 @@ const Admin = () => {
 
   const handleArticleSave = async () => {
     console.log('Admin: handleArticleSave called, refreshing articles...');
+    setArticleDialogOpen(false);
     try {
       await refetchArticles();
       console.log('Admin: articles refreshed successfully');

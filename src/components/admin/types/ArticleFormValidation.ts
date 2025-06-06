@@ -1,0 +1,43 @@
+
+import { z } from "zod";
+
+export const articleFormSchema = z.object({
+  title: z.string().min(1, "Title is required").max(200, "Title must be less than 200 characters"),
+  title_fr: z.string().optional(),
+  slug: z.string().min(1, "Slug is required").regex(/^[a-z0-9-]+$/, "Slug must contain only lowercase letters, numbers, and hyphens"),
+  slug_fr: z.string().optional(),
+  excerpt: z.string().max(500, "Excerpt must be less than 500 characters").optional(),
+  excerpt_fr: z.string().max(500, "Excerpt must be less than 500 characters").optional(),
+  content: z.string().min(1, "Content is required"),
+  content_fr: z.string().optional(),
+  author_id: z.string().min(1, "Author is required"),
+  category_id: z.string().min(1, "Category is required"),
+  published: z.boolean(),
+  featured: z.boolean(),
+  pin_as_hero: z.boolean(),
+  featured_image_url: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  meta_title: z.string().optional(),
+  meta_title_fr: z.string().optional(),
+  meta_description: z.string().optional(),
+  meta_description_fr: z.string().optional(),
+  meta_keywords: z.string().optional(),
+  meta_keywords_fr: z.string().optional(),
+  og_image_url: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  canonical_url: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  canonical_url_fr: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  instagram_enabled: z.boolean(),
+  twitter_enabled: z.boolean(),
+  linkedin_enabled: z.boolean(),
+  instagram_caption: z.string().optional(),
+  twitter_caption: z.string().optional(),
+  linkedin_caption: z.string().optional(),
+  social_hashtags: z.string().optional(),
+  instagram_image_text: z.string().optional(),
+  instagram_text_color: z.enum(['white', 'black']),
+  twitter_image_text: z.string().optional(),
+  twitter_text_color: z.enum(['white', 'black']),
+  linkedin_image_text: z.string().optional(),
+  linkedin_text_color: z.enum(['white', 'black']),
+});
+
+export type ArticleFormData = z.infer<typeof articleFormSchema>;

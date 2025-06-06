@@ -10,7 +10,7 @@ interface FormActionsProps {
 export const FormActions = ({ isLoading, isEditing, onCancel }: FormActionsProps) => {
   const handleCreateClick = (e: React.MouseEvent) => {
     console.log('Create/Update button clicked');
-    console.log('Button type:', e.currentTarget.type);
+    console.log('Button type:', (e.currentTarget as HTMLButtonElement).type);
     console.log('Is loading:', isLoading);
     
     // Don't prevent default - let the form submission happen naturally

@@ -31,7 +31,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
     isLoading: submitLoading, 
     onSubmit, 
     generateSlug, 
-    errorState,
+    lastError,
     retryCount,
     retrySubmit 
   } = useArticleFormSubmit(article, onSave);
@@ -106,10 +106,10 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
 
   // Handle retry with toast action when there's a retryable error
   useEffect(() => {
-    if (errorState && errorState.isRetryable && lastFormData) {
+    if (lastError && lastError.isRetryable && lastFormData) {
       toast({
         title: "Error",
-        description: errorState.message,
+        description: lastError.message,
         variant: "destructive",
         action: (
           <ToastAction 
@@ -121,7 +121,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
         ),
       });
     }
-  }, [errorState, lastFormData, retrySubmit, toast]);
+  }, [lastError, lastFormData, retrySubmit, toast]);
 
   // Set form values when data is loaded
   useEffect(() => {

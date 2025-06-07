@@ -121,7 +121,7 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
           .neq('id', article?.id || '');
       }
 
-      // Prepare the article data with proper typing
+      // Prepare the article data with proper typing and ensure all fields exist
       const articleData = {
         title: data.title,
         title_fr: data.title_fr || null,
@@ -146,19 +146,19 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
         og_image_url: data.og_image_url || null,
         canonical_url: data.canonical_url || null,
         canonical_url_fr: data.canonical_url_fr || null,
-        instagram_enabled: data.instagram_enabled,
-        twitter_enabled: data.twitter_enabled,
-        linkedin_enabled: data.linkedin_enabled,
+        instagram_enabled: data.instagram_enabled || false,
+        twitter_enabled: data.twitter_enabled || false,
+        linkedin_enabled: data.linkedin_enabled || false,
         instagram_caption: data.instagram_caption || null,
         twitter_caption: data.twitter_caption || null,
         linkedin_caption: data.linkedin_caption || null,
         social_hashtags: data.social_hashtags || null,
         instagram_image_text: data.instagram_image_text || null,
-        instagram_text_color: data.instagram_text_color || null,
+        instagram_text_color: data.instagram_text_color || 'white',
         twitter_image_text: data.twitter_image_text || null,
-        twitter_text_color: data.twitter_text_color || null,
+        twitter_text_color: data.twitter_text_color || 'white',
         linkedin_image_text: data.linkedin_image_text || null,
-        linkedin_text_color: data.linkedin_text_color || null,
+        linkedin_text_color: data.linkedin_text_color || 'white',
         published_at: data.published ? new Date().toISOString() : null,
         updated_at: new Date().toISOString(),
       };
@@ -190,8 +190,29 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
       console.log('Supabase result:', result);
 
       if (result.error) {
-        console.error('Supabase error:', result.error);
-        throw result.error;
+        console.error('Supabase error details:', {
+          error: result.error,
+          message: result.error.message,
+          details: result.error.details,
+          hint: result.error.hint,
+          code: result.error.code
+        });
+        
+        // Provide more specific error messages
+        let errorMessage = result.error.message;
+        if (result.error.code === '23505') {
+          errorMessage = 'An article with this slug already exists. Please use a different title or slug.';
+        } else if (result.error.code === '23503') {
+          errorMessage = 'Invalid author or category selected. Please check your selections.';
+        } else if (result.error.code === '42703') {
+          errorMessage = 'Database schema error. Please contact support.';
+        }
+        
+        throw new Error(errorMessage);
+      }
+
+      if (!result.data) {
+        throw new Error('No data returned from database operation');
       }
 
       console.log('Article saved successfully with ID:', articleId);
@@ -214,9 +235,10 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
       onSave?.();
     } catch (error) {
       console.error('Error saving article:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       toast({
         title: "Error",
-        description: `Failed to ${article ? 'update' : 'create'} article: ${error.message || 'Unknown error'}`,
+        description: `Failed to ${article ? 'update' : 'create'} article: ${errorMessage}`,
         variant: "destructive",
       });
       throw error; // Re-throw so form can handle it

@@ -29,6 +29,12 @@ export type Database = {
           instagram_post_id: string | null
           instagram_post_url: string | null
           instagram_text_color: string | null
+          linkedin_caption: string | null
+          linkedin_enabled: boolean | null
+          linkedin_image_text: string | null
+          linkedin_post_id: string | null
+          linkedin_post_url: string | null
+          linkedin_text_color: string | null
           meta_description: string | null
           meta_description_fr: string | null
           meta_keywords: string | null
@@ -47,8 +53,10 @@ export type Database = {
           title_fr: string | null
           twitter_caption: string | null
           twitter_enabled: boolean | null
+          twitter_image_text: string | null
           twitter_post_id: string | null
           twitter_post_url: string | null
+          twitter_text_color: string | null
           updated_at: string
         }
         Insert: {
@@ -70,6 +78,12 @@ export type Database = {
           instagram_post_id?: string | null
           instagram_post_url?: string | null
           instagram_text_color?: string | null
+          linkedin_caption?: string | null
+          linkedin_enabled?: boolean | null
+          linkedin_image_text?: string | null
+          linkedin_post_id?: string | null
+          linkedin_post_url?: string | null
+          linkedin_text_color?: string | null
           meta_description?: string | null
           meta_description_fr?: string | null
           meta_keywords?: string | null
@@ -88,8 +102,10 @@ export type Database = {
           title_fr?: string | null
           twitter_caption?: string | null
           twitter_enabled?: boolean | null
+          twitter_image_text?: string | null
           twitter_post_id?: string | null
           twitter_post_url?: string | null
+          twitter_text_color?: string | null
           updated_at?: string
         }
         Update: {
@@ -111,6 +127,12 @@ export type Database = {
           instagram_post_id?: string | null
           instagram_post_url?: string | null
           instagram_text_color?: string | null
+          linkedin_caption?: string | null
+          linkedin_enabled?: boolean | null
+          linkedin_image_text?: string | null
+          linkedin_post_id?: string | null
+          linkedin_post_url?: string | null
+          linkedin_text_color?: string | null
           meta_description?: string | null
           meta_description_fr?: string | null
           meta_keywords?: string | null
@@ -129,8 +151,10 @@ export type Database = {
           title_fr?: string | null
           twitter_caption?: string | null
           twitter_enabled?: boolean | null
+          twitter_image_text?: string | null
           twitter_post_id?: string | null
           twitter_post_url?: string | null
+          twitter_text_color?: string | null
           updated_at?: string
         }
         Relationships: [

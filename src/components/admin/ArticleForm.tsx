@@ -132,7 +132,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
   };
 
   const handleFormSubmit = async (data: ArticleFormData) => {
-    console.log('Form submit handler called');
+    console.log('Form submit handler called with data:', data);
     setSubmitError(null);
     setSubmitSuccess(null);
     
@@ -147,13 +147,10 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
         form.reset();
       }
       
-      // Call onSave after a short delay to show success message
-      setTimeout(() => {
-        onSave();
-      }, 1000);
     } catch (error) {
       console.error('Form submission failed:', error);
-      setSubmitError(`Failed to ${article ? 'update' : 'create'} article: ${error.message || 'Unknown error'}`);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      setSubmitError(`Failed to ${article ? 'update' : 'create'} article: ${errorMessage}`);
     }
   };
 

@@ -6,9 +6,10 @@ interface FormActionsProps {
   isLoading: boolean;
   isEditing: boolean;
   onCancel: () => void;
+  hasUnsavedChanges?: boolean;
 }
 
-export const FormActions = ({ isLoading, isEditing, onCancel }: FormActionsProps) => {
+export const FormActions = ({ isLoading, isEditing, onCancel, hasUnsavedChanges }: FormActionsProps) => {
   return (
     <div className="flex justify-end space-x-4 pt-6 border-t">
       <Button 

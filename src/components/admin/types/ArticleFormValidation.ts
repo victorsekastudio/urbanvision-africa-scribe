@@ -1,8 +1,8 @@
 
 import { z } from "zod";
 
-// Enhanced validation schema that aligns with database constraints
-export const articleFormSchema = z.object({
+// Base schema without refinements
+const baseArticleSchema = z.object({
   // Required fields with database-aligned constraints
   title: z.string()
     .min(1, "Title is required")
@@ -183,7 +183,10 @@ export const articleFormSchema = z.object({
     .or(z.literal("")),
   
   linkedin_text_color: z.enum(['white', 'black']).default('white'),
-})
+});
+
+// Enhanced validation schema with refinements
+export const articleFormSchema = baseArticleSchema
 .refine(
   (data) => {
     // If French title exists, French slug should also exist
@@ -240,7 +243,7 @@ export type ArticleFormData = z.infer<typeof articleFormSchema>;
 // Helper function to validate individual fields
 export const validateField = (fieldName: keyof ArticleFormData, value: any) => {
   try {
-    const fieldSchema = articleFormSchema.shape[fieldName];
+    const fieldSchema = baseArticleSchema.shape[fieldName];
     if (fieldSchema) {
       fieldSchema.parse(value);
       return { isValid: true, error: null };

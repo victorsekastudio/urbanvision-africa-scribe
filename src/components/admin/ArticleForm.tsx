@@ -17,7 +17,18 @@ interface ArticleFormProps {
 }
 
 export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => {
+  console.log('🎯 DEBUG: ArticleForm rendered');
+  console.log('📝 DEBUG: Article prop:', article);
+  console.log('📞 DEBUG: onSave callback exists:', !!onSave);
+  console.log('📞 DEBUG: onCancel callback exists:', !!onCancel);
+
   const { authors, categories, defaultAuthorId, isLoading: dataLoading } = useArticleFormData();
+  
+  console.log('👥 DEBUG: Authors loaded:', authors?.length || 0);
+  console.log('🏷️ DEBUG: Categories loaded:', categories?.length || 0);
+  console.log('👤 DEBUG: Default author ID:', defaultAuthorId);
+  console.log('⏳ DEBUG: Data loading:', dataLoading);
+
   const { 
     isLoading: submitLoading, 
     onSubmit, 
@@ -26,6 +37,10 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
     retryCount,
     retrySubmit 
   } = useArticleFormSubmit(article, onSave);
+
+  console.log('🔄 DEBUG: Submit loading:', submitLoading);
+  console.log('❌ DEBUG: Last error:', lastError);
+  console.log('🔢 DEBUG: Retry count:', retryCount);
 
   const {
     form,
@@ -37,11 +52,17 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
     setLastFormData,
   } = useArticleFormState(article, defaultAuthorId, categories, dataLoading, lastError, retrySubmit);
 
+  console.log('📋 DEBUG: Form state initialized');
+  console.log('✅ DEBUG: Submit success:', submitSuccess);
+  console.log('❌ DEBUG: Submit error:', submitError);
+
   // Enhanced form state management
   const { formState: enhancedFormState, markAsSaved, resetFormState } = useEnhancedFormState(form, {
     enableAutoSave: false, // Will implement in Phase 3
     autoSaveDelay: 30000,
   });
+
+  console.log('🎛️ DEBUG: Enhanced form state:', enhancedFormState);
 
   // Slug validation for both English and French
   const { 
@@ -58,52 +79,78 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
   });
 
   const handleTitleChange = (title: string, language: 'en' | 'fr') => {
-    console.log(`${language} title change handler called with:`, title);
+    console.log(`🏷️ DEBUG: ${language} title change handler called with:`, title);
     if (!article && title) {
       const newSlug = generateSlug(title);
       const slugField = language === 'en' ? 'slug' : 'slug_fr';
       const currentSlug = form.getValues(slugField);
       if (!currentSlug) {
-        console.log(`Setting ${language} slug to:`, newSlug);
+        console.log(`🔗 DEBUG: Setting ${language} slug to:`, newSlug);
         form.setValue(slugField, newSlug);
       }
     }
   };
 
   const handleFormSubmit = async (data: ArticleFormData) => {
-    console.log('Form submit handler called with data:', data);
+    console.log('🚀 DEBUG: Form submit handler called');
+    console.log('📋 DEBUG: Form submission data:', data);
+    
     setSubmitError(null);
     setSubmitSuccess(null);
     setLastFormData(data); // Store for potential retry
     
+    console.log('💾 DEBUG: Stored form data for potential retry');
+    
     try {
+      console.log('🔄 DEBUG: Calling onSubmit...');
       await onSubmit(data);
       
-      setSubmitSuccess(article ? 'Article updated successfully!' : 'Article created successfully!');
+      console.log('✅ DEBUG: onSubmit completed successfully');
+      
+      const successMessage = article ? 'Article updated successfully!' : 'Article created successfully!';
+      setSubmitSuccess(successMessage);
       markAsSaved();
       
       // Reset form only if this is a new article (not editing)
       if (!article) {
-        console.log('Resetting form after successful creation');
+        console.log('🔄 DEBUG: Resetting form after successful creation');
         resetFormState();
       }
       
       // Call onSave to trigger parent component refresh
-      console.log('Calling onSave callback to refresh article list...');
-      onSave();
+      console.log('📞 DEBUG: Calling onSave callback to refresh article list...');
+      console.log('🔍 DEBUG: onSave function check:', typeof onSave, !!onSave);
+      
+      if (onSave) {
+        console.log('🔄 DEBUG: Executing onSave callback');
+        onSave();
+        console.log('✅ DEBUG: onSave callback execution completed');
+      } else {
+        console.warn('⚠️ DEBUG: onSave callback is not available');
+      }
       
     } catch (error) {
-      console.error('Form submission failed:', error);
+      console.error('💥 DEBUG: Form submission failed:', error);
+      console.error('📊 DEBUG: Error details:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined
+      });
+      
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      setSubmitError(`Failed to ${article ? 'update' : 'create'} article: ${errorMessage}`);
+      const fullErrorMessage = `Failed to ${article ? 'update' : 'create'} article: ${errorMessage}`;
+      
+      console.log('💬 DEBUG: Setting error message:', fullErrorMessage);
+      setSubmitError(fullErrorMessage);
     }
   };
 
   const handleSlugSuggestionClick = (suggestion: string) => {
+    console.log('🔗 DEBUG: Slug suggestion clicked:', suggestion);
     form.setValue('slug', suggestion);
   };
 
   if (dataLoading) {
+    console.log('⏳ DEBUG: Rendering loading skeleton');
     return (
       <div className="space-y-6">
         <div className="animate-pulse">
@@ -115,6 +162,8 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       </div>
     );
   }
+
+  console.log('🎨 DEBUG: Rendering article form');
 
   return (
     <div className="space-y-6">

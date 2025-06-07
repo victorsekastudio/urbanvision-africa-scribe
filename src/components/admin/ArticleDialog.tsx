@@ -11,14 +11,26 @@ interface ArticleDialogProps {
 }
 
 export const ArticleDialog = ({ open, onOpenChange, article, onSave }: ArticleDialogProps) => {
+  console.log('🎭 DEBUG: ArticleDialog rendered');
+  console.log('👁️ DEBUG: Dialog open state:', open);
+  console.log('📝 DEBUG: Article for editing:', article?.id || 'NEW ARTICLE');
+  console.log('📞 DEBUG: onSave callback exists:', !!onSave);
+
   const handleSave = () => {
-    console.log('ArticleDialog: handleSave called');
+    console.log('💾 DEBUG: ArticleDialog handleSave called');
+    console.log('🔄 DEBUG: Calling parent onSave callback');
+    
     onSave();
+    
+    console.log('🚪 DEBUG: Closing dialog');
     onOpenChange(false);
+    
+    console.log('✅ DEBUG: ArticleDialog handleSave completed');
   };
 
   const handleCancel = () => {
-    console.log('ArticleDialog: handleCancel called');
+    console.log('❌ DEBUG: ArticleDialog handleCancel called');
+    console.log('🚪 DEBUG: Closing dialog without saving');
     onOpenChange(false);
   };
 

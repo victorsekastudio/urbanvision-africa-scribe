@@ -42,6 +42,18 @@ const Admin = () => {
 
   const isLoading = articlesLoading || categoriesLoading || authorsLoading || eventsLoading || subscribersLoading;
 
+  console.log('🏠 DEBUG: Admin component rendered');
+  console.log('📊 DEBUG: Data loading states:', {
+    articlesLoading,
+    categoriesLoading, 
+    authorsLoading,
+    eventsLoading,
+    subscribersLoading,
+    isLoading
+  });
+  console.log('📄 DEBUG: Articles count:', articles?.length || 0);
+  console.log('👤 DEBUG: Current user:', user?.email);
+
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -119,13 +131,18 @@ const Admin = () => {
   };
 
   const handleArticleSave = async () => {
-    console.log('Admin: handleArticleSave called, refreshing articles...');
+    console.log('💾 DEBUG: Admin handleArticleSave called');
+    console.log('🚪 DEBUG: Closing article dialog');
     setArticleDialogOpen(false);
+    
     try {
-      await refetchArticles();
-      console.log('Admin: articles refreshed successfully');
+      console.log('🔄 DEBUG: Refetching articles...');
+      const result = await refetchArticles();
+      console.log('✅ DEBUG: Articles refreshed successfully');
+      console.log('📊 DEBUG: New articles count:', result.data?.length || 0);
+      console.log('📄 DEBUG: Refreshed articles:', result.data?.map(a => ({ id: a.id, title: a.title })) || []);
     } catch (error) {
-      console.error('Admin: Error refreshing articles:', error);
+      console.error('❌ DEBUG: Error refreshing articles:', error);
       toast({
         title: "Warning",
         description: "Article saved but list might not be updated. Please refresh the page.",

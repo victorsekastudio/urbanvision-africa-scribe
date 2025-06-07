@@ -1,9 +1,9 @@
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, CheckCircle, Clock, Wifi, WifiOff } from "lucide-react";
+import { ToastAction } from "@/components/ui/toast";
 import { SEOSection } from "./SEOSection";
 import { SocialMediaSection } from "./SocialMediaSection";
 import { ContentFields } from "./form/ContentFields";
@@ -14,6 +14,7 @@ import { useArticleFormData } from "./hooks/useArticleFormData";
 import { useArticleFormSubmit } from "./hooks/useArticleFormSubmit";
 import { useSlugValidation } from "./hooks/useSlugValidation";
 import { useEnhancedFormState } from "./hooks/useEnhancedFormState";
+import { useToast } from "@/hooks/use-toast";
 import { articleFormSchema, type ArticleFormData } from "./types/ArticleFormValidation";
 import type { Article } from "@/types/database";
 import { useState, useEffect } from "react";
@@ -26,9 +27,18 @@ interface ArticleFormProps {
 
 export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => {
   const { authors, categories, defaultAuthorId, isLoading: dataLoading } = useArticleFormData();
-  const { isLoading: submitLoading, onSubmit, generateSlug, retryCount } = useArticleFormSubmit(article, onSave);
+  const { 
+    isLoading: submitLoading, 
+    onSubmit, 
+    generateSlug, 
+    retryCount, 
+    lastError, 
+    retrySubmit 
+  } = useArticleFormSubmit(article, onSave);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
+  const [lastFormData, setLastFormData] = useState<ArticleFormData | null>(null);
+  const { toast } = useToast();
 
   const form = useForm<ArticleFormData>({
     resolver: zodResolver(articleFormSchema),
@@ -94,6 +104,22 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
     error: null as string | null,
   });
 
+  // Handle retry with toast action when there's a retryable error
+  useEffect(() => {
+    if (lastError && lastError.isRetryable && lastFormData) {
+      toast({
+        title: "Error",
+        description: lastError.message,
+        variant: "destructive",
+        action: (
+          <ToastAction onClick={() => retrySubmit(lastFormData)}>
+            Retry
+          </ToastAction>
+        ),
+      });
+    }
+  }, [lastError, lastFormData, retrySubmit, toast]);
+
   // Set form values when data is loaded
   useEffect(() => {
     if (!dataLoading && (defaultAuthorId || categories.length > 0)) {
@@ -158,6 +184,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
     console.log('Form submit handler called with data:', data);
     setSubmitError(null);
     setSubmitSuccess(null);
+    setLastFormData(data); // Store for potential retry
     
     try {
       await onSubmit(data);

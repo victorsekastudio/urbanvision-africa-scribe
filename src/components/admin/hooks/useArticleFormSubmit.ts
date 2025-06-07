@@ -1,7 +1,7 @@
+
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "@/components/ui/toast";
 import type { Article } from "@/types/database";
 import type { ArticleFormData } from "../types/ArticleFormTypes";
 import { generateSlug } from "./utils/slugGenerator";
@@ -10,9 +10,16 @@ import { prepareArticleData } from "./utils/articleDataPreparer";
 import { analyzeError, formatErrorForUser, type ErrorContext } from "./utils/errorHandler";
 import { withRetry, createRetryableOperation } from "./utils/retryHandler";
 
+export interface SubmitError {
+  message: string;
+  isRetryable: boolean;
+  enhancedError: any;
+}
+
 export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => {
   const [isLoading, setIsLoading] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
+  const [lastError, setLastError] = useState<SubmitError | null>(null);
   const { toast } = useToast();
   const { postToSocialMedia } = useSocialMediaPoster();
 
@@ -62,6 +69,7 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
     console.log('Form submission started with data:', data);
     setIsLoading(true);
     setRetryCount(0);
+    setLastError(null);
 
     const errorContext: ErrorContext = {
       operation: article ? 'update_article' : 'create_article',
@@ -129,15 +137,18 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
       const enhancedError = analyzeError(error, errorContext);
       const userMessage = formatErrorForUser(enhancedError);
       
+      // Store error info for the component to handle
+      setLastError({
+        message: userMessage,
+        isRetryable: enhancedError.isRetryable,
+        enhancedError,
+      });
+      
+      // Show basic error toast without retry button
       toast({
         title: "Error",
         description: userMessage,
         variant: "destructive",
-        action: enhancedError.isRetryable ? (
-          <ToastAction onClick={() => onSubmit(data)}>
-            Retry
-          </ToastAction>
-        ) : undefined,
       });
       
       throw error; // Re-throw so form can handle it
@@ -146,10 +157,16 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
     }
   };
 
+  const retrySubmit = async (data: ArticleFormData) => {
+    await onSubmit(data);
+  };
+
   return { 
     isLoading, 
     onSubmit, 
     generateSlug,
     retryCount,
+    lastError,
+    retrySubmit,
   };
 };

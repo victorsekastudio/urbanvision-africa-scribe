@@ -201,6 +201,10 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
         resetFormState();
       }
       
+      // Call onSave to trigger parent component refresh
+      console.log('Calling onSave callback to refresh article list...');
+      onSave();
+      
     } catch (error) {
       console.error('Form submission failed:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';

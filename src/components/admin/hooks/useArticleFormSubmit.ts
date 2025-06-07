@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, createElement } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import type { Article } from "@/types/database";
@@ -133,13 +133,13 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
         title: "Error",
         description: userMessage,
         variant: "destructive",
-        action: enhancedError.isRetryable ? (
-          <button
-            onClick={() => onSubmit(data)}
-            className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700"
-          >
-            Retry
-          </button>
+        action: enhancedError.isRetryable ? createElement(
+          'button',
+          {
+            onClick: () => onSubmit(data),
+            className: "bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700"
+          },
+          'Retry'
         ) : undefined,
       });
       

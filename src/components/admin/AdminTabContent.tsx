@@ -40,6 +40,15 @@ export const AdminTabContent = ({
   handlers,
   dialogs,
 }: AdminTabContentProps) => {
+  // Adapter functions to match ArticlesTab expected signatures
+  const handleTogglePublished = (article: Article) => {
+    handlers.handleTogglePublished(article.id, !article.published);
+  };
+
+  const handleToggleFeatured = (article: Article) => {
+    handlers.handleToggleFeatured(article.id, !article.featured);
+  };
+
   switch (activeTab) {
     case 'articles':
       return (
@@ -48,8 +57,8 @@ export const AdminTabContent = ({
           onCreateArticle={() => dialogs.openArticleDialog()}
           onEditArticle={dialogs.openArticleDialog}
           onDeleteArticle={handlers.handleDeleteArticle}
-          onTogglePublished={handlers.handleTogglePublished}
-          onToggleFeatured={handlers.handleToggleFeatured}
+          onTogglePublished={handleTogglePublished}
+          onToggleFeatured={handleToggleFeatured}
         />
       );
     case 'events':

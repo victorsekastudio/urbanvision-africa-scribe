@@ -1,105 +1,111 @@
+
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { useLanguage } from "@/hooks/useLanguage";
+import { translations } from "@/utils/translations";
 
 const Contribute = () => {
+  const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage];
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="prose prose-lg max-w-none">
           <h1 className="text-4xl font-light text-gray-900 mb-8 font-serif">
-            Contribute to UrbanVision
+            {t.contributeToUrbanVision}
           </h1>
           
           <div className="text-gray-700 font-light leading-relaxed space-y-6">
             <p className="text-xl text-gray-600 mb-8">
-              We welcome contributions from urban planners, researchers, policymakers, community advocates, and anyone passionate about creating better cities.
+              {t.contributeSubtitle}
             </p>
             
             <h2 className="text-2xl font-light text-gray-900 mt-12 mb-6 font-serif">
-              What We're Looking For
+              {t.whatWereLookingFor}
             </h2>
             
             <p>
-              UrbanVision publishes a variety of content formats, including in-depth analyses, case studies, opinion pieces, photo essays, and data visualizations. We particularly value:
+              {t.whatWereLookingForText}
             </p>
             
             <ul className="space-y-3 list-disc list-inside">
-              <li>Original research and analysis on urban development trends</li>
-              <li>Case studies of innovative urban projects or policies</li>
-              <li>Critical perspectives on current urban planning practices</li>
-              <li>Stories that highlight community voices and experiences</li>
-              <li>Data-driven investigations into urban challenges</li>
-              <li>International perspectives on global urban issues</li>
+              <li>{t.originalResearch}</li>
+              <li>{t.caseStudies}</li>
+              <li>{t.criticalPerspectives}</li>
+              <li>{t.communityStories}</li>
+              <li>{t.dataInvestigations}</li>
+              <li>{t.internationalPerspectives}</li>
             </ul>
             
             <h2 className="text-2xl font-light text-gray-900 mt-12 mb-6 font-serif">
-              Submission Guidelines
+              {t.submissionGuidelines}
             </h2>
             
             <h3 className="text-lg font-medium text-gray-900 mt-8 mb-4">
-              Article Length
+              {t.articleLength}
             </h3>
             <ul className="space-y-2 list-disc list-inside">
-              <li>Feature articles: 2,000-4,000 words</li>
-              <li>Analysis pieces: 1,200-2,500 words</li>
-              <li>Opinion pieces: 800-1,500 words</li>
-              <li>Brief reports: 500-800 words</li>
+              <li>{t.featureArticles}</li>
+              <li>{t.analysisPieces}</li>
+              <li>{t.opinionPieces}</li>
+              <li>{t.briefReports}</li>
             </ul>
             
             <h3 className="text-lg font-medium text-gray-900 mt-8 mb-4">
-              Format Requirements
+              {t.formatRequirements}
             </h3>
             <ul className="space-y-2 list-disc list-inside">
-              <li>Submit articles in Microsoft Word or Google Docs format</li>
-              <li>Include a brief author bio (50-100 words)</li>
-              <li>Provide high-resolution images when relevant (with proper attribution)</li>
-              <li>Include citations and references for all claims and data</li>
-              <li>Suggest relevant tags and categories for your piece</li>
+              <li>{t.submitInWord}</li>
+              <li>{t.includeBio}</li>
+              <li>{t.provideImages}</li>
+              <li>{t.includeCitations}</li>
+              <li>{t.suggestTags}</li>
             </ul>
             
             <h3 className="text-lg font-medium text-gray-900 mt-8 mb-4">
-              Proposal Process
+              {t.proposalProcess}
             </h3>
             <p>
-              Before submitting a full article, we recommend sending a brief pitch (200-300 words) that outlines:
+              {t.proposalProcessText}
             </p>
             <ul className="space-y-2 list-disc list-inside">
-              <li>The main argument or focus of your piece</li>
-              <li>Why this topic is timely and relevant</li>
-              <li>Your unique perspective or expertise on the subject</li>
-              <li>The key sources or data you plan to reference</li>
+              <li>{t.mainArgument}</li>
+              <li>{t.whyTimely}</li>
+              <li>{t.uniquePerspective}</li>
+              <li>{t.keySources}</li>
             </ul>
             
             <h2 className="text-2xl font-light text-gray-900 mt-12 mb-6 font-serif">
-              Editorial Standards
+              {t.editorialStandards}
             </h2>
             
             <p>
-              All submissions undergo a thorough editorial review process. We evaluate articles based on:
+              {t.editorialStandardsText}
             </p>
             
             <ul className="space-y-3 list-disc list-inside">
-              <li><strong>Accuracy:</strong> All factual claims must be supported by credible sources</li>
-              <li><strong>Originality:</strong> We prioritize fresh perspectives and original analysis</li>
-              <li><strong>Relevance:</strong> Content should address current urban challenges or opportunities</li>
-              <li><strong>Clarity:</strong> Articles should be accessible to a broad, educated audience</li>
-              <li><strong>Balance:</strong> We value nuanced perspectives that acknowledge complexity</li>
+              <li><strong>{t.accuracy}</strong> {t.accuracyDesc}</li>
+              <li><strong>{t.originality}</strong> {t.originalityDesc}</li>
+              <li><strong>{t.relevance}</strong> {t.relevanceDesc}</li>
+              <li><strong>{t.clarity}</strong> {t.clarityDesc}</li>
+              <li><strong>{t.balance}</strong> {t.balanceDesc}</li>
             </ul>
             
             <h2 className="text-2xl font-light text-gray-900 mt-12 mb-6 font-serif">
-              Get in Touch
+              {t.getInTouch}
             </h2>
             
             <div className="bg-gray-50 p-6 rounded-lg">
               <p className="mb-4">
-                Ready to contribute? We'd love to hear from you.
+                {t.readyToContribute}
               </p>
               <p>
-                <strong>Email:</strong> <a href="mailto:v.isingizwe@seka.studio" className="text-blue-600 hover:text-blue-800">v.isingizwe@seka.studio</a>
+                <strong>{t.email}</strong> <a href="mailto:v.isingizwe@seka.studio" className="text-blue-600 hover:text-blue-800">v.isingizwe@seka.studio</a>
               </p>
               <p className="mt-2">
-                <strong>Response time:</strong> We aim to respond to all pitches and submissions within 1 week.
+                <strong>{t.responseTime}</strong> {t.responseTimeText}
               </p>
             </div>
           </div>

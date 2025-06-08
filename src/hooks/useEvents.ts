@@ -1,4 +1,3 @@
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Event } from "@/types/database";
@@ -26,6 +25,25 @@ export const usePublishedEvents = () => {
         .from("events")
         .select("*")
         .eq("published", true)
+        .order("date", { ascending: true });
+
+      if (error) throw error;
+      return data as Event[];
+    },
+  });
+};
+
+export const useUpcomingEvents = () => {
+  return useQuery({
+    queryKey: ["upcoming-events"],
+    queryFn: async () => {
+      const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+      
+      const { data, error } = await supabase
+        .from("events")
+        .select("*")
+        .eq("published", true)
+        .gte("date", today)
         .order("date", { ascending: true });
 
       if (error) throw error;

@@ -1,10 +1,14 @@
 
-import { createArticleHandlers } from "./adminHandlers";
 import { useDeleteArticle, useUpdateArticleStatus } from "@/hooks/useArticleMutations";
+import { useDeleteEvent } from "@/hooks/useEvents";
+import { useToast } from "@/hooks/use-toast";
+import type { Article, Event, Category, Author } from "@/types/database";
 
-export const createArticleHandlers = (toast: any, refetchArticles: any) => {
+export const useAdminHandlers = (refetchArticles: any, refetchEvents: any) => {
   const deleteArticle = useDeleteArticle();
   const updateArticleStatus = useUpdateArticleStatus();
+  const deleteEvent = useDeleteEvent();
+  const { toast } = useToast();
 
   const handleDeleteArticle = async (articleId: string) => {
     if (!confirm('Are you sure you want to delete this article?')) return;
@@ -67,9 +71,29 @@ export const createArticleHandlers = (toast: any, refetchArticles: any) => {
     }
   };
 
+  const handleDeleteEvent = async (eventId: string) => {
+    if (!confirm('Are you sure you want to delete this event?')) return;
+
+    try {
+      await deleteEvent.mutateAsync(eventId);
+      toast({
+        title: "Success",
+        description: "Event deleted successfully",
+      });
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete event",
+        variant: "destructive",
+      });
+    }
+  };
+
   return {
     handleDeleteArticle,
     handleTogglePublished,
-    handleToggleFeatured
+    handleToggleFeatured,
+    handleDeleteEvent,
   };
 };

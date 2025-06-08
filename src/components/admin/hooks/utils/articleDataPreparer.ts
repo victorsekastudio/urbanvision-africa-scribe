@@ -21,6 +21,7 @@ export const prepareArticleData = (data: ArticleFormData, article?: Article) => 
     published: data.published,
     featured: data.featured,
     pin_as_hero: data.pin_as_hero,
+    exclusive: data.exclusive,
     featured_image_url: data.featured_image_url || null,
     meta_title: data.meta_title || null,
     meta_title_fr: data.meta_title_fr || null,

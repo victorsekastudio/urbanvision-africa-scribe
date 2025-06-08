@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,6 +31,7 @@ export const useArticleFormState = (
       published: false,
       featured: false,
       pin_as_hero: false,
+      exclusive: false,
       featured_image_url: "",
       meta_title: "",
       meta_title_fr: "",
@@ -75,6 +75,7 @@ export const useArticleFormState = (
         published: article?.published || false,
         featured: article?.featured || false,
         pin_as_hero: article?.pin_as_hero || false,
+        exclusive: article?.exclusive || false,
         featured_image_url: article?.featured_image_url || "",
         meta_title: article?.meta_title || "",
         meta_title_fr: article?.meta_title_fr || "",

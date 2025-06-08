@@ -1,5 +1,4 @@
-
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight, Clock, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { Article } from "@/types/database";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -64,6 +63,14 @@ export const ArticleCard = ({ article, size = 'default' }: ArticleCardProps) => 
               <div className="absolute top-3 left-3">
                 <span className="bg-white/90 text-gray-800 text-xs font-medium px-2 py-1 rounded-full tracking-wide">
                   {categoryName}
+                </span>
+              </div>
+            )}
+            {article.exclusive && (
+              <div className="absolute top-3 left-3 ml-20">
+                <span className="bg-amber-500/90 text-white text-xs font-medium px-2 py-1 rounded-full tracking-wide flex items-center">
+                  <Lock className="w-3 h-3 mr-1" />
+                  {currentLanguage === 'FR' ? 'Exclusif' : 'Exclusive'}
                 </span>
               </div>
             )}

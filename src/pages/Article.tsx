@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -138,7 +137,7 @@ const Article = () => {
             excerpt={excerpt}
           />
 
-          <ArticleContent content={content} />
+          <ArticleContent content={content} article={article} />
 
           <ArticleFooter article={article} />
         </article>

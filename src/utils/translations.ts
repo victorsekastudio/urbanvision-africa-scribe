@@ -1,3 +1,4 @@
+
 export interface Translations {
   // Navigation
   home: string;
@@ -89,6 +90,17 @@ export interface Translations {
   
   // Special pages
   urbanVisionStudioAI: string;
+  
+  // About page
+  aboutUrbanVision: string;
+  aboutSubtitle: string;
+  ourEditorialMission: string;
+  aboutEditorialMissionText1: string;
+  aboutEditorialMissionText2: string;
+  whatWeCover: string;
+  ourApproach: string;
+  aboutApproachText1: string;
+  aboutApproachText2: string;
   
   // Contribute page
   contributeToUrbanVision: string;
@@ -231,6 +243,17 @@ export const translations: Record<'EN' | 'FR', Translations> = {
     // Special pages
     urbanVisionStudioAI: "Urban Vision Studio AI",
     
+    // About page
+    aboutUrbanVision: "About UrbanVision",
+    aboutSubtitle: "UrbanVision is a forward-thinking digital magazine dedicated to exploring the evolving landscape of urban development, sustainability, and innovation.",
+    ourEditorialMission: "Our Editorial Mission",
+    aboutEditorialMissionText1: "We believe that cities are the laboratories of our future. As more than half of the world's population now lives in urban areas, the decisions we make about how to build, sustain, and govern our cities will determine the trajectory of human civilization for generations to come.",
+    aboutEditorialMissionText2: "UrbanVision serves as a platform for thought leaders, practitioners, researchers, and citizens to share insights, challenge assumptions, and propose solutions for the complex challenges facing urban communities worldwide.",
+    whatWeCover: "What We Cover",
+    ourApproach: "Our Approach",
+    aboutApproachText1: "We are committed to publishing evidence-based, nuanced reporting that goes beyond surface-level analysis. Our content combines rigorous research with accessible storytelling, making complex urban issues understandable to a broad audience while maintaining the depth necessary for meaningful discourse.",
+    aboutApproachText2: "UrbanVision champions inclusive urban development that prioritizes equity, sustainability, and community well-being. We amplify diverse voices and perspectives, particularly those of communities that are often marginalized in urban planning discussions.",
+    
     // Contribute page
     contributeToUrbanVision: "Contribute to UrbanVision",
     contributeSubtitle: "We welcome contributions from urban planners, researchers, policymakers, community advocates, and anyone passionate about creating better cities.",
@@ -369,6 +392,17 @@ export const translations: Record<'EN' | 'FR', Translations> = {
     
     // Special pages
     urbanVisionStudioAI: "Studio IA UrbanVision",
+    
+    // About page
+    aboutUrbanVision: "À Propos d'UrbanVision",
+    aboutSubtitle: "UrbanVision est un magazine numérique avant-gardiste dédié à l'exploration du paysage évolutif du développement urbain, de la durabilité et de l'innovation.",
+    ourEditorialMission: "Notre Mission Éditoriale",
+    aboutEditorialMissionText1: "Nous croyons que les villes sont les laboratoires de notre avenir. Alors que plus de la moitié de la population mondiale vit maintenant dans les zones urbaines, les décisions que nous prenons sur la façon de construire, maintenir et gouverner nos villes détermineront la trajectoire de la civilisation humaine pour les générations à venir.",
+    aboutEditorialMissionText2: "UrbanVision sert de plateforme pour les leaders d'opinion, les praticiens, les chercheurs et les citoyens pour partager des idées, défier les suppositions et proposer des solutions aux défis complexes auxquels font face les communautés urbaines du monde entier.",
+    whatWeCover: "Ce que nous couvrons",
+    ourApproach: "Notre Approche",
+    aboutApproachText1: "Nous nous engageons à publier des reportages fondés sur des preuves et nuancés qui vont au-delà de l'analyse superficielle. Notre contenu combine une recherche rigoureuse avec une narration accessible, rendant les questions urbaines complexes compréhensibles pour un large public tout en maintenant la profondeur nécessaire pour un discours significatif.",
+    aboutApproachText2: "UrbanVision défend un développement urbain inclusif qui priorise l'équité, la durabilité et le bien-être communautaire. Nous amplifions les voix et perspectives diverses, particulièrement celles des communautés souvent marginalisées dans les discussions de planification urbaine.",
     
     // Contribute page
     contributeToUrbanVision: "Contribuer à UrbanVision",

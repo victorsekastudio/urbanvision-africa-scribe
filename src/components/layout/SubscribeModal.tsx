@@ -12,11 +12,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mail } from "lucide-react";
 import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
+import { useLanguage } from "@/hooks/useLanguage";
+import { translations } from "@/utils/translations";
 
 export const SubscribeModal = () => {
   const [email, setEmail] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const { subscribe, isSubmitting } = useNewsletterSubscription();
+  const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,20 +40,20 @@ export const SubscribeModal = () => {
           className="font-light text-gray-700 hover:text-gray-900 border-gray-200 hover:border-gray-300 transition-colors duration-300"
         >
           <Mail className="w-4 h-4 mr-2" />
-          Subscribe
+          {t.subscribe}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="font-light text-xl">Stay Updated</DialogTitle>
+          <DialogTitle className="font-light text-xl">{t.stayConnected}</DialogTitle>
           <DialogDescription className="font-light text-gray-600">
-            Get the latest urban insights delivered to your inbox.
+            {t.newsletterSubtitle}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             type="email"
-            placeholder="Enter your email"
+            placeholder={t.enterEmail}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -61,7 +65,7 @@ export const SubscribeModal = () => {
             className="w-full font-light" 
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Subscribing..." : "Subscribe"}
+            {isSubmitting ? "Subscribing..." : t.subscribe}
           </Button>
         </form>
       </DialogContent>

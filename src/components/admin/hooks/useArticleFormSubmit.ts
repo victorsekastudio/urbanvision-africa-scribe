@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -74,7 +75,7 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
 
   // Create retryable database operations with properly typed functions
   const retryableUnpinHeroArticles = createRetryableOperation(
-    async (currentArticleId?: string): Promise<void> => {
+    async (currentArticleId: string | undefined): Promise<void> => {
       console.log('🔄 DEBUG: Starting to unpin other hero articles...');
       await debugDatabaseAuth();
       

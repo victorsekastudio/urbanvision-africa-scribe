@@ -22,7 +22,7 @@ export const testDatabaseAuth = async () => {
     console.log('📰 AUTH TEST: Articles query result:', {
       success: !articlesError,
       dataLength: articlesTest?.length || 0,
-      error: articlesError?.message
+      error: articlesError?.message || null
     });
   } catch (error) {
     console.error('❌ AUTH TEST: Articles query exception:', error);
@@ -38,7 +38,7 @@ export const testDatabaseAuth = async () => {
     console.log('👤 AUTH TEST: Profiles query result:', {
       success: !profilesError,
       dataLength: profilesTest?.length || 0,
-      error: profilesError?.message
+      error: profilesError?.message || null
     });
   } catch (error) {
     console.error('❌ AUTH TEST: Profiles query exception:', error);

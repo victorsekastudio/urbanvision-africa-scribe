@@ -32,15 +32,10 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
   const { 
     isLoading: submitLoading, 
     onSubmit, 
-    generateSlug, 
-    lastError,
-    retryCount,
-    retrySubmit 
+    generateSlug 
   } = useArticleFormSubmit(article, onSave);
 
   console.log('🔄 DEBUG: Submit loading:', submitLoading);
-  console.log('❌ DEBUG: Last error:', lastError);
-  console.log('🔢 DEBUG: Retry count:', retryCount);
 
   const {
     form,
@@ -50,7 +45,7 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
     setSubmitSuccess,
     lastFormData,
     setLastFormData,
-  } = useArticleFormState(article, defaultAuthorId, categories, dataLoading, lastError, retrySubmit);
+  } = useArticleFormState(article, defaultAuthorId, categories, dataLoading);
 
   console.log('📋 DEBUG: Form state initialized');
   console.log('✅ DEBUG: Submit success:', submitSuccess);
@@ -170,16 +165,12 @@ export const ArticleForm = ({ article, onSave, onCancel }: ArticleFormProps) => 
       <StatusAlerts
         hasUnsavedChanges={enhancedFormState.hasUnsavedChanges}
         isAutoSaving={enhancedFormState.isAutoSaving}
-        retryCount={retryCount}
         isValidatingSlug={isValidatingSlug}
         slugError={slugError}
         isSlugAvailable={isSlugAvailable}
         slugSuggestions={slugSuggestions}
         submitError={submitError}
         submitSuccess={submitSuccess}
-        lastError={lastError}
-        lastFormData={lastFormData}
-        retrySubmit={retrySubmit}
         onSlugSuggestionClick={handleSlugSuggestionClick}
       />
 

@@ -2,24 +2,18 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "@/components/ui/toast";
 import { articleFormSchema, type ArticleFormData } from "../types/ArticleFormValidation";
 import type { Article } from "@/types/database";
-import type { SubmitError } from "./useArticleFormSubmit";
 
 export const useArticleFormState = (
   article?: Article,
   defaultAuthorId?: string,
   categories: any[] = [],
-  dataLoading = false,
-  lastError?: SubmitError | null,
-  retrySubmit?: (data: ArticleFormData) => Promise<void>
+  dataLoading = false
 ) => {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
   const [lastFormData, setLastFormData] = useState<ArticleFormData | null>(null);
-  const { toast } = useToast();
 
   const form = useForm<ArticleFormData>({
     resolver: zodResolver(articleFormSchema),
@@ -63,25 +57,6 @@ export const useArticleFormState = (
       linkedin_text_color: 'white' as const,
     },
   });
-
-  // Handle retry with toast action when there's a retryable error
-  useEffect(() => {
-    if (lastError && lastError.isRetryable && lastFormData && retrySubmit) {
-      toast({
-        title: "Error",
-        description: lastError.message,
-        variant: "destructive",
-        action: (
-          <ToastAction 
-            altText="Retry article submission"
-            onClick={() => retrySubmit(lastFormData)}
-          >
-            Retry
-          </ToastAction>
-        ),
-      });
-    }
-  }, [lastError, lastFormData, retrySubmit, toast]);
 
   // Set form values when data is loaded
   useEffect(() => {

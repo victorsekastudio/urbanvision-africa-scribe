@@ -1,29 +1,22 @@
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, CheckCircle, Clock, Wifi, WifiOff } from "lucide-react";
-import { ToastAction } from "@/components/ui/toast";
-import type { SubmitError } from "../hooks/useArticleFormSubmit";
+import { AlertCircle, CheckCircle, Clock, Wifi } from "lucide-react";
 
 interface StatusAlertsProps {
   hasUnsavedChanges: boolean;
   isAutoSaving: boolean;
-  retryCount: number;
   isValidatingSlug: boolean;
   slugError: string | null;
   isSlugAvailable: boolean;
   slugSuggestions: string[];
   submitError: string | null;
   submitSuccess: string | null;
-  lastError: SubmitError | null;
-  lastFormData: any;
-  retrySubmit: (data: any) => Promise<void>;
   onSlugSuggestionClick: (suggestion: string) => void;
 }
 
 export const StatusAlerts = ({
   hasUnsavedChanges,
   isAutoSaving,
-  retryCount,
   isValidatingSlug,
   slugError,
   isSlugAvailable,
@@ -48,15 +41,6 @@ export const StatusAlerts = ({
         <Alert>
           <Wifi className="h-4 w-4" />
           <AlertDescription>Auto-saving your changes...</AlertDescription>
-        </Alert>
-      )}
-
-      {retryCount > 0 && (
-        <Alert variant="destructive">
-          <WifiOff className="h-4 w-4" />
-          <AlertDescription>
-            Connection issues detected. Retry attempt #{retryCount}
-          </AlertDescription>
         </Alert>
       )}
 

@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useUpcomingEvents } from "@/hooks/useEvents";
 import { Skeleton } from "@/components/ui/skeleton";
+import { translations } from "@/utils/translations";
 
 export const EventsWebinars = () => {
   const { currentLanguage } = useLanguage();
   const { data: allEvents, isLoading } = useUpcomingEvents();
+  const t = translations[currentLanguage];
 
   // Get first 3 upcoming events for homepage
   const events = allEvents?.slice(0, 3) || [];
@@ -27,10 +29,10 @@ export const EventsWebinars = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-light tracking-wide text-gray-900 mb-4">
-              Upcoming Events & Webinars
+              {t.upcomingEventsWebinars}
             </h2>
             <p className="text-lg text-gray-600 font-light tracking-wide max-w-3xl mx-auto">
-              Join our community discussions and expert panels on African urban development
+              {t.upcomingEventsSubtitle}
             </p>
           </div>
           
@@ -68,10 +70,10 @@ export const EventsWebinars = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-light tracking-wide text-gray-900 mb-4">
-            Upcoming Events & Webinars
+            {t.upcomingEventsWebinars}
           </h2>
           <p className="text-lg text-gray-600 font-light tracking-wide max-w-3xl mx-auto">
-            Join our community discussions and expert panels on African urban development
+            {t.upcomingEventsSubtitle}
           </p>
         </div>
         
@@ -121,7 +123,7 @@ export const EventsWebinars = () => {
                     </div>
                     <div className="flex items-center text-sm text-gray-500">
                       <Users className="w-4 h-4 mr-2" />
-                      <span>{event.attendees_count} registered</span>
+                      <span>{event.attendees_count} {t.registered}</span>
                     </div>
                   </div>
                   
@@ -132,12 +134,12 @@ export const EventsWebinars = () => {
                       rel="noopener noreferrer"
                       className="w-full bg-gray-900 text-white py-2 px-4 rounded-md font-medium tracking-wide hover:bg-gray-800 transition-colors mt-auto inline-flex items-center justify-center gap-2"
                     >
-                      Register Now
+                      {t.registerNow}
                       <ExternalLink className="w-4 h-4" />
                     </a>
                   ) : (
                     <button className="w-full bg-gray-900 text-white py-2 px-4 rounded-md font-medium tracking-wide hover:bg-gray-800 transition-colors mt-auto">
-                      Register Now
+                      {t.registerNow}
                     </button>
                   )}
                 </div>
@@ -147,7 +149,7 @@ export const EventsWebinars = () => {
         ) : (
           <div className="text-center py-12">
             <p className="text-gray-600 text-lg font-light">
-              No upcoming events scheduled at the moment. Check back soon for new events and webinars!
+              {t.noUpcomingEvents}
             </p>
           </div>
         )}
@@ -157,7 +159,7 @@ export const EventsWebinars = () => {
             to="/events"
             className="inline-flex items-center space-x-2 text-gray-900 font-medium tracking-wide hover:text-gray-700 transition-colors"
           >
-            <span>View All Events</span>
+            <span>{t.viewAllEvents}</span>
             <span>→</span>
           </Link>
         </div>

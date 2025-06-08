@@ -1,25 +1,20 @@
 
-import { supabase } from "@/integrations/supabase/client";
-import type { Article } from "@/types/database";
+import { createArticleHandlers } from "./adminHandlers";
+import { useDeleteArticle, useUpdateArticleStatus } from "@/hooks/useArticleMutations";
 
-export const createArticleHandlers = (toast: any, refetchArticles: () => Promise<any>) => ({
-  handleDeleteArticle: async (articleId: string) => {
+export const createArticleHandlers = (toast: any, refetchArticles: any) => {
+  const deleteArticle = useDeleteArticle();
+  const updateArticleStatus = useUpdateArticleStatus();
+
+  const handleDeleteArticle = async (articleId: string) => {
     if (!confirm('Are you sure you want to delete this article?')) return;
 
     try {
-      const { error } = await supabase
-        .from('articles')
-        .delete()
-        .eq('id', articleId);
-
-      if (error) throw error;
-
+      await deleteArticle.mutateAsync(articleId);
       toast({
         title: "Success",
         description: "Article deleted successfully",
       });
-
-      await refetchArticles();
     } catch (error) {
       console.error('Error deleting article:', error);
       toast({
@@ -28,58 +23,53 @@ export const createArticleHandlers = (toast: any, refetchArticles: () => Promise
         variant: "destructive",
       });
     }
-  },
+  };
 
-  handleTogglePublished: async (article: Article) => {
+  const handleTogglePublished = async (articleId: string, published: boolean) => {
     try {
-      const { error } = await supabase
-        .from('articles')
-        .update({ 
-          published: !article.published,
-          published_at: !article.published ? new Date().toISOString() : null
-        })
-        .eq('id', article.id);
-
-      if (error) throw error;
-
+      await updateArticleStatus.mutateAsync({
+        id: articleId,
+        field: 'published',
+        value: published
+      });
       toast({
         title: "Success",
-        description: `Article ${!article.published ? 'published' : 'unpublished'} successfully`,
+        description: `Article ${published ? 'published' : 'unpublished'} successfully`,
       });
-
-      await refetchArticles();
     } catch (error) {
-      console.error('Error updating article:', error);
+      console.error('Error updating article status:', error);
       toast({
         title: "Error",
-        description: "Failed to update article",
+        description: "Failed to update article status",
         variant: "destructive",
       });
     }
-  },
+  };
 
-  handleToggleFeatured: async (article: Article) => {
+  const handleToggleFeatured = async (articleId: string, featured: boolean) => {
     try {
-      const { error } = await supabase
-        .from('articles')
-        .update({ featured: !article.featured })
-        .eq('id', article.id);
-
-      if (error) throw error;
-
+      await updateArticleStatus.mutateAsync({
+        id: articleId,
+        field: 'featured',
+        value: featured
+      });
       toast({
         title: "Success",
-        description: `Article ${!article.featured ? 'featured' : 'unfeatured'} successfully`,
+        description: `Article ${featured ? 'featured' : 'unfeatured'} successfully`,
       });
-
-      await refetchArticles();
     } catch (error) {
-      console.error('Error updating article:', error);
+      console.error('Error updating article status:', error);
       toast({
         title: "Error",
-        description: "Failed to update article",
+        description: "Failed to update article status",
         variant: "destructive",
       });
     }
-  },
-});
+  };
+
+  return {
+    handleDeleteArticle,
+    handleTogglePublished,
+    handleToggleFeatured
+  };
+};

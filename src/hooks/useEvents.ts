@@ -1,5 +1,7 @@
+
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuditLog } from "./useAuditLog";
 import type { Event } from "@/types/database";
 
 export const useEvents = () => {
@@ -37,7 +39,7 @@ export const useUpcomingEvents = () => {
   return useQuery({
     queryKey: ["upcoming-events"],
     queryFn: async () => {
-      const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+      const today = new Date().toISOString().split('T')[0];
       
       const { data, error } = await supabase
         .from("events")
@@ -54,6 +56,7 @@ export const useUpcomingEvents = () => {
 
 export const useCreateEvent = () => {
   const queryClient = useQueryClient();
+  const { logAction } = useAuditLog();
 
   return useMutation({
     mutationFn: async (event: Omit<Event, "id" | "created_at" | "updated_at">) => {
@@ -64,6 +67,15 @@ export const useCreateEvent = () => {
         .single();
 
       if (error) throw error;
+
+      // Log the action
+      await logAction({
+        action: 'CREATE_EVENT',
+        table_name: 'events',
+        record_id: data.id,
+        new_values: event
+      });
+
       return data;
     },
     onSuccess: () => {
@@ -75,9 +87,17 @@ export const useCreateEvent = () => {
 
 export const useUpdateEvent = () => {
   const queryClient = useQueryClient();
+  const { logAction } = useAuditLog();
 
   return useMutation({
     mutationFn: async ({ id, ...updates }: Partial<Event> & { id: string }) => {
+      // Get current event for audit log
+      const { data: currentEvent } = await supabase
+        .from("events")
+        .select("*")
+        .eq("id", id)
+        .single();
+
       const { data, error } = await supabase
         .from("events")
         .update(updates)
@@ -86,6 +106,16 @@ export const useUpdateEvent = () => {
         .single();
 
       if (error) throw error;
+
+      // Log the action
+      await logAction({
+        action: 'UPDATE_EVENT',
+        table_name: 'events',
+        record_id: id,
+        old_values: currentEvent,
+        new_values: updates
+      });
+
       return data;
     },
     onSuccess: () => {
@@ -97,15 +127,31 @@ export const useUpdateEvent = () => {
 
 export const useDeleteEvent = () => {
   const queryClient = useQueryClient();
+  const { logAction } = useAuditLog();
 
   return useMutation({
     mutationFn: async (id: string) => {
+      // Get current event for audit log
+      const { data: currentEvent } = await supabase
+        .from("events")
+        .select("*")
+        .eq("id", id)
+        .single();
+
       const { error } = await supabase
         .from("events")
         .delete()
         .eq("id", id);
 
       if (error) throw error;
+
+      // Log the action
+      await logAction({
+        action: 'DELETE_EVENT',
+        table_name: 'events',
+        record_id: id,
+        old_values: currentEvent
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["events"] });

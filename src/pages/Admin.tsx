@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useArticles, useCategories, useAuthors } from "@/hooks/useArticles";
-import { useEvents, useDeleteEvent } from "@/hooks/useEvents";
+import { useEvents } from "@/hooks/useEvents";
 import { useNewsletterSubscribers } from "@/hooks/useNewsletterSubscribers";
+import { useArticleMutations, useDeleteArticle } from "@/hooks/useArticleMutations";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { ArticleDialog } from "@/components/admin/ArticleDialog";
@@ -16,10 +17,12 @@ import { EventsTab } from "@/components/admin/EventsTab";
 import { CategoriesTab } from "@/components/admin/CategoriesTab";
 import { AuthorsTab } from "@/components/admin/AuthorsTab";
 import { NewsletterTab } from "@/components/admin/NewsletterTab";
-import { createArticleHandlers } from "@/utils/adminHandlers";
+import { AdminRoute } from "@/components/auth/AdminRoute";
+import { useDeleteEvent } from "@/hooks/useEvents";
+import { useUpdateArticleStatus } from "@/hooks/useArticleMutations";
 import type { Article, Event, Category, Author } from "@/types/database";
 
-const Admin = () => {
+const AdminContent = () => {
   const [activeTab, setActiveTab] = useState<'articles' | 'categories' | 'authors' | 'events' | 'newsletter'>('articles');
   const [articleDialogOpen, setArticleDialogOpen] = useState(false);
   const [eventDialogOpen, setEventDialogOpen] = useState(false);
@@ -36,7 +39,10 @@ const Admin = () => {
   const { data: authors, isLoading: authorsLoading, refetch: refetchAuthors } = useAuthors();
   const { data: events, isLoading: eventsLoading, refetch: refetchEvents } = useEvents();
   const { data: subscribers, isLoading: subscribersLoading } = useNewsletterSubscribers();
+  
   const deleteEvent = useDeleteEvent();
+  const deleteArticle = useDeleteArticle();
+  const updateArticleStatus = useUpdateArticleStatus();
   const { toast } = useToast();
   const { user, signOut } = useAuth();
 
@@ -95,6 +101,67 @@ const Admin = () => {
   const handleEditArticle = (article: Article) => {
     setEditingArticle(article);
     setArticleDialogOpen(true);
+  };
+
+  const handleDeleteArticle = async (articleId: string) => {
+    if (!confirm('Are you sure you want to delete this article?')) return;
+
+    try {
+      await deleteArticle.mutateAsync(articleId);
+      toast({
+        title: "Success",
+        description: "Article deleted successfully",
+      });
+    } catch (error) {
+      console.error('Error deleting article:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete article",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleTogglePublished = async (articleId: string, published: boolean) => {
+    try {
+      await updateArticleStatus.mutateAsync({
+        id: articleId,
+        field: 'published',
+        value: published
+      });
+      toast({
+        title: "Success",
+        description: `Article ${published ? 'published' : 'unpublished'} successfully`,
+      });
+    } catch (error) {
+      console.error('Error updating article status:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update article status",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleToggleFeatured = async (articleId: string, featured: boolean) => {
+    try {
+      await updateArticleStatus.mutateAsync({
+        id: articleId,
+        field: 'featured',
+        value: featured
+      });
+      toast({
+        title: "Success",
+        description: `Article ${featured ? 'featured' : 'unfeatured'} successfully`,
+      });
+    } catch (error) {
+      console.error('Error updating article status:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update article status",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleCreateEvent = () => {
@@ -179,8 +246,6 @@ const Admin = () => {
     refetchAuthors();
   };
 
-  const articleHandlers = createArticleHandlers(toast, refetchArticles);
-
   const renderTabContent = () => {
     switch (activeTab) {
       case 'articles':
@@ -189,9 +254,9 @@ const Admin = () => {
             articles={articles}
             onCreateArticle={handleCreateArticle}
             onEditArticle={handleEditArticle}
-            onDeleteArticle={articleHandlers.handleDeleteArticle}
-            onTogglePublished={articleHandlers.handleTogglePublished}
-            onToggleFeatured={articleHandlers.handleToggleFeatured}
+            onDeleteArticle={handleDeleteArticle}
+            onTogglePublished={handleTogglePublished}
+            onToggleFeatured={handleToggleFeatured}
           />
         );
       case 'events':
@@ -229,71 +294,49 @@ const Admin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <AdminHeader userEmail={user?.email} onSignOut={handleSignOut} />
-        
-        <StatsDashboard articles={articles} events={events} categories={categories} />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <AdminHeader userEmail={user?.email} onSignOut={handleSignOut} />
+      
+      <StatsDashboard articles={articles} events={events} categories={categories} />
 
-        <div className="mb-8">
-          <div className="border-b border-gray-200">
-            <nav className="-mb-px flex space-x-8">
-              {[
-                { key: 'articles', label: `Articles (${articles?.length || 0})` },
-                { key: 'events', label: `Events (${events?.length || 0})` },
-                { key: 'categories', label: `Categories (${categories?.length || 0})` },
-                { key: 'authors', label: `Authors (${authors?.length || 0})` },
-                { key: 'newsletter', label: `Newsletter (${subscribers?.length || 0})` },
-              ].map((tab) => (
-                <button
-                  key={tab.key}
-                  onClick={() => setActiveTab(tab.key as any)}
-                  className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                    activeTab === tab.key
-                      ? 'border-indigo-500 text-indigo-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </nav>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg shadow">
-          {renderTabContent()}
+      <div className="mb-8">
+        <div className="border-b border-gray-200">
+          <nav className="-mb-px flex space-x-8">
+            {[
+              { key: 'articles', label: `Articles (${articles?.length || 0})` },
+              { key: 'events', label: `Events (${events?.length || 0})` },
+              { key: 'categories', label: `Categories (${categories?.length || 0})` },
+              { key: 'authors', label: `Authors (${authors?.length || 0})` },
+              { key: 'newsletter', label: `Newsletter (${subscribers?.length || 0})` },
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key as any)}
+                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                  activeTab === tab.key
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </nav>
         </div>
       </div>
 
-      <ArticleDialog
-        open={articleDialogOpen}
-        onOpenChange={setArticleDialogOpen}
-        article={editingArticle}
-        onSave={handleArticleSave}
-      />
-
-      <EventDialog
-        open={eventDialogOpen}
-        onOpenChange={setEventDialogOpen}
-        event={editingEvent}
-        onSave={handleEventSave}
-      />
-
-      <CategoryDialog
-        open={categoryDialogOpen}
-        onOpenChange={setCategoryDialogOpen}
-        category={editingCategory}
-        onSave={handleCategorySave}
-      />
-
-      <AuthorDialog
-        open={authorDialogOpen}
-        onOpenChange={setAuthorDialogOpen}
-        author={editingAuthor}
-        onSave={handleAuthorSave}
-      />
+      <div className="bg-white rounded-lg shadow">
+        {renderTabContent()}
+      </div>
     </div>
+  );
+};
+
+const Admin = () => {
+  return (
+    <AdminRoute>
+      <AdminContent />
+    </AdminRoute>
   );
 };
 

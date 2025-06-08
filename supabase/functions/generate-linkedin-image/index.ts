@@ -26,18 +26,6 @@ Deno.serve(async (req) => {
     const imageBase64 = btoa(String.fromCharCode(...new Uint8Array(imageArrayBuffer)));
     const imageSrc = `data:${imageResponse.headers.get('content-type') || 'image/jpeg'};base64,${imageBase64}`;
 
-    // Fetch Inter font
-    const fontResponse = await fetch('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-    let fontUrl = '';
-    
-    if (fontResponse.ok) {
-      const fontCss = await fontResponse.text();
-      const fontMatch = fontCss.match(/url\((https:\/\/fonts\.gstatic\.com[^)]+)\)/);
-      if (fontMatch) {
-        fontUrl = fontMatch[1];
-      }
-    }
-
     const imageElement = new ImageResponse(
       (
         <div
@@ -50,7 +38,6 @@ Deno.serve(async (req) => {
             justifyContent: 'center',
           }}
         >
-          {/* Background Image */}
           <img
             src={imageSrc}
             style={{
@@ -63,7 +50,6 @@ Deno.serve(async (req) => {
             }}
           />
           
-          {/* Dark overlay for better text readability */}
           <div
             style={{
               position: 'absolute',
@@ -75,7 +61,6 @@ Deno.serve(async (req) => {
             }}
           />
           
-          {/* Text Content */}
           {text && (
             <div
               style={{
@@ -96,7 +81,7 @@ Deno.serve(async (req) => {
                   color: textColor,
                   margin: '0',
                   lineHeight: '1.2',
-                  fontFamily: fontUrl ? 'Inter' : 'system-ui, sans-serif',
+                  fontFamily: 'system-ui, sans-serif',
                   textShadow: textColor === 'white' 
                     ? '2px 2px 4px rgba(0,0,0,0.8)' 
                     : '2px 2px 4px rgba(255,255,255,0.8)',
@@ -105,7 +90,6 @@ Deno.serve(async (req) => {
                 {text}
               </h1>
               
-              {/* LinkedIn branding */}
               <div
                 style={{
                   display: 'flex',
@@ -121,7 +105,7 @@ Deno.serve(async (req) => {
                     color: 'white',
                     fontSize: '18px',
                     fontWeight: '600',
-                    fontFamily: fontUrl ? 'Inter' : 'system-ui, sans-serif',
+                    fontFamily: 'system-ui, sans-serif',
                   }}
                 >
                   Follow us on LinkedIn
@@ -134,11 +118,6 @@ Deno.serve(async (req) => {
       {
         width: 1200,
         height: 630,
-        fonts: fontUrl ? [{
-          name: 'Inter',
-          data: await fetch(fontUrl).then(res => res.arrayBuffer()),
-          style: 'normal',
-        }] : [],
       }
     );
 

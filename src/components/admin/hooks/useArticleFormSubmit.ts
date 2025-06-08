@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -27,21 +26,21 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
   const debugDatabaseAuth = async () => {
     console.log('🔍 DB AUTH DEBUG: Checking database authentication context...');
     
-    try {
-      // Check if auth.uid() works in database context
-      const { data: authTest, error: authError } = await supabase
-        .rpc('get_current_user_id');
-      
-      if (authError) {
-        console.error('❌ DB AUTH ERROR: auth.uid() test failed:', authError);
-      } else {
-        console.log('✅ DB AUTH SUCCESS: auth.uid() returns:', authTest);
-      }
-    } catch (error) {
-      console.log('⚠️ DB AUTH: Custom function not available, testing with simple query...');
+    // Check current session details
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      console.log('📋 DB AUTH DEBUG: Current session details:', {
+        userId: session.user.id,
+        accessToken: session.access_token ? 'EXISTS' : 'NULL',
+        refreshToken: session.refresh_token ? 'EXISTS' : 'NULL',
+        expiresAt: session.expires_at ? new Date(session.expires_at * 1000).toISOString() : 'NULL',
+        tokenExpired: session.expires_at ? Date.now() / 1000 > session.expires_at : 'UNKNOWN'
+      });
+    } else {
+      console.error('❌ DB AUTH ERROR: No session found in client');
     }
 
-    // Test with a simple authenticated query
+    // Test with a simple authenticated query to profiles table
     try {
       const { data: profileTest, error: profileError } = await supabase
         .from('profiles')
@@ -56,20 +55,6 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
       }
     } catch (error) {
       console.error('❌ DB AUTH ERROR: Exception during profile test:', error);
-    }
-
-    // Check current session details
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
-      console.log('📋 DB AUTH DEBUG: Current session details:', {
-        userId: session.user.id,
-        accessToken: session.access_token ? 'EXISTS' : 'NULL',
-        refreshToken: session.refresh_token ? 'EXISTS' : 'NULL',
-        expiresAt: session.expires_at ? new Date(session.expires_at * 1000).toISOString() : 'NULL',
-        tokenExpired: session.expires_at ? Date.now() / 1000 > session.expires_at : 'UNKNOWN'
-      });
-    } else {
-      console.error('❌ DB AUTH ERROR: No session found in client');
     }
   };
 

@@ -6,10 +6,14 @@ import { LanguageToggle } from "./LanguageToggle";
 import { MobileMenu } from "./MobileMenu";
 import { AnimatedSearchBar } from "@/components/shared/AnimatedSearchBar";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useAuth } from "@/contexts/AuthContext";
 import { translations } from "@/utils/translations";
+import { Button } from "@/components/ui/button";
+import { Settings } from "lucide-react";
 
 export const Header = () => {
   const { currentLanguage } = useLanguage();
+  const { user } = useAuth();
   const t = translations[currentLanguage];
 
   return (
@@ -48,12 +52,31 @@ export const Header = () => {
               >
                 UrbanVision AI Studio
               </Link>
+
+              {user && (
+                <Link 
+                  to="/admin" 
+                  className="text-gray-700 hover:text-gray-900 transition-colors duration-300 font-light"
+                >
+                  <Button variant="outline" size="sm">
+                    <Settings className="w-4 h-4 mr-2" />
+                    Admin
+                  </Button>
+                </Link>
+              )}
             </nav>
 
             <div className="flex items-center space-x-4">
               <SubscribeModal />
               <LanguageToggle />
               <AnimatedSearchBar />
+              {!user && (
+                <Link to="/auth">
+                  <Button variant="outline" size="sm">
+                    Sign In
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
 

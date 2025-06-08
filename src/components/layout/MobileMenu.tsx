@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Settings } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -9,10 +9,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 import { SubscribeModal } from "./SubscribeModal";
 import { LanguageToggle } from "./LanguageToggle";
 import { SearchButton } from "./SearchButton";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useAuth } from "@/contexts/AuthContext";
 import { translations } from "@/utils/translations";
 
 const categories = [
@@ -45,6 +47,7 @@ const categories = [
 export const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { currentLanguage } = useLanguage();
+  const { user } = useAuth();
   const t = translations[currentLanguage];
 
   return (
@@ -108,6 +111,18 @@ export const MobileMenu = () => {
               >
                 UrbanVision AI Studio
               </Link>
+              {user && (
+                <Link
+                  to="/admin"
+                  onClick={() => setIsOpen(false)}
+                  className="block py-2 text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light"
+                >
+                  <div className="flex items-center">
+                    <Settings className="w-4 h-4 mr-2" />
+                    Admin Panel
+                  </div>
+                </Link>
+              )}
             </div>
           </div>
 
@@ -127,6 +142,16 @@ export const MobileMenu = () => {
               <div className="pt-2">
                 <SubscribeModal />
               </div>
+
+              {!user && (
+                <div className="pt-2">
+                  <Link to="/auth" onClick={() => setIsOpen(false)}>
+                    <Button variant="outline" className="w-full">
+                      Sign In
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

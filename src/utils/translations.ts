@@ -183,7 +183,6 @@ export interface Translations {
   latestTrendsAfricanUrban: string;
   infrastructureGapsInvestmentDesc: string;
   climateResilienceSustainabilityDesc: string;
-  transportMobilityDesc: string;
   smartCityTechPlanningDesc: string;
   voicesFromGroundDesc: string;
 }
@@ -373,7 +372,6 @@ export const translations: Record<'EN' | 'FR', Translations> = {
     latestTrendsAfricanUrban: "Latest trends in African urban development",
     infrastructureGapsInvestmentDesc: "Funding mechanisms, public-private partnerships, and innovative financing for essential urban infrastructure",
     climateResilienceSustainabilityDesc: "Adaptation strategies, green infrastructure, and sustainable development practices for African cities",
-    transportMobilityDesc: "Sustainable transportation solutions, urban mobility innovations, and infrastructure development",
     smartCityTechPlanningDesc: "Digital transformation, data-driven governance, and technology adoption in urban planning",
     voicesFromGroundDesc: "Community perspectives, grassroots initiatives, and local solutions to urban challenges"
   },
@@ -561,11 +559,9 @@ export const translations: Record<'EN' | 'FR', Translations> = {
     latestTrendsAfricanUrban: "Dernières tendances du développement urbain africain",
     infrastructureGapsInvestmentDesc: "Mécanismes de financement, partenariats public-privé et financement innovant pour les infrastructures urbaines essentielles",
     climateResilienceSustainabilityDesc: "Stratégies d'adaptation, infrastructures vertes et pratiques de développement durable pour les villes africaines",
-    transportMobilityDesc: "Solutions de transport durable, innovations en mobilité urbaine et développement d'infrastructures",
     smartCityTechPlanningDesc: "Transformation numérique, gouvernance basée sur les données et adoption technologique dans la planification urbaine",
     voicesFromGroundDesc: "Perspectives communautaires, initiatives populaires et solutions locales aux défis urbains"
   }
 };
 
 export type TranslationKey = keyof Translations;
-

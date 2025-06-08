@@ -53,11 +53,12 @@ export const withRetry = async <T>(
   throw lastError;
 };
 
-export const createRetryableOperation = <T extends any[], R>(
-  fn: (...args: T) => Promise<R>,
+// Improved createRetryableOperation with better type inference
+export function createRetryableOperation<TArgs extends readonly unknown[], TReturn>(
+  fn: (...args: TArgs) => Promise<TReturn>,
   options?: Partial<RetryOptions>
-) => {
-  return (...args: T): Promise<R> => {
+): (...args: TArgs) => Promise<TReturn> {
+  return (...args: TArgs): Promise<TReturn> => {
     return withRetry(() => fn(...args), options);
   };
-};
+}

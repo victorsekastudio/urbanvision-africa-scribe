@@ -72,9 +72,9 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
     }
   };
 
-  // Create retryable database operations with explicit type annotations
-  const retryableUnpinHeroArticles = createRetryableOperation<[string?], void>(
-    async (currentArticleId?: string) => {
+  // Create retryable database operations with properly typed functions
+  const retryableUnpinHeroArticles = createRetryableOperation(
+    async (currentArticleId?: string): Promise<void> => {
       console.log('🔄 DEBUG: Starting to unpin other hero articles...');
       await debugDatabaseAuth();
       
@@ -91,8 +91,8 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
     }
   );
 
-  const retryableUpdateArticle = createRetryableOperation<[string, any], any>(
-    async (articleId: string, articleData: any) => {
+  const retryableUpdateArticle = createRetryableOperation(
+    async (articleId: string, articleData: any): Promise<any> => {
       console.log('🔄 DEBUG: Updating existing article with ID:', articleId);
       console.log('📝 DEBUG: Article data being updated:', articleData);
       await debugDatabaseAuth();
@@ -114,8 +114,8 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
     }
   );
 
-  const retryableCreateArticle = createRetryableOperation<[any], any>(
-    async (articleData: any) => {
+  const retryableCreateArticle = createRetryableOperation(
+    async (articleData: any): Promise<any> => {
       console.log('🔄 DEBUG: Creating new article...');
       console.log('📝 DEBUG: Article data being created:', articleData);
       await debugDatabaseAuth();

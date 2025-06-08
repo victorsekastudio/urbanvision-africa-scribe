@@ -1,4 +1,3 @@
-
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
@@ -97,10 +96,10 @@ const Contribute = () => {
                 Ready to contribute? We'd love to hear from you.
               </p>
               <p>
-                <strong>Email:</strong> <a href="mailto:submissions@urbanvision.com" className="text-blue-600 hover:text-blue-800">submissions@urbanvision.com</a>
+                <strong>Email:</strong> <a href="mailto:v.isingizwe@seka.studio" className="text-blue-600 hover:text-blue-800">v.isingizwe@seka.studio</a>
               </p>
               <p className="mt-2">
-                <strong>Response time:</strong> We aim to respond to all pitches and submissions within 2-3 weeks.
+                <strong>Response time:</strong> We aim to respond to all pitches and submissions within 1 week.
               </p>
             </div>
           </div>

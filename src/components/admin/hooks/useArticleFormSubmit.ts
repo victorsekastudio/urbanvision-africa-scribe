@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -73,8 +72,8 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
     }
   };
 
-  // Create retryable database operations
-  const retryableUnpinHeroArticles = createRetryableOperation(
+  // Create retryable database operations with explicit type annotations
+  const retryableUnpinHeroArticles = createRetryableOperation<[string?], void>(
     async (currentArticleId?: string) => {
       console.log('🔄 DEBUG: Starting to unpin other hero articles...');
       await debugDatabaseAuth();
@@ -92,7 +91,7 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
     }
   );
 
-  const retryableUpdateArticle = createRetryableOperation(
+  const retryableUpdateArticle = createRetryableOperation<[string, any], any>(
     async (articleId: string, articleData: any) => {
       console.log('🔄 DEBUG: Updating existing article with ID:', articleId);
       console.log('📝 DEBUG: Article data being updated:', articleData);
@@ -115,7 +114,7 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
     }
   );
 
-  const retryableCreateArticle = createRetryableOperation(
+  const retryableCreateArticle = createRetryableOperation<[any], any>(
     async (articleData: any) => {
       console.log('🔄 DEBUG: Creating new article...');
       console.log('📝 DEBUG: Article data being created:', articleData);

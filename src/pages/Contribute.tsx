@@ -1,6 +1,7 @@
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ContributeForm } from "@/components/forms/ContributeForm";
 
 const Contribute = () => {
   return (
@@ -92,17 +93,7 @@ const Contribute = () => {
               Get in Touch
             </h2>
             
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <p className="mb-4">
-                Ready to contribute? We'd love to hear from you.
-              </p>
-              <p>
-                <strong>Email:</strong> <a href="mailto:submissions@urbanvision.com" className="text-blue-600 hover:text-blue-800">submissions@urbanvision.com</a>
-              </p>
-              <p className="mt-2">
-                <strong>Response time:</strong> We aim to respond to all pitches and submissions within 2-3 weeks.
-              </p>
-            </div>
+            <ContributeForm />
           </div>
         </div>
       </main>

@@ -1,4 +1,3 @@
-
 export interface Translations {
   // Navigation
   home: string;
@@ -148,6 +147,23 @@ export interface Translations {
   email: string;
   responseTime: string;
   responseTimeText: string;
+  
+  // Studio AI page
+  studioAITitle: string;
+  studioAISubtitle: string;
+  studioAIIntro1: string;
+  studioAIIntro2: string;
+  studioAIIntro3: string;
+  studioAIImageCaption: string;
+  studioAIFeaturesList: string;
+  studioAIFeature1: string;
+  studioAIFeature2: string;
+  studioAIFeature3: string;
+  studioAIFeature4: string;
+  studioAIFeature5: string;
+  studioAIConclusion: string;
+  stayTuned: string;
+  studioAILaunchingSoon: string;
 }
 
 export const translations: Record<'EN' | 'FR', Translations> = {
@@ -299,7 +315,24 @@ export const translations: Record<'EN' | 'FR', Translations> = {
     readyToContribute: "Ready to contribute? We'd love to hear from you.",
     email: "Email:",
     responseTime: "Response time:",
-    responseTimeText: "We aim to respond to all pitches and submissions within 1 week."
+    responseTimeText: "We aim to respond to all pitches and submissions within 1 week.",
+    
+    // Studio AI page
+    studioAITitle: "UrbanVision AI Studio",
+    studioAISubtitle: "Coming Soon – The Intelligence Engine Behind Africa's Urban Future",
+    studioAIIntro1: "UrbanVision AI Studio is the next evolution of our mission — transforming how African cities are planned, built, and experienced through data, technology, and design.",
+    studioAIIntro2: "While UrbanVision Magazine brings you stories, insights, and voices from across the continent, AI Studio will provide the tools to act on those insights. It will be a platform where real-time geospatial data meets predictive analytics, giving city leaders, planners, and developers the intelligence they need to make informed decisions — fast.",
+    studioAIIntro3: "As urban growth accelerates across Africa, challenges like infrastructure deficits, climate vulnerability, and unplanned sprawl demand smarter, more responsive solutions. UrbanVision AI Studio is built to meet that need.",
+    studioAIImageCaption: "Complex urban dynamics require intelligent data-driven solutions",
+    studioAIFeaturesList: "Using a blend of satellite imagery, open urban datasets, and machine learning, AI Studio will help users:",
+    studioAIFeature1: "Map infrastructure gaps in transport, health, education, and housing.",
+    studioAIFeature2: "Forecast urban expansion before it happens, especially in informal and peri-urban areas.",
+    studioAIFeature3: "Identify climate risks including flood zones, pollution clusters, and heat islands.",
+    studioAIFeature4: "Pinpoint areas of opportunity for investment, public-private partnerships, and innovation.",
+    studioAIFeature5: "Access all insights through a conversational AI assistant, built to respond to urban planning queries in real time and across multiple languages.",
+    studioAIConclusion: "Whether you're building a transport corridor, investing in real estate, or designing inclusive housing policy — AI Studio will be your intelligence companion for urban strategy. Pilot cities include Kigali, Accra, and Nairobi.",
+    stayTuned: "Stay tuned.",
+    studioAILaunchingSoon: "UrbanVision AI Studio is launching soon"
   },
   FR: {
     // Navigation
@@ -449,7 +482,24 @@ export const translations: Record<'EN' | 'FR', Translations> = {
     readyToContribute: "Prêt à contribuer ? Nous aimerions avoir de vos nouvelles.",
     email: "Email :",
     responseTime: "Temps de réponse :",
-    responseTimeText: "Nous visons à répondre à toutes les propositions et soumissions dans un délai d'une semaine."
+    responseTimeText: "Nous visons à répondre à toutes les propositions et soumissions dans un délai d'une semaine.",
+    
+    // Studio AI page
+    studioAITitle: "Studio IA UrbanVision",
+    studioAISubtitle: "Bientôt Disponible – Le Moteur d'Intelligence Derrière l'Avenir Urbain de l'Afrique",
+    studioAIIntro1: "Le Studio IA UrbanVision est la prochaine évolution de notre mission — transformer la façon dont les villes africaines sont planifiées, construites et vécues grâce aux données, à la technologie et au design.",
+    studioAIIntro2: "Alors qu'UrbanVision Magazine vous apporte des histoires, des analyses et des voix de tout le continent, le Studio IA fournira les outils pour agir sur ces insights. Ce sera une plateforme où les données géospatiales en temps réel rencontrent l'analytique prédictive, donnant aux dirigeants urbains, planificateurs et développeurs l'intelligence nécessaire pour prendre des décisions éclairées — rapidement.",
+    studioAIIntro3: "Alors que la croissance urbaine s'accélère en Afrique, des défis comme les déficits d'infrastructure, la vulnérabilité climatique et l'étalement non planifié exigent des solutions plus intelligentes et plus réactives. Le Studio IA UrbanVision est conçu pour répondre à ce besoin.",
+    studioAIImageCaption: "Des dynamiques urbaines complexes nécessitent des solutions intelligentes basées sur les données",
+    studioAIFeaturesList: "En utilisant un mélange d'imagerie satellite, de jeux de données urbaines ouvertes et d'apprentissage automatique, le Studio IA aidera les utilisateurs à :",
+    studioAIFeature1: "Cartographier les lacunes d'infrastructure dans les transports, la santé, l'éducation et le logement.",
+    studioAIFeature2: "Prévoir l'expansion urbaine avant qu'elle ne se produise, en particulier dans les zones informelles et périurbaines.",
+    studioAIFeature3: "Identifier les risques climatiques, y compris les zones inondables, les clusters de pollution et les îlots de chaleur.",
+    studioAIFeature4: "Localiser les zones d'opportunité pour l'investissement, les partenariats public-privé et l'innovation.",
+    studioAIFeature5: "Accéder à tous les insights via un assistant IA conversationnel, conçu pour répondre aux requêtes de planification urbaine en temps réel et dans plusieurs langues.",
+    studioAIConclusion: "Que vous construisiez un corridor de transport, investissiez dans l'immobilier ou conceviez une politique de logement inclusif — le Studio IA sera votre compagnon d'intelligence pour la stratégie urbaine. Les villes pilotes incluent Kigali, Accra et Nairobi.",
+    stayTuned: "Restez à l'écoute.",
+    studioAILaunchingSoon: "Le Studio IA UrbanVision sera bientôt lancé"
   }
 };
 

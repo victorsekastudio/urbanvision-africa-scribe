@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/contexts/AuthContext";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { testDatabaseAuth } from "@/components/admin/hooks/utils/authTester";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -17,10 +18,11 @@ const Auth = () => {
   const [fullName, setFullName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { user, signIn, signUp } = useAuth();
+  const { user, signIn, signUp, refreshSession } = useAuth();
 
   // Redirect if already logged in
   if (user) {
+    console.log('🔄 AUTH: User logged in, redirecting to admin...');
     return <Navigate to="/admin" replace />;
   }
 
@@ -28,6 +30,8 @@ const Auth = () => {
     e.preventDefault();
     setError("");
     setLoading(true);
+
+    console.log(`🚀 AUTH: Starting ${isLogin ? 'sign in' : 'sign up'} process...`);
 
     try {
       let result;
@@ -43,6 +47,8 @@ const Auth = () => {
       }
 
       if (result.error) {
+        console.error(`❌ AUTH ERROR: ${isLogin ? 'Sign in' : 'Sign up'} failed:`, result.error);
+        
         if (result.error.message.includes("User already registered")) {
           setError("An account with this email already exists. Please sign in instead.");
         } else if (result.error.message.includes("Invalid login credentials")) {
@@ -50,13 +56,35 @@ const Auth = () => {
         } else {
           setError(result.error.message);
         }
-      } else if (!isLogin) {
-        setError("Please check your email to confirm your account before signing in.");
+      } else {
+        console.log(`✅ AUTH SUCCESS: ${isLogin ? 'Sign in' : 'Sign up'} completed`);
+        
+        if (!isLogin) {
+          setError("Account created successfully! You can now sign in.");
+          setIsLogin(true);
+        } else {
+          // Test database authentication after successful sign in
+          setTimeout(async () => {
+            await testDatabaseAuth();
+          }, 1000);
+        }
       }
     } catch (err) {
+      console.error('❌ AUTH ERROR: Unexpected error:', err);
       setError("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleTestAuth = async () => {
+    console.log('🧪 AUTH: Testing authentication manually...');
+    const result = await testDatabaseAuth();
+    
+    if (!result.hasSession) {
+      console.log('🔄 AUTH: No session found, attempting refresh...');
+      await refreshSession();
+      setTimeout(() => testDatabaseAuth(), 1000);
     }
   };
 
@@ -117,7 +145,7 @@ const Auth = () => {
               </div>
 
               {error && (
-                <Alert variant="destructive">
+                <Alert variant={error.includes("successfully") ? "default" : "destructive"}>
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
@@ -142,6 +170,19 @@ const Auth = () => {
                   : "Already have an account? Sign in"
                 }
               </button>
+            </div>
+
+            {/* Debug button - remove in production */}
+            <div className="mt-4 text-center">
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="sm"
+                onClick={handleTestAuth}
+                className="text-xs"
+              >
+                Test Auth Debug
+              </Button>
             </div>
           </CardContent>
         </Card>

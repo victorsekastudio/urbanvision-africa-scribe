@@ -23,10 +23,62 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
   const { toast } = useToast();
   const { postToSocialMedia } = useSocialMediaPoster();
 
+  // Function to debug database authentication context
+  const debugDatabaseAuth = async () => {
+    console.log('🔍 DB AUTH DEBUG: Checking database authentication context...');
+    
+    try {
+      // Check if auth.uid() works in database context
+      const { data: authTest, error: authError } = await supabase
+        .rpc('get_current_user_id');
+      
+      if (authError) {
+        console.error('❌ DB AUTH ERROR: auth.uid() test failed:', authError);
+      } else {
+        console.log('✅ DB AUTH SUCCESS: auth.uid() returns:', authTest);
+      }
+    } catch (error) {
+      console.log('⚠️ DB AUTH: Custom function not available, testing with simple query...');
+    }
+
+    // Test with a simple authenticated query
+    try {
+      const { data: profileTest, error: profileError } = await supabase
+        .from('profiles')
+        .select('id')
+        .limit(1);
+        
+      if (profileError) {
+        console.error('❌ DB AUTH ERROR: Profile query failed:', profileError);
+        console.error('❌ This suggests auth.uid() is NULL in database context');
+      } else {
+        console.log('✅ DB AUTH SUCCESS: Profile query worked, auth context is valid');
+      }
+    } catch (error) {
+      console.error('❌ DB AUTH ERROR: Exception during profile test:', error);
+    }
+
+    // Check current session details
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      console.log('📋 DB AUTH DEBUG: Current session details:', {
+        userId: session.user.id,
+        accessToken: session.access_token ? 'EXISTS' : 'NULL',
+        refreshToken: session.refresh_token ? 'EXISTS' : 'NULL',
+        expiresAt: session.expires_at ? new Date(session.expires_at * 1000).toISOString() : 'NULL',
+        tokenExpired: session.expires_at ? Date.now() / 1000 > session.expires_at : 'UNKNOWN'
+      });
+    } else {
+      console.error('❌ DB AUTH ERROR: No session found in client');
+    }
+  };
+
   // Create retryable database operations
   const retryableUnpinHeroArticles = createRetryableOperation(
     async (currentArticleId?: string) => {
       console.log('🔄 DEBUG: Starting to unpin other hero articles...');
+      await debugDatabaseAuth();
+      
       const { error } = await supabase
         .from('articles')
         .update({ pin_as_hero: false })
@@ -44,6 +96,7 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
     async (articleId: string, articleData: any) => {
       console.log('🔄 DEBUG: Updating existing article with ID:', articleId);
       console.log('📝 DEBUG: Article data being updated:', articleData);
+      await debugDatabaseAuth();
       
       const result = await supabase
         .from('articles')
@@ -66,6 +119,7 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
     async (articleData: any) => {
       console.log('🔄 DEBUG: Creating new article...');
       console.log('📝 DEBUG: Article data being created:', articleData);
+      await debugDatabaseAuth();
       
       const result = await supabase
         .from('articles')
@@ -99,6 +153,9 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
     };
 
     try {
+      // Debug authentication state before attempting database operations
+      await debugDatabaseAuth();
+
       // Use database transaction simulation for complex operations
       let result;
       let articleId: string;

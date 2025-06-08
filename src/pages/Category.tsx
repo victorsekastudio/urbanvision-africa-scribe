@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,11 +8,13 @@ import { ArrowLeft } from "lucide-react";
 import type { Article, Category as CategoryType } from "@/types/database";
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/utils/translations";
+import { useCategoryDescription } from "@/utils/categoryDescriptions";
 
 const Category = () => {
   const { category } = useParams<{ category: string }>();
   const { currentLanguage } = useLanguage();
   const t = translations[currentLanguage];
+  const { getCategoryDescription } = useCategoryDescription();
 
   const { data: categoryData, isLoading: categoryLoading } = useQuery({
     queryKey: ['category', category, currentLanguage],
@@ -111,10 +112,9 @@ const Category = () => {
   const categoryName = currentLanguage === 'FR' && categoryData.name_fr 
     ? categoryData.name_fr 
     : categoryData.name;
-    
-  const categoryDescription = currentLanguage === 'FR' && categoryData.description_fr 
-    ? categoryData.description_fr 
-    : categoryData.description;
+
+  // Use the translated description based on category slug
+  const categoryDescription = getCategoryDescription(category || '');
 
   return (
     <div className="min-h-screen bg-white">
@@ -132,11 +132,9 @@ const Category = () => {
           <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-4">
             {categoryName}
           </h1>
-          {categoryDescription && (
-            <p className="text-lg text-gray-600 max-w-3xl">
-              {categoryDescription}
-            </p>
-          )}
+          <p className="text-lg text-gray-600 max-w-3xl">
+            {categoryDescription}
+          </p>
         </div>
 
         {articles && articles.length > 0 ? (

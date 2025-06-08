@@ -1,3 +1,4 @@
+
 export interface Translations {
   // Navigation
   home: string;
@@ -177,6 +178,14 @@ export interface Translations {
   editorsNote: string;
   editorsNoteQuote: string;
   editorsNoteAttribution: string;
+  
+  // Category page specific translations
+  latestTrendsAfricanUrban: string;
+  infrastructureGapsInvestmentDesc: string;
+  climateResilienceSustainabilityDesc: string;
+  transportMobilityDesc: string;
+  smartCityTechPlanningDesc: string;
+  voicesFromGroundDesc: string;
 }
 
 export const translations: Record<'EN' | 'FR', Translations> = {
@@ -358,7 +367,15 @@ export const translations: Record<'EN' | 'FR', Translations> = {
     // Editor's Note
     editorsNote: "Editor's Note",
     editorsNoteQuote: "As African cities prepare to house over 750 million people by 2030, the conversations we're having today about infrastructure, sustainability, and innovation will determine the quality of life for generations to come.",
-    editorsNoteAttribution: "UrbanVision team"
+    editorsNoteAttribution: "UrbanVision team",
+    
+    // Category page specific translations
+    latestTrendsAfricanUrban: "Latest trends in African urban development",
+    infrastructureGapsInvestmentDesc: "Funding mechanisms, public-private partnerships, and innovative financing for essential urban infrastructure",
+    climateResilienceSustainabilityDesc: "Adaptation strategies, green infrastructure, and sustainable development practices for African cities",
+    transportMobilityDesc: "Sustainable transportation solutions, urban mobility innovations, and infrastructure development",
+    smartCityTechPlanningDesc: "Digital transformation, data-driven governance, and technology adoption in urban planning",
+    voicesFromGroundDesc: "Community perspectives, grassroots initiatives, and local solutions to urban challenges"
   },
   FR: {
     // Navigation
@@ -538,8 +555,17 @@ export const translations: Record<'EN' | 'FR', Translations> = {
     // Editor's Note
     editorsNote: "Note de l'Éditeur",
     editorsNoteQuote: "Alors que les villes africaines se préparent à accueillir plus de 750 millions de personnes d'ici 2030, les conversations que nous avons aujourd'hui sur l'infrastructure, la durabilité et l'innovation détermineront la qualité de vie pour les générations à venir.",
-    editorsNoteAttribution: "Équipe UrbanVision"
+    editorsNoteAttribution: "Équipe UrbanVision",
+    
+    // Category page specific translations
+    latestTrendsAfricanUrban: "Dernières tendances du développement urbain africain",
+    infrastructureGapsInvestmentDesc: "Mécanismes de financement, partenariats public-privé et financement innovant pour les infrastructures urbaines essentielles",
+    climateResilienceSustainabilityDesc: "Stratégies d'adaptation, infrastructures vertes et pratiques de développement durable pour les villes africaines",
+    transportMobilityDesc: "Solutions de transport durable, innovations en mobilité urbaine et développement d'infrastructures",
+    smartCityTechPlanningDesc: "Transformation numérique, gouvernance basée sur les données et adoption technologique dans la planification urbaine",
+    voicesFromGroundDesc: "Perspectives communautaires, initiatives populaires et solutions locales aux défis urbains"
   }
 };
 
 export type TranslationKey = keyof Translations;
+

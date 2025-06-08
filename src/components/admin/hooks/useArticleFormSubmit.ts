@@ -24,13 +24,7 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
     resetState();
 
     try {
-      // Handle hero article pinning
-      await handleHeroArticlePinning({
-        shouldPin: data.pin_as_hero,
-        currentArticleId: article?.id,
-      });
-
-      // Perform database operation
+      // Perform database operation first
       let result;
       let articleId: string;
 
@@ -54,6 +48,13 @@ export const useArticleFormSubmit = (article?: Article, onSave?: () => void) => 
       if (!result.data) {
         console.error('❌ DEBUG: No data returned from database operation');
         throw new Error('No data returned from database operation');
+      }
+
+      // Handle hero article pinning AFTER successful article creation/update
+      if (data.pin_as_hero) {
+        console.log('🎯 DEBUG: Processing hero article pinning...');
+        await handleHeroArticlePinning(articleId, true);
+        console.log('✅ DEBUG: Hero article pinning completed');
       }
 
       // Show success notification

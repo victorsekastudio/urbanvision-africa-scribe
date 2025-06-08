@@ -9,7 +9,9 @@ export const useArticleDatabase = () => {
   const createArticle = async (data: ArticleFormData): Promise<DatabaseOperationResult> => {
     console.log('➕ DEBUG: Executing article creation...');
     
-    const articleData = prepareArticleData(data);
+    // Prepare article data but exclude pin_as_hero from the initial insert
+    // We'll handle hero pinning separately after creation
+    const articleData = { ...prepareArticleData(data), pin_as_hero: false };
     console.log('🔧 DEBUG: Prepared article data for creation:', articleData);
 
     const result = await supabase
@@ -25,7 +27,9 @@ export const useArticleDatabase = () => {
   const updateArticle = async (article: Article, data: ArticleFormData): Promise<DatabaseOperationResult> => {
     console.log('✏️ DEBUG: Executing article update...');
     
-    const articleData = prepareArticleData(data, article);
+    // Prepare article data but exclude pin_as_hero from the update
+    // We'll handle hero pinning separately after update
+    const { pin_as_hero, ...articleData } = prepareArticleData(data, article);
     console.log('🔧 DEBUG: Prepared article data for update:', articleData);
 
     const result = await supabase

@@ -1,81 +1,83 @@
+
+// Improved subdomain detection: production and localhost now handled consistently.
 export const getSubdomain = (): string | null => {
   if (typeof window === 'undefined') return null;
-  
   const hostname = window.location.hostname;
+
+  // Simulate subdomains locally with admin.localhost or admin.127.0.0.1
+  if (
+    hostname === 'localhost' ||
+    hostname.startsWith('127.') ||
+    hostname === '0.0.0.0'
+  ) {
+    // Use admin.localhost or admin.127.0.0.1 for subdomain testing locally!
+    return null; // Main domain for "localhost" base (no subdomain)
+  }
+
   const parts = hostname.split('.');
-
-  // Allow both admin.localhost and admin.yoursite.com, and fallback for /admin on localhost.
-  if (hostname === 'localhost' || hostname.startsWith('127.')) {
-    const path = window.location.pathname;
-    if (path.startsWith('/admin')) {
-      return 'admin';
-    }
-    return null;
-  }
-
-  // Production: e.g., admin.yoursite.com, www.yoursite.com, yoursite.com
+  // E.g. admin.yoursite.com, parts = [admin, yoursite, com]
   if (parts.length >= 3) {
-    // admin.domain.tld
     return parts[0];
-  } else if (parts.length === 2) {
-    // domain.tld (no subdomain)
-    return null;
   }
-  return null;
+  return null; // Production main domain (yoursite.com or www.yoursite.com)
 };
 
 export const isAdminSubdomain = (): boolean => {
   if (typeof window === "undefined") return false;
-  return getSubdomain() === "admin";
+  const hostname = window.location.hostname;
+  // For local development, 'admin.localhost' or 'admin.127.0.0.1' (allow both)
+  return (
+    hostname.startsWith('admin.') ||
+    hostname === 'admin.localhost' ||
+    hostname === 'admin.127.0.0.1'
+  );
 };
 
 export const redirectToMainDomain = () => {
   if (typeof window === 'undefined') return;
-  
   const { protocol, hostname, port } = window.location;
-  // Remove 'admin.' if it exists
   let destination = hostname;
+  // Remove 'admin.' prefix if present
   if (destination.startsWith('admin.')) {
     destination = destination.replace('admin.', '');
   }
-  // Maintain port in local dev
   window.location.href =
     protocol +
     '//' +
     destination +
-    (port && hostname.includes('localhost') ? ':' + port : '') +
+    (port && (hostname.includes('localhost') || hostname.includes('127.')) ? ':' + port : '') +
     '/';
 };
 
 export const redirectToAdminDomain = () => {
   if (typeof window === 'undefined') return;
-
   const { protocol, hostname, port, pathname, search } = window.location;
-
   // Already on admin subdomain
-  if (hostname.startsWith('admin.')) {
-    // Avoid adding "admin." again
+  if (
+    hostname.startsWith('admin.') ||
+    hostname === 'admin.localhost' ||
+    hostname === 'admin.127.0.0.1'
+  ) {
     return;
   }
 
   let baseHost = hostname;
-  // If already on a subdomain (e.g., www.domain.com), replace with admin. (catches www)
   if (baseHost.startsWith('www.')) {
     baseHost = baseHost.replace(/^www\./, '');
   }
-
-  let dest = `admin.${baseHost}`;
+  let adminHost = `admin.${baseHost}`;
+  // Localhost-specific override for easier dev
+  if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '0.0.0.0') {
+    adminHost = 'admin.localhost' + (port ? ':' + port : '');
+  }
   let full =
     protocol +
     '//' +
-    dest +
-    (port && hostname.includes('localhost') ? ':' + port : '') +
-    '/admin'; // always direct root to /admin
-
-  // Retain /admin path+query from main domain, if applicable
-  if (pathname.startsWith('/admin')) {
-    full += pathname.replace('/admin', '') + search;
+    adminHost +
+    '/admin'; // Always direct to /admin root
+  // Retain querystring for smoother dev experience
+  if (pathname !== '/' && search) {
+    full += search;
   }
-
   window.location.href = full;
 };

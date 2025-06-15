@@ -1,13 +1,9 @@
 
-import { AdminRoute } from "@/components/auth/AdminRoute";
+// No need to gate here: SubdomainGuard in App.tsx enforces access + redirect
 import { AdminContent } from "@/components/admin/AdminContent";
 
 const Admin = () => {
-  return (
-    <AdminRoute>
-      <AdminContent />
-    </AdminRoute>
-  );
+  return <AdminContent />;
 };
 
 export default Admin;

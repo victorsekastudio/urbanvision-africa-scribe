@@ -5,10 +5,19 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "@/utils/translations";
 import type { Article } from "@/types/database";
 
+// Define string-only keys to avoid union type issues
+type StringTranslationKey = 
+  | "urbanTrendsGrowthTitle" | "urbanTrendsGrowthDesc"
+  | "infrastructureInvestmentTitle" | "infrastructureInvestmentDesc" 
+  | "climateSustainabilityTitle" | "climateSustainabilityDesc"
+  | "transportMobilityTitle" | "transportMobilityDesc"
+  | "smartCityTechTitle" | "smartCityTechDesc"
+  | "voicesGroundTitle" | "voicesGroundDesc";
+
 interface Pillar {
   id: string;
-  titleKey: keyof typeof translations.EN;
-  descriptionKey: keyof typeof translations.EN;
+  titleKey: StringTranslationKey;
+  descriptionKey: StringTranslationKey;
   categorySlug: string;
   articles: Article[];
 }
@@ -35,10 +44,10 @@ export const PillarSection = ({ pillar }: PillarSectionProps) => {
       <div className="grid lg:grid-cols-3 gap-12">
         <div className="lg:col-span-1">
           <h3 className="text-2xl font-light tracking-wide text-gray-900 mb-4">
-            {t[pillar.titleKey]}
+            {t[pillar.titleKey] as string}
           </h3>
           <p className="text-gray-600 font-light tracking-wide leading-relaxed font-serif mb-6">
-            {t[pillar.descriptionKey]}
+            {t[pillar.descriptionKey] as string}
           </p>
           <Link 
             to={`/category/${pillar.categorySlug}`}

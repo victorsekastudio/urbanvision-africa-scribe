@@ -35,6 +35,15 @@ export const translations = {
       signInRequired: "Sign in required"
     },
     // Root-level keys that components expect
+    about: "About",
+    contribute: "Contribute",
+    tagline: "Leading the conversation on urban planning and smart city development",
+    followInstagram: "Follow on Instagram",
+    allRightsReserved: "All rights reserved",
+    navigation: "Navigation",
+    pages: "Pages",
+    search: "Search",
+    language: "Language",
     featuredReads: "Featured Reads",
     featuredReadsSubtitle: "Discover the latest insights and perspectives on urban development and smart city innovation",
     stayConnected: "Stay Connected",
@@ -174,6 +183,15 @@ export const translations = {
       signInRequired: "Connexion requise"
     },
     // Root-level keys that components expect (French translations)
+    about: "À propos",
+    contribute: "Contribuer",
+    tagline: "Leader dans les discussions sur l'urbanisme et le développement de villes intelligentes",
+    followInstagram: "Suivre sur Instagram",
+    allRightsReserved: "Tous droits réservés",
+    navigation: "Navigation",
+    pages: "Pages",
+    search: "Recherche",
+    language: "Langue",
     featuredReads: "Lectures Recommandées",
     featuredReadsSubtitle: "Découvrez les dernières perspectives sur le développement urbain et l'innovation des villes intelligentes",
     stayConnected: "Restez Connecté",

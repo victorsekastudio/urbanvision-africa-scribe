@@ -1,4 +1,5 @@
 
+
 export const translations = {
   EN: {
     nav: {
@@ -16,6 +17,7 @@ export const translations = {
       heroTitle: "Reshaping Tomorrow's Cities",
       heroSubtitle: "Discover cutting-edge insights on urban planning, smart cities, and sustainable development",
       featuredReads: "Featured Reads",
+      featuredReadsSubtitle: "Discover the latest insights and perspectives on urban development and smart city innovation",
       editorNote: "Editor's Note",
       editorialPillars: "Editorial Pillars",
       eventsWebinars: "Events & Webinars",
@@ -40,6 +42,12 @@ export const translations = {
     editorialPillars: "Editorial Pillars",
     editorialPillarsSubtitle: "Exploring the key themes that shape modern urban development",
     noArticlesFound: "No articles found",
+    noFeaturedArticles: "No featured articles available at the moment",
+    featuredArticle: "Featured Article",
+    by: "by",
+    recently: "Recently",
+    readArticle: "Read Article",
+    viewAllEvents: "View All Events",
     upcomingEventsWebinars: "Upcoming Events & Webinars",
     upcomingEventsSubtitle: "Join our community of urban planning professionals in upcoming events and webinars",
     registered: "registered",
@@ -139,6 +147,7 @@ export const translations = {
       heroTitle: "Façonner les Villes de Demain",
       heroSubtitle: "Découvrez des perspectives innovantes sur l'urbanisme, les villes intelligentes et le développement durable",
       featuredReads: "Lectures Recommandées",
+      featuredReadsSubtitle: "Découvrez les dernières perspectives sur le développement urbain et l'innovation des villes intelligentes",
       editorNote: "Note de l'Éditeur",
       editorialPillars: "Piliers Éditoriaux",
       eventsWebinars: "Événements et Webinaires",
@@ -163,6 +172,12 @@ export const translations = {
     editorialPillars: "Piliers Éditoriaux",
     editorialPillarsSubtitle: "Explorer les thèmes clés qui façonnent le développement urbain moderne",
     noArticlesFound: "Aucun article trouvé",
+    noFeaturedArticles: "Aucun article en vedette disponible pour le moment",
+    featuredArticle: "Article en Vedette",
+    by: "par",
+    recently: "Récemment",
+    readArticle: "Lire l'Article",
+    viewAllEvents: "Voir Tous les Événements",
     upcomingEventsWebinars: "Événements et Webinaires à Venir",
     upcomingEventsSubtitle: "Rejoignez notre communauté de professionnels de l'urbanisme lors d'événements et webinaires à venir",
     registered: "inscrits",
@@ -247,3 +262,4 @@ export const translations = {
     }
   }
 };
+

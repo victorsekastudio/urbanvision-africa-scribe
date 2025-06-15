@@ -2,13 +2,13 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/hooks/useLanguage";
-import { translations, TranslationKey } from "@/utils/translations";
+import { translations } from "@/utils/translations";
 import type { Article } from "@/types/database";
 
 interface Pillar {
   id: string;
-  titleKey: TranslationKey;
-  descriptionKey: TranslationKey;
+  titleKey: keyof typeof translations.EN;
+  descriptionKey: keyof typeof translations.EN;
   categorySlug: string;
   articles: Article[];
 }

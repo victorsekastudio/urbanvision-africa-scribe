@@ -1,5 +1,4 @@
 
-
 export const translations = {
   EN: {
     nav: {
@@ -35,7 +34,14 @@ export const translations = {
       exclusiveContent: "Exclusive Content",
       signInRequired: "Sign in required"
     },
-    // Add missing top-level keys that components expect
+    // Root-level keys that components expect
+    featuredReads: "Featured Reads",
+    featuredReadsSubtitle: "Discover the latest insights and perspectives on urban development and smart city innovation",
+    stayConnected: "Stay Connected",
+    newsletterSubtitle: "Stay updated with the latest insights on urban planning and smart cities",
+    enterEmail: "Enter your email",
+    subscribe: "Subscribe",
+    thankYouSubscribe: "Thank you for subscribing!",
     editorsNote: "Editor's Note",
     editorsNoteQuote: "Through thoughtful urban planning and sustainable development, we can create cities that not only accommodate growth but enhance the quality of life for all residents.",
     editorsNoteAttribution: "UrbanVision Editorial Team",
@@ -48,6 +54,7 @@ export const translations = {
     recently: "Recently",
     readArticle: "Read Article",
     viewAllEvents: "View All Events",
+    viewAllArticles: "View All Articles",
     upcomingEventsWebinars: "Upcoming Events & Webinars",
     upcomingEventsSubtitle: "Join our community of urban planning professionals in upcoming events and webinars",
     registered: "registered",
@@ -65,6 +72,7 @@ export const translations = {
     smartCityTechDesc: "Innovation and digital transformation in urban environments",
     voicesGroundTitle: "Voices from the Ground",
     voicesGroundDesc: "Community perspectives and local insights",
+    explore: "Explore",
     articles: {
       backToHomepage: "Back to Homepage",
       readMore: "Read more",
@@ -165,7 +173,14 @@ export const translations = {
       exclusiveContent: "Contenu Exclusif",
       signInRequired: "Connexion requise"
     },
-    // Add missing top-level keys that components expect (French translations)
+    // Root-level keys that components expect (French translations)
+    featuredReads: "Lectures Recommandées",
+    featuredReadsSubtitle: "Découvrez les dernières perspectives sur le développement urbain et l'innovation des villes intelligentes",
+    stayConnected: "Restez Connecté",
+    newsletterSubtitle: "Restez informé des dernières tendances en urbanisme et villes intelligentes",
+    enterEmail: "Entrez votre email",
+    subscribe: "S'abonner",
+    thankYouSubscribe: "Merci pour votre abonnement !",
     editorsNote: "Note de l'Éditeur",
     editorsNoteQuote: "Grâce à un urbanisme réfléchi et un développement durable, nous pouvons créer des villes qui non seulement accommodent la croissance mais améliorent la qualité de vie de tous les résidents.",
     editorsNoteAttribution: "Équipe Éditoriale UrbanVision",
@@ -178,6 +193,7 @@ export const translations = {
     recently: "Récemment",
     readArticle: "Lire l'Article",
     viewAllEvents: "Voir Tous les Événements",
+    viewAllArticles: "Voir Tous les Articles",
     upcomingEventsWebinars: "Événements et Webinaires à Venir",
     upcomingEventsSubtitle: "Rejoignez notre communauté de professionnels de l'urbanisme lors d'événements et webinaires à venir",
     registered: "inscrits",
@@ -195,6 +211,7 @@ export const translations = {
     smartCityTechDesc: "Innovation et transformation numérique dans les environnements urbains",
     voicesGroundTitle: "Voix du Terrain",
     voicesGroundDesc: "Perspectives communautaires et perspectives locales",
+    explore: "Explorer",
     articles: {
       backToHomepage: "Retour à l'Accueil",
       readMore: "Lire la suite",
@@ -262,4 +279,3 @@ export const translations = {
     }
   }
 };
-

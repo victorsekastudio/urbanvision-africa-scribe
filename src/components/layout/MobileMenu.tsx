@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, Settings } from "lucide-react";
@@ -64,6 +63,18 @@ export const MobileMenu = () => {
           </SheetTitle>
         </SheetHeader>
         
+        {/* Moved Search and Language to Top */}
+        <div className="mt-4 flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <span className="font-light text-sm text-gray-500">{t.search}</span>
+            <SearchButton />
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="font-light text-sm text-gray-500">{t.language}</span>
+            <LanguageToggle />
+          </div>
+        </div>
+
         <div className="mt-8 space-y-6">
           {/* Categories */}
           <div>
@@ -126,23 +137,12 @@ export const MobileMenu = () => {
             </div>
           </div>
 
-          {/* Actions */}
+          {/* Actions: now only Subscribe and Sign In */}
           <div className="pt-6 border-t border-gray-100">
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="font-light text-sm text-gray-500">{t.search}</span>
-                <SearchButton />
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <span className="font-light text-sm text-gray-500">{t.language}</span>
-                <LanguageToggle />
-              </div>
-              
               <div className="pt-2">
                 <SubscribeModal />
               </div>
-
               {!user && (
                 <div className="pt-2">
                   <Link to="/auth" onClick={() => setIsOpen(false)}>

@@ -1,83 +1,65 @@
 
-// Improved subdomain detection: production and localhost now handled consistently.
+// Returns the subdomain or null if on root or www.
 export const getSubdomain = (): string | null => {
   if (typeof window === 'undefined') return null;
   const hostname = window.location.hostname;
+  // Match localhost subdomain (admin.localhost, admin.127.0.0.1 or custom)
+  const localRegex = /^([a-z0-9-]+)\.(localhost|127\.\d+\.\d+\.\d+)$/i;
+  const prodRegex = /^([a-z0-9-]+)\./i;
 
-  // Simulate subdomains locally with admin.localhost or admin.127.0.0.1
-  if (
-    hostname === 'localhost' ||
-    hostname.startsWith('127.') ||
-    hostname === '0.0.0.0'
-  ) {
-    // Use admin.localhost or admin.127.0.0.1 for subdomain testing locally!
-    return null; // Main domain for "localhost" base (no subdomain)
+  // Localhost with subdomain (admin.localhost or admin.127.0.0.1)
+  const localMatch = hostname.match(localRegex);
+  if (localMatch) {
+    return localMatch[1];
   }
-
-  const parts = hostname.split('.');
-  // E.g. admin.yoursite.com, parts = [admin, yoursite, com]
-  if (parts.length >= 3) {
-    return parts[0];
+  // Non-localhost: any subdomain.yoursite.com
+  const prodMatch = hostname.match(prodRegex);
+  if (prodMatch) {
+    const parts = hostname.split('.');
+    if (parts.length >= 3 && parts[0] !== 'www') {
+      return parts[0];
+    }
   }
-  return null; // Production main domain (yoursite.com or www.yoursite.com)
+  return null;
 };
 
 export const isAdminSubdomain = (): boolean => {
   if (typeof window === "undefined") return false;
-  const hostname = window.location.hostname;
-  // For local development, 'admin.localhost' or 'admin.127.0.0.1' (allow both)
-  return (
-    hostname.startsWith('admin.') ||
-    hostname === 'admin.localhost' ||
-    hostname === 'admin.127.0.0.1'
-  );
+  const sub = getSubdomain();
+  // Support admin.localhost, admin.127.0.0.1, admin.site.com, etc.
+  return sub === 'admin';
 };
 
 export const redirectToMainDomain = () => {
   if (typeof window === 'undefined') return;
-  const { protocol, hostname, port } = window.location;
-  let destination = hostname;
-  // Remove 'admin.' prefix if present
-  if (destination.startsWith('admin.')) {
-    destination = destination.replace('admin.', '');
+  const { protocol, hostname, port, pathname, search } = window.location;
+  let newHost = hostname.replace(/^admin\./, '');
+  if (/^admin\.(localhost|127\.\d+\.\d+\.\d+)$/.test(hostname)) {
+    // admin.localhost → localhost; admin.127.0.0.1 → 127.0.0.1
+    newHost = hostname.replace(/^admin\./, '');
   }
-  window.location.href =
+  window.location.replace(
     protocol +
-    '//' +
-    destination +
-    (port && (hostname.includes('localhost') || hostname.includes('127.')) ? ':' + port : '') +
-    '/';
+      '//' +
+      newHost +
+      (port && !/^(80|443)$/.test(String(port)) ? ':' + port : '') +
+      '/' +
+      (pathname.startsWith('/admin') ? '' : pathname.slice(1)) +
+      search
+  );
 };
 
 export const redirectToAdminDomain = () => {
   if (typeof window === 'undefined') return;
-  const { protocol, hostname, port, pathname, search } = window.location;
-  // Already on admin subdomain
-  if (
-    hostname.startsWith('admin.') ||
-    hostname === 'admin.localhost' ||
-    hostname === 'admin.127.0.0.1'
-  ) {
-    return;
+  const { protocol, hostname, port, search } = window.location;
+  let baseHost = hostname.replace(/^www\./, '').replace(/^admin\./, '');
+  let adminHost: string;
+  if (baseHost === 'localhost' || /^127\.\d+\.\d+\.\d+$/.test(baseHost)) {
+    adminHost = `admin.${baseHost}${port ? ':' + port : ''}`;
+  } else {
+    adminHost = `admin.${baseHost}`;
   }
-
-  let baseHost = hostname;
-  if (baseHost.startsWith('www.')) {
-    baseHost = baseHost.replace(/^www\./, '');
-  }
-  let adminHost = `admin.${baseHost}`;
-  // Localhost-specific override for easier dev
-  if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '0.0.0.0') {
-    adminHost = 'admin.localhost' + (port ? ':' + port : '');
-  }
-  let full =
-    protocol +
-    '//' +
-    adminHost +
-    '/admin'; // Always direct to /admin root
-  // Retain querystring for smoother dev experience
-  if (pathname !== '/' && search) {
-    full += search;
-  }
-  window.location.href = full;
+  window.location.replace(
+    protocol + '//' + adminHost + '/admin' + search
+  );
 };

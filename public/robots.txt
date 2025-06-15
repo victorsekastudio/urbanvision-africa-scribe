@@ -1,14 +1,13 @@
-User-agent: Googlebot
-Allow: /
 
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
+# Robots file is served for ALL domains,
+# but should be re-deployed with noindex rules on the admin subdomain in production/deployment!
 
 User-agent: *
+Disallow: /admin
+Disallow: /auth
+# Block all crawling on admin subdomain IF possible to serve this per-domain.
+# In production: Admin subdomain should serve:
+# User-agent: *
+# Disallow: /
+
 Allow: /

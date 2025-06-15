@@ -15,6 +15,7 @@ import { SearchButton } from "./SearchButton";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useAuth } from "@/contexts/AuthContext";
 import { translations } from "@/utils/translations";
+import { redirectToAdminDomain } from "@/utils/subdomainUtils";
 
 const categories = [
   { 
@@ -52,22 +53,8 @@ export const MobileMenu = () => {
   // Utility to go to admin subdomain (works client-side)
   function goToAdminSubdomain(e?: React.MouseEvent) {
     e?.preventDefault?.();
-    // Discourage using navigate; we want a hard redirect
-    const { protocol, hostname, port } = window.location;
-    let baseHost = hostname;
-    if (baseHost.startsWith('admin.')) {
-      // Already on admin
-      window.location.pathname = '/admin';
-      setIsOpen(false);
-      return;
-    }
-    if (baseHost.startsWith('www.')) {
-      baseHost = baseHost.replace(/^www\./, '');
-    }
-    let adminHost = `admin.${baseHost}`;
-    let url = protocol + '//' + adminHost +
-      (port && hostname.includes('localhost') ? ':' + port : '') + '/admin';
-    window.location.href = url;
+    redirectToAdminDomain();
+    setIsOpen(false);
   }
 
   return (

@@ -1,4 +1,3 @@
-
 export const translations = {
   EN: {
     nav: {
@@ -160,6 +159,30 @@ export const translations = {
     email: "Email:",
     responseTime: "Response Time:",
     responseTimeText: "We typically respond to proposals within 5-7 business days",
+
+    // Keys for Search.tsx
+    searchArticles: "Search Articles",
+    searchPlaceholder: "Search for articles, topics, or keywords",
+    searchResultsFor: "Search results for",
+    enterSearchTerm: "Please enter a term to start your search.",
+    
+    // Keys for StudioAI.tsx
+    studioAITitle: "UrbanVision AI Studio",
+    studioAISubtitle: "An intelligence engine to transform how Africa's urban future is planned, built and experienced through data, technology and design.",
+    studioAIIntro1: "UrbanVision AI Studio is a geospatial intelligence engine designed to provide critical data, analytics and visualisation for urban planning professionals, policymakers and investors focused on Africa. Our platform integrates satellite imagery, demographic data and on-the-ground surveys to offer unprecedented insight into the continent's rapidly evolving urban landscapes.",
+    studioAIIntro2: "From mapping informal settlement growth to identifying optimal locations for infrastructure development, the Studio equips users with the evidence base needed to make smarter, more sustainable decisions. We are moving beyond anecdotal evidence to data-driven urbanism.",
+    studioAIImageCaption: "Harnessing geospatial data to understand complex urban systems.",
+    studioAIIntro3: "Our goal is to democratise access to high-quality urban data, enabling a new generation of African cities that are more equitable, resilient and prosperous. The platform provides tools for:",
+    studioAIFeaturesList: "The platform provides tools for:",
+    studioAIFeature1: "Demographic Analysis: Understand population density, growth trends and socioeconomic indicators at a granular level.",
+    studioAIFeature2: "Infrastructure Planning: Identify gaps in service delivery and model the impact of new infrastructure projects.",
+    studioAIFeature3: "Climate Resilience: Assess vulnerability to climate risks such as flooding and heatwaves, and plan adaptation strategies.",
+    studioAIFeature4: "Mobility & Transport: Analyse traffic patterns and public transport accessibility to design more efficient mobility systems.",
+    studioAIFeature5: "Land Use Management: Monitor land use change over time and identify opportunities for sustainable urban expansion.",
+    studioAIConclusion: "By placing powerful analytical tools in the hands of those shaping our cities, UrbanVision AI Studio aims to catalyse a new era of evidence-based urban development across Africa.",
+    stayTuned: "Stay Tuned",
+    studioAILaunchingSoon: "Launching soon.",
+
     articles: {
       backToHomepage: "Back to Homepage",
       readMore: "Read more",
@@ -386,6 +409,30 @@ export const translations = {
     email: "Email :",
     responseTime: "Temps de Réponse :",
     responseTimeText: "Nous répondons généralement aux propositions dans les 5-7 jours ouvrables",
+
+    // Keys for Search.tsx
+    searchArticles: "Rechercher des Articles",
+    searchPlaceholder: "Rechercher des articles, des sujets ou des mots-clés",
+    searchResultsFor: "Résultats de recherche pour",
+    enterSearchTerm: "Veuillez saisir un terme pour lancer votre recherche.",
+
+    // Keys for StudioAI.tsx
+    studioAITitle: "Studio IA UrbanVision",
+    studioAISubtitle: "Un moteur d'intelligence pour transformer la planification, la construction et l'expérience de l'avenir urbain de l'Afrique grâce aux données, à la technologie et au design.",
+    studioAIIntro1: "Le Studio IA d'UrbanVision est un moteur d'intelligence géospatiale conçu pour fournir des données, des analyses et des visualisations critiques aux professionnels de l'urbanisme, aux décideurs politiques et aux investisseurs axés sur l'Afrique. Notre plateforme intègre l'imagerie satellite, les données démographiques et les enquêtes sur le terrain pour offrir un aperçu sans précédent des paysages urbains en évolution rapide du continent.",
+    studioAIIntro2: "De la cartographie de la croissance des établissements informels à l'identification des emplacements optimaux pour le développement des infrastructures, le Studio fournit aux utilisateurs la base de données probantes nécessaire pour prendre des décisions plus intelligentes et plus durables. Nous passons des preuves anecdotiques à un urbanisme axé sur les données.",
+    studioAIImageCaption: "Exploiter les données géospatiales pour comprendre les systèmes urbains complexes.",
+    studioAIIntro3: "Notre objectif est de démocratiser l'accès à des données urbaines de haute qualité, permettant une nouvelle génération de villes africaines plus équitables, résilientes et prospères. La plateforme fournit des outils pour :",
+    studioAIFeaturesList: "La plateforme fournit des outils pour :",
+    studioAIFeature1: "Analyse Démographique : Comprendre la densité de population, les tendances de croissance et les indicateurs socio-économiques à un niveau granulaire.",
+    studioAIFeature2: "Planification des Infrastructures : Identifier les lacunes dans la prestation de services et modéliser l'impact des nouveaux projets d'infrastructure.",
+    studioAIFeature3: "Résilience Climatique : Évaluer la vulnérabilité aux risques climatiques tels que les inondations et les vagues de chaleur, et planifier des stratégies d'adaptation.",
+    studioAIFeature4: "Mobilité et Transport : Analyser les schémas de circulation et l'accessibilité des transports publics pour concevoir des systèmes de mobilité plus efficaces.",
+    studioAIFeature5: "Gestion de l'Utilisation des Sols : Surveiller l'évolution de l'utilisation des sols au fil du temps et identifier les opportunités d'expansion urbaine durable.",
+    studioAIConclusion: "En mettant de puissants outils d'analyse entre les mains de ceux qui façonnent nos villes, le Studio IA d'UrbanVision vise à catalyser une nouvelle ère de développement urbain fondé sur des données probantes à travers l'Afrique.",
+    stayTuned: "Restez à l'Écoute",
+    studioAILaunchingSoon: "Lancement prochain.",
+
     articles: {
       backToHomepage: "Retour à l'Accueil",
       readMore: "Lire la suite",
@@ -407,7 +454,7 @@ export const translations = {
     },
     auth: {
       signIn: "Se Connecter",
-      signUp: "S'Inscrire",
+      signUp: "S'inscrire",
       email: "Email",
       password: "Mot de passe",
       fullName: "Nom Complet",

@@ -1,6 +1,5 @@
-
 import { useEffect } from 'react';
-import { isAdminSubdomain, redirectToAdminDomain } from '@/utils/subdomainUtils';
+import { isAdminSubdomain, redirectToAdminDomain, redirectToMainDomain } from '@/utils/subdomainUtils';
 import { useLocation } from 'react-router-dom';
 
 interface SubdomainGuardProps {
@@ -13,24 +12,25 @@ export const SubdomainGuard = ({ children }: SubdomainGuardProps) => {
   useEffect(() => {
     const currentPath = location.pathname;
     const isOnAdminSubdomain = isAdminSubdomain();
-    
-    console.log('🌐 SUBDOMAIN GUARD: Checking subdomain access', {
+
+    console.log('🌐 SUBDOMAIN GUARD DEBUG:', {
       currentPath,
       isOnAdminSubdomain,
       hostname: window.location.hostname
     });
 
-    // If trying to access /admin but not on admin subdomain, redirect
+    // If accessing /admin on MAIN domain → redirect to admin subdomain
     if (currentPath.startsWith('/admin') && !isOnAdminSubdomain) {
-      console.log('🔄 SUBDOMAIN GUARD: Redirecting to admin subdomain');
+      console.log('🔄 Redirecting to admin subdomain for /admin path');
       redirectToAdminDomain();
       return;
     }
 
-    // If on admin subdomain but not accessing admin routes, redirect to main domain
-    if (isOnAdminSubdomain && !currentPath.startsWith('/admin') && currentPath !== '/auth') {
-      console.log('🔄 SUBDOMAIN GUARD: On admin subdomain but accessing non-admin route, redirecting');
-      redirectToAdminDomain();
+    // If on admin subdomain and not accessing /admin route → redirect to main domain
+    // (exception: allow /auth for admin login, e.g. /auth for password-reset)
+    if (isOnAdminSubdomain && !(currentPath.startsWith('/admin') || currentPath.startsWith('/auth'))) {
+      console.log('🔄 On admin subdomain but not at /admin or /auth; redirecting to main domain');
+      redirectToMainDomain();
       return;
     }
   }, [location.pathname]);

@@ -1,56 +1,81 @@
-
 export const getSubdomain = (): string | null => {
   if (typeof window === 'undefined') return null;
   
   const hostname = window.location.hostname;
   const parts = hostname.split('.');
-  
-  // For localhost development, check for admin prefix
-  if (hostname.includes('localhost') || hostname.includes('127.0.0.1')) {
+
+  // Allow both admin.localhost and admin.yoursite.com, and fallback for /admin on localhost.
+  if (hostname === 'localhost' || hostname.startsWith('127.')) {
     const path = window.location.pathname;
     if (path.startsWith('/admin')) {
       return 'admin';
     }
     return null;
   }
-  
-  // For production, check actual subdomain
+
+  // Production: e.g., admin.yoursite.com, www.yoursite.com, yoursite.com
   if (parts.length >= 3) {
-    const subdomain = parts[0];
-    if (subdomain === 'admin') {
-      return 'admin';
-    }
+    // admin.domain.tld
+    return parts[0];
+  } else if (parts.length === 2) {
+    // domain.tld (no subdomain)
+    return null;
   }
-  
   return null;
 };
 
 export const isAdminSubdomain = (): boolean => {
-  return getSubdomain() === 'admin';
+  if (typeof window === "undefined") return false;
+  return getSubdomain() === "admin";
 };
 
 export const redirectToMainDomain = () => {
   if (typeof window === 'undefined') return;
   
-  const hostname = window.location.hostname;
-  
-  if (hostname.includes('localhost') || hostname.includes('127.0.0.1')) {
-    window.location.href = `${window.location.protocol}//${hostname.replace('admin.', '')}${window.location.port ? ':' + window.location.port : ''}`;
-  } else {
-    const mainDomain = hostname.replace('admin.', '');
-    window.location.href = `${window.location.protocol}//${mainDomain}`;
+  const { protocol, hostname, port } = window.location;
+  // Remove 'admin.' if it exists
+  let destination = hostname;
+  if (destination.startsWith('admin.')) {
+    destination = destination.replace('admin.', '');
   }
+  // Maintain port in local dev
+  window.location.href =
+    protocol +
+    '//' +
+    destination +
+    (port && hostname.includes('localhost') ? ':' + port : '') +
+    '/';
 };
 
 export const redirectToAdminDomain = () => {
   if (typeof window === 'undefined') return;
-  
-  const hostname = window.location.hostname;
-  
-  if (hostname.includes('localhost') || hostname.includes('127.0.0.1')) {
-    window.location.href = `${window.location.protocol}//${hostname}${window.location.port ? ':' + window.location.port : ''}/admin`;
-  } else {
-    const adminDomain = hostname.startsWith('admin.') ? hostname : `admin.${hostname}`;
-    window.location.href = `${window.location.protocol}//${adminDomain}`;
+
+  const { protocol, hostname, port, pathname, search } = window.location;
+
+  // Already on admin subdomain
+  if (hostname.startsWith('admin.')) {
+    // Avoid adding "admin." again
+    return;
   }
+
+  let baseHost = hostname;
+  // If already on a subdomain (e.g., www.domain.com), replace with admin. (catches www)
+  if (baseHost.startsWith('www.')) {
+    baseHost = baseHost.replace(/^www\./, '');
+  }
+
+  let dest = `admin.${baseHost}`;
+  let full =
+    protocol +
+    '//' +
+    dest +
+    (port && hostname.includes('localhost') ? ':' + port : '') +
+    '/admin'; // always direct root to /admin
+
+  // Retain /admin path+query from main domain, if applicable
+  if (pathname.startsWith('/admin')) {
+    full += pathname.replace('/admin', '') + search;
+  }
+
+  window.location.href = full;
 };

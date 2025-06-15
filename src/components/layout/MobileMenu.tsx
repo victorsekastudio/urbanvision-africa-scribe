@@ -49,6 +49,27 @@ export const MobileMenu = () => {
   const { user } = useAuth();
   const t = translations[currentLanguage];
 
+  // Utility to go to admin subdomain (works client-side)
+  function goToAdminSubdomain(e?: React.MouseEvent) {
+    e?.preventDefault?.();
+    // Discourage using navigate; we want a hard redirect
+    const { protocol, hostname, port } = window.location;
+    let baseHost = hostname;
+    if (baseHost.startsWith('admin.')) {
+      // Already on admin
+      window.location.pathname = '/admin';
+      setIsOpen(false);
+      return;
+    }
+    if (baseHost.startsWith('www.')) {
+      baseHost = baseHost.replace(/^www\./, '');
+    }
+    let adminHost = `admin.${baseHost}`;
+    let url = protocol + '//' + adminHost +
+      (port && hostname.includes('localhost') ? ':' + port : '') + '/admin';
+    window.location.href = url;
+  }
+
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
@@ -62,7 +83,6 @@ export const MobileMenu = () => {
             {t.navigation}
           </SheetTitle>
         </SheetHeader>
-        
         {/* Moved Search and Language to Top */}
         <div className="mt-4 flex flex-col gap-4">
           <div className="flex items-center justify-between">
@@ -74,7 +94,6 @@ export const MobileMenu = () => {
             <LanguageToggle />
           </div>
         </div>
-
         <div className="mt-8 space-y-6">
           {/* Categories */}
           <div>
@@ -94,7 +113,6 @@ export const MobileMenu = () => {
               ))}
             </div>
           </div>
-
           {/* Main Navigation */}
           <div>
             <h3 className="font-light text-sm text-gray-500 uppercase tracking-wide mb-3">
@@ -123,20 +141,22 @@ export const MobileMenu = () => {
                 UrbanVision AI Studio
               </Link>
               {user && (
-                <Link
-                  to="/admin"
-                  onClick={() => setIsOpen(false)}
+                <a
+                  href="#"
+                  onClick={goToAdminSubdomain}
                   className="block py-2 text-gray-700 hover:text-gray-900 transition-colors duration-200 font-light"
+                  tabIndex={0}
+                  role="button"
+                  aria-label="Admin Panel"
                 >
                   <div className="flex items-center">
                     <Settings className="w-4 h-4 mr-2" />
                     Admin Panel
                   </div>
-                </Link>
+                </a>
               )}
             </div>
           </div>
-
           {/* Actions: now only Subscribe and Sign In */}
           <div className="pt-6 border-t border-gray-100">
             <div className="space-y-4">

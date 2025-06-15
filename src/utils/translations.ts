@@ -82,6 +82,26 @@ export const translations = {
     voicesGroundTitle: "Voices from the Ground",
     voicesGroundDesc: "Community perspectives and local insights",
     explore: "Explore",
+    // Additional keys for About page
+    aboutUrbanVision: "About UrbanVision",
+    aboutSubtitle: "Leading the conversation on urban planning and smart city development",
+    ourEditorialMission: "Our Editorial Mission",
+    aboutEditorialMissionText1: "UrbanVision is dedicated to providing thoughtful, evidence-based insights into the future of urban development. Our mission is to bridge the gap between academic research, policy-making, and practical implementation in the realm of city planning and smart urban technologies.",
+    aboutEditorialMissionText2: "We believe that the cities of tomorrow will be shaped by today's decisions. Through comprehensive analysis, expert commentary, and forward-thinking perspectives, we aim to inform and inspire the leaders, planners, and citizens who are building the urban future.",
+    whatWeCover: "What We Cover",
+    urbanTrendsGrowth: "Urban Trends & Growth",
+    infrastructureInvestment: "Infrastructure & Investment", 
+    climateSustainability: "Climate & Sustainability",
+    transportMobility: "Transport & Mobility",
+    smartCityTech: "Smart City Technology",
+    voicesGround: "Voices from the Ground",
+    ourApproach: "Our Approach",
+    aboutApproachText1: "Our editorial approach combines rigorous research with accessible storytelling. We work with urban planning experts, policy researchers, technology innovators, and community leaders to bring you comprehensive coverage of the urban landscape.",
+    aboutApproachText2: "Whether you're a city planner, policy maker, technology professional, or simply someone interested in the future of urban living, UrbanVision provides the insights you need to understand and shape tomorrow's cities.",
+    // Keys for EditorialDisclaimer
+    editorialDisclaimer: "The views expressed in this article are those of the author and do not necessarily reflect the official policy or position of UrbanVision.",
+    // Keys for TagsList
+    tags: "Tags",
     articles: {
       backToHomepage: "Back to Homepage",
       readMore: "Read more",
@@ -230,6 +250,26 @@ export const translations = {
     voicesGroundTitle: "Voix du Terrain",
     voicesGroundDesc: "Perspectives communautaires et perspectives locales",
     explore: "Explorer",
+    // Additional keys for About page (French)
+    aboutUrbanVision: "À propos d'UrbanVision",
+    aboutSubtitle: "Leader dans les discussions sur l'urbanisme et le développement de villes intelligentes",
+    ourEditorialMission: "Notre Mission Éditoriale",
+    aboutEditorialMissionText1: "UrbanVision se consacre à fournir des perspectives réfléchies et fondées sur des preuves sur l'avenir du développement urbain. Notre mission est de combler le fossé entre la recherche académique, l'élaboration de politiques et la mise en œuvre pratique dans le domaine de la planification urbaine et des technologies urbaines intelligentes.",
+    aboutEditorialMissionText2: "Nous croyons que les villes de demain seront façonnées par les décisions d'aujourd'hui. Grâce à une analyse approfondie, des commentaires d'experts et des perspectives avant-gardistes, nous visons à informer et inspirer les dirigeants, planificateurs et citoyens qui construisent l'avenir urbain.",
+    whatWeCover: "Ce Que Nous Couvrons",
+    urbanTrendsGrowth: "Tendances Urbaines et Croissance",
+    infrastructureInvestment: "Infrastructure et Investissement",
+    climateSustainability: "Climat et Durabilité", 
+    transportMobility: "Transport et Mobilité",
+    smartCityTech: "Technologie de Ville Intelligente",
+    voicesGround: "Voix du Terrain",
+    ourApproach: "Notre Approche",
+    aboutApproachText1: "Notre approche éditoriale combine une recherche rigoureuse avec une narration accessible. Nous travaillons avec des experts en urbanisme, des chercheurs en politique, des innovateurs technologiques et des leaders communautaires pour vous apporter une couverture complète du paysage urbain.",
+    aboutApproachText2: "Que vous soyez planificateur urbain, décideur politique, professionnel de la technologie ou simplement quelqu'un intéressé par l'avenir de la vie urbaine, UrbanVision fournit les perspectives dont vous avez besoin pour comprendre et façonner les villes de demain.",
+    // Keys for EditorialDisclaimer (French)
+    editorialDisclaimer: "Les opinions exprimées dans cet article sont celles de l'auteur et ne reflètent pas nécessairement la politique officielle ou la position d'UrbanVision.",
+    // Keys for TagsList (French)
+    tags: "Tags",
     articles: {
       backToHomepage: "Retour à l'Accueil",
       readMore: "Lire la suite",

@@ -1,4 +1,5 @@
 
+
 import { useLanguage } from "@/hooks/useLanguage";
 import { translations } from "./translations";
 
@@ -9,19 +10,19 @@ export const useCategoryDescription = () => {
   const getCategoryDescription = (categorySlug: string): string => {
     switch (categorySlug) {
       case 'urban-trends':
-        return t.latestTrendsAfricanUrban;
+        return t.urbanTrendsGrowthDesc;
       case 'infrastructure':
-        return t.infrastructureGapsInvestmentDesc;
+        return t.infrastructureInvestmentDesc;
       case 'climate':
-        return t.climateResilienceSustainabilityDesc;
+        return t.climateSustainabilityDesc;
       case 'transport':
         return t.transportMobilityDesc;
       case 'smart-city':
-        return t.smartCityTechPlanningDesc;
+        return t.smartCityTechDesc;
       case 'voices':
-        return t.voicesFromGroundDesc;
+        return t.voicesGroundDesc;
       default:
-        return t.latestTrendsAfricanUrban;
+        return t.urbanTrendsGrowthDesc;
     }
   };
 

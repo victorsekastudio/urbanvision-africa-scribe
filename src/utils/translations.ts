@@ -1,3 +1,4 @@
+
 export const translations = {
   EN: {
     nav: {
@@ -32,6 +33,30 @@ export const translations = {
       exclusiveContent: "Exclusive Content",
       signInRequired: "Sign in required"
     },
+    // Add missing top-level keys that components expect
+    editorsNote: "Editor's Note",
+    editorsNoteQuote: "Through thoughtful urban planning and sustainable development, we can create cities that not only accommodate growth but enhance the quality of life for all residents.",
+    editorsNoteAttribution: "UrbanVision Editorial Team",
+    editorialPillars: "Editorial Pillars",
+    editorialPillarsSubtitle: "Exploring the key themes that shape modern urban development",
+    noArticlesFound: "No articles found",
+    upcomingEventsWebinars: "Upcoming Events & Webinars",
+    upcomingEventsSubtitle: "Join our community of urban planning professionals in upcoming events and webinars",
+    registered: "registered",
+    registerNow: "Register Now",
+    noUpcomingEvents: "No upcoming events at the moment. Check back soon!",
+    urbanTrendsGrowthTitle: "Urban Trends & Growth",
+    urbanTrendsGrowthDesc: "Analyzing population dynamics and urban expansion patterns",
+    infrastructureInvestmentTitle: "Infrastructure & Investment",
+    infrastructureInvestmentDesc: "Critical infrastructure projects and funding strategies",
+    climateSustainabilityTitle: "Climate & Sustainability",
+    climateSustainabilityDesc: "Environmental challenges and sustainable solutions",
+    transportMobilityTitle: "Transport & Mobility",
+    transportMobilityDesc: "Modern transportation systems and mobility solutions",
+    smartCityTechTitle: "Smart City Technology",
+    smartCityTechDesc: "Innovation and digital transformation in urban environments",
+    voicesGroundTitle: "Voices from the Ground",
+    voicesGroundDesc: "Community perspectives and local insights",
     articles: {
       backToHomepage: "Back to Homepage",
       readMore: "Read more",
@@ -131,6 +156,30 @@ export const translations = {
       exclusiveContent: "Contenu Exclusif",
       signInRequired: "Connexion requise"
     },
+    // Add missing top-level keys that components expect (French translations)
+    editorsNote: "Note de l'Éditeur",
+    editorsNoteQuote: "Grâce à un urbanisme réfléchi et un développement durable, nous pouvons créer des villes qui non seulement accommodent la croissance mais améliorent la qualité de vie de tous les résidents.",
+    editorsNoteAttribution: "Équipe Éditoriale UrbanVision",
+    editorialPillars: "Piliers Éditoriaux",
+    editorialPillarsSubtitle: "Explorer les thèmes clés qui façonnent le développement urbain moderne",
+    noArticlesFound: "Aucun article trouvé",
+    upcomingEventsWebinars: "Événements et Webinaires à Venir",
+    upcomingEventsSubtitle: "Rejoignez notre communauté de professionnels de l'urbanisme lors d'événements et webinaires à venir",
+    registered: "inscrits",
+    registerNow: "S'Inscrire Maintenant",
+    noUpcomingEvents: "Aucun événement à venir pour le moment. Revenez bientôt !",
+    urbanTrendsGrowthTitle: "Tendances Urbaines et Croissance",
+    urbanTrendsGrowthDesc: "Analyse de la dynamique démographique et des modèles d'expansion urbaine",
+    infrastructureInvestmentTitle: "Infrastructure et Investissement",
+    infrastructureInvestmentDesc: "Projets d'infrastructure critiques et stratégies de financement",
+    climateSustainabilityTitle: "Climat et Durabilité",
+    climateSustainabilityDesc: "Défis environnementaux et solutions durables",
+    transportMobilityTitle: "Transport et Mobilité",
+    transportMobilityDesc: "Systèmes de transport modernes et solutions de mobilité",
+    smartCityTechTitle: "Technologie de Ville Intelligente",
+    smartCityTechDesc: "Innovation et transformation numérique dans les environnements urbains",
+    voicesGroundTitle: "Voix du Terrain",
+    voicesGroundDesc: "Perspectives communautaires et perspectives locales",
     articles: {
       backToHomepage: "Retour à l'Accueil",
       readMore: "Lire la suite",

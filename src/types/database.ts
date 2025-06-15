@@ -37,6 +37,7 @@ export interface Article {
   published: boolean;
   featured: boolean;
   pin_as_hero?: boolean;
+  exclusive: boolean;
   published_at?: string;
   created_at: string;
   updated_at: string;

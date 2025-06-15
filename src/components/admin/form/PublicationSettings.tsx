@@ -67,7 +67,7 @@ export const PublicationSettings = ({ form }: PublicationSettingsProps) => {
               <div className="space-y-0.5">
                 <FormLabel className="text-base">Pin as Hero</FormLabel>
                 <FormDescription>
-                  Display this article as the main hero article
+                  Display this article as the main hero article on homepage
                 </FormDescription>
               </div>
               <FormControl>
@@ -88,7 +88,7 @@ export const PublicationSettings = ({ form }: PublicationSettingsProps) => {
               <div className="space-y-0.5">
                 <FormLabel className="text-base">Exclusive Content</FormLabel>
                 <FormDescription>
-                  Require login to read the full article
+                  Require user login to read the full article. Non-logged users will see a preview with a sign-in prompt.
                 </FormDescription>
               </div>
               <FormControl>

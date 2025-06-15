@@ -1,7 +1,7 @@
 
-import { useState, useEffect } from "react";
 import { ExclusiveContentGate } from "./ExclusiveContentGate";
-import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { truncateHtmlContent } from "@/utils/htmlTruncate";
 import type { Article } from "@/types/database";
 
 interface ArticleContentProps {
@@ -10,24 +10,7 @@ interface ArticleContentProps {
 }
 
 export const ArticleContent = ({ content, article }: ArticleContentProps) => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Check if user is logged in
-    const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-    };
-
-    checkUser();
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
+  const { user } = useAuth();
 
   if (!content) {
     return (
@@ -39,28 +22,17 @@ export const ArticleContent = ({ content, article }: ArticleContentProps) => {
 
   // If article is exclusive and user is not logged in, show truncated content
   if (article?.exclusive && !user) {
-    // Split content roughly in half
-    const contentLength = content.length;
-    const halfPoint = Math.floor(contentLength * 0.4); // Show about 40% of content
-    
-    // Find a good break point (end of sentence or paragraph)
-    let breakPoint = halfPoint;
-    for (let i = halfPoint; i < Math.min(halfPoint + 200, contentLength); i++) {
-      if (content[i] === '.' && content[i + 1] === ' ') {
-        breakPoint = i + 1;
-        break;
-      }
-      if (content[i] === '</p>') {
-        breakPoint = i + 4;
-        break;
-      }
-    }
-
-    const truncatedContent = content.substring(0, breakPoint);
+    const truncatedContent = truncateHtmlContent(content, 0.4);
 
     return (
       <div className="prose prose-lg max-w-none">
-        <div dangerouslySetInnerHTML={{ __html: truncatedContent }} />
+        <div className="relative">
+          <div dangerouslySetInnerHTML={{ __html: truncatedContent }} />
+          
+          {/* Gradient fade overlay */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none" />
+        </div>
+        
         <div className="mt-8">
           <ExclusiveContentGate />
         </div>

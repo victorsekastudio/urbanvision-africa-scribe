@@ -1,3 +1,4 @@
+
 import { ArrowRight, Clock, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { Article } from "@/types/database";
@@ -59,21 +60,23 @@ export const ArticleCard = ({ article, size = 'default' }: ArticleCardProps) => 
               alt={title}
               className={`w-full ${imageHeight} object-cover group-hover:scale-105 transition-transform duration-300`}
             />
-            {article.category && (
-              <div className="absolute top-3 left-3">
+            
+            {/* Badges container with dynamic positioning */}
+            <div className="absolute top-3 left-3 flex gap-2 flex-wrap">
+              {article.category && (
                 <span className="bg-white/90 text-gray-800 text-xs font-medium px-2 py-1 rounded-full tracking-wide">
                   {categoryName}
                 </span>
-              </div>
-            )}
-            {article.exclusive && (
-              <div className="absolute top-3 left-3 ml-20">
+              )}
+              {article.exclusive && (
                 <span className="bg-amber-500/90 text-white text-xs font-medium px-2 py-1 rounded-full tracking-wide flex items-center">
                   <Lock className="w-3 h-3 mr-1" />
-                  {currentLanguage === 'FR' ? 'Exclusif' : 'Exclusive'}
+                  {t.articles.exclusiveBadge}
                 </span>
-              </div>
-            )}
+              )}
+            </div>
+            
+            {/* Reading time badge */}
             <div className="absolute top-3 right-3">
               <span className="bg-black/70 text-white text-xs font-medium px-2 py-1 rounded-full tracking-wide flex items-center">
                 <Clock className="w-3 h-3 mr-1" />
@@ -83,8 +86,11 @@ export const ArticleCard = ({ article, size = 'default' }: ArticleCardProps) => 
           </div>
           
           <div className="space-y-3">
-            <h3 className={`${titleSize} font-light tracking-wide text-gray-900 leading-tight group-hover:text-gray-700 transition-colors`}>
+            <h3 className={`${titleSize} font-light tracking-wide text-gray-900 leading-tight group-hover:text-gray-700 transition-colors ${article.exclusive ? 'pr-6 relative' : ''}`}>
               {title}
+              {article.exclusive && (
+                <Lock className="w-4 h-4 text-amber-500 absolute right-0 top-0" />
+              )}
             </h3>
             <p className="text-gray-600 text-sm font-light tracking-wide leading-relaxed font-serif">
               {excerpt || "Read more about this article..."}

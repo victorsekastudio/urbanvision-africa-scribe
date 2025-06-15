@@ -15,9 +15,6 @@ export const ExclusiveContentGate = ({ className = "" }: ExclusiveContentGatePro
 
   return (
     <div className={`relative ${className}`}>
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
-      
       {/* Content gate */}
       <div className="relative bg-white border border-gray-200 rounded-lg p-8 text-center shadow-sm">
         <div className="flex justify-center mb-4">
@@ -27,36 +24,30 @@ export const ExclusiveContentGate = ({ className = "" }: ExclusiveContentGatePro
         </div>
         
         <h3 className="text-xl font-semibold text-gray-900 mb-3">
-          {currentLanguage === 'FR' ? 'Contenu Exclusif' : 'Exclusive Content'}
+          {t.articles.exclusiveContent}
         </h3>
         
         <p className="text-gray-600 mb-6 max-w-md mx-auto">
-          {currentLanguage === 'FR' 
-            ? 'Connectez-vous pour continuer à lire cet article exclusif et accéder à notre contenu premium.'
-            : 'Sign in to continue reading this exclusive article and access our premium content.'
-          }
+          {t.articles.signInToRead}
         </p>
         
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link to="/auth">
             <Button className="w-full sm:w-auto">
-              {currentLanguage === 'FR' ? 'Se connecter' : 'Sign In'}
+              {t.articles.signIn}
             </Button>
           </Link>
           
           <Link to="/auth">
             <Button variant="outline" className="w-full sm:w-auto">
               <UserPlus className="w-4 h-4 mr-2" />
-              {currentLanguage === 'FR' ? 'Créer un compte' : 'Create Account'}
+              {t.articles.createAccount}
             </Button>
           </Link>
         </div>
         
         <p className="text-xs text-gray-500 mt-4">
-          {currentLanguage === 'FR' 
-            ? "C'est gratuit et ne prend qu'une minute"
-            : "It's free and takes just a minute"
-          }
+          {t.articles.freeAndQuick}
         </p>
       </div>
     </div>
